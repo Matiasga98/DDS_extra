@@ -21,7 +21,6 @@ public class Guardarropa {
 		this.inferiores = validarPrendasNoNulas(inferiores, "Hay una prenda nula en las prendas inferiores");
 		this.calzados = validarPrendasNoNulas(calzados, "Hay una prenda nula en las prendas calzados");
 		this.accesorios = validarPrendasNoNulas(accesorios, "Hay una prenda nula en las prendas accesorios");
-		;
 	}
 
 	// Este metodo es por el requerimiento de que "Las personas pueden acceder a sus
@@ -64,8 +63,18 @@ public class Guardarropa {
 	}
 
 	private void mostrarSugerenciasDeUnaListaDePrendas(List<Prenda> lista) {
-		lista.forEach(prenda -> System.out.println(prenda.getNombre()));
+		Atuendo miAtuendo;
+		if(lista.size() == 4) {
+			miAtuendo = new Atuendo(lista.get(0), lista.get(1), lista.get(2), lista.get(3));
+		}
+		else {
+			miAtuendo = new Atuendo(lista.get(0), lista.get(1), lista.get(2), null);
+		}
+		miAtuendo.mostrarAtuendo();
 		System.out.println();
+		
+		//lista.forEach(prenda -> System.out.println(prenda.getNombre()));
+		//System.out.println();
 	}
 
 	private Set<Prenda> validarPrendasNoNulas(Set<Prenda> unasPrendas, String mensaje) throws NoHayPrendas {

@@ -75,7 +75,7 @@ public class Borrador {
 	}
 
 	private void chequearColorDistinto(Color color1, Color color2) {
-		if (color1.equals(color2))
+		if (color1.esIgualA(color2))
 			throw new RequiereColorDistinto("El color secundario debe ser distinto del primario");
 	}
 

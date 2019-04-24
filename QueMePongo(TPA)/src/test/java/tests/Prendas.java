@@ -10,6 +10,7 @@ import org.junit.rules.ExpectedException;
 
 import excepciones.MaterialInconsistente;
 import excepciones.NoHayPrendas;
+import excepciones.RequiereColorDistinto;
 import dominio.*;
 
 public class Prendas {
@@ -89,19 +90,25 @@ public class Prendas {
 		return borrador.crearPrenda();
 	}
 
-	/*@Test
+	@Test
 	public void sugerenciaDeAtuendos() {
+		System.out.println("Test de sugerir atuendos de un guardarropas:");
 		miGuardarropas.sugerir();
-	}*/
+		System.out.println();
+	}
 	
-	/*@Test
+	@Test
 	public void sugerenciaDeAtuendosDeUsuario() {
+		System.out.println("Test de sugerir atuendos de un usuario:");
 		usuarioElio.sugerirDeTodosLosGuardarropas();
-	}*/
+		System.out.println();
+	}
 
 	@Test
 	public void mostrarTodasLasPrendasDeUnUsuario() {
+		System.out.println("Test de mostrar todas las prendas de un usuario:");
 		usuarioElio.pedirTodasLasPrendas();
+		System.out.println();
 	}
 
 	@Test
@@ -117,6 +124,39 @@ public class Prendas {
 		borrador.crearPrenda();
 
 	}
+	
+	@Test
+	public void fallaAlDeclararColorPrimarioIgualAlSecundario() throws MaterialInconsistente {
+
+		excepcion.expect(RequiereColorDistinto.class);
+		excepcion.expectMessage("El color secundario debe ser distinto del primario");
+
+		borrador.definirTipo(Tipo.ZAPATO);
+		borrador.definirMaterial(Material.CUERO);
+		borrador.definirTrama(Trama.CUADROS);
+		borrador.definirColorPrimario(new Color(122,22,22));
+		borrador.definirColorSecundario(new Color(122,22,22));
+		borrador.definirGuardarropa(miGuardarropas);
+		borrador.crearPrenda();
+
+	}
+	
+	@Test
+	public void fallaAlDefinirTelaInconsistente() throws MaterialInconsistente {
+
+		excepcion.expect(MaterialInconsistente.class);
+		excepcion.expectMessage("El material elegido no es compatible con el tipo de prenda");
+
+		borrador.definirTipo(Tipo.ZAPATO);
+		borrador.definirMaterial(Material.DIAMANTE);
+		borrador.definirTrama(Trama.CUADROS);
+		borrador.definirColorPrimario(new Color(122,22,22));
+		borrador.definirColorSecundario(new Color(225,33,145));
+		borrador.definirGuardarropa(miGuardarropas);
+		borrador.crearPrenda();
+
+	}
+
 
 	// @Test(expected = NullPointerException.class);
 

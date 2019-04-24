@@ -15,6 +15,14 @@ public class Atuendo {
 		this.accesorio = accesorio;
 	}
 	
+	public void mostrarAtuendo() {
+		System.out.println(superior.getNombre());
+		System.out.println(inferior.getNombre());
+		System.out.println(calzado.getNombre());
+		if(accesorio!=null)
+			System.out.println(accesorio.getNombre());
+	}
+	
 	public Prenda getSuperior() {
 		return superior;
 	}
