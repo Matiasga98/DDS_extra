@@ -1,39 +1,47 @@
 package dominio;
 
+import dominio.enumerados.Categoria;
+import dominio.enumerados.Material;
+import dominio.enumerados.Tipo;
+import dominio.enumerados.Trama;
+
 public class Prenda {
 
 	Tipo tipo;
+    Material material;
+    Trama trama;
 	Color colorPrimario;
 	Color colorSecundario;
-	Trama trama;
-	Material material;
-	Guardarropa guardarropaAlQuePertenece;
 
-	// Esta variable esta puesta para diferenciar entre 2 prendas iguales
-	// en parametros pero que son diferentes
-	String nombre;
-
-	public Prenda(Tipo tipo, Color colorPrimario, Color colorSecundario, Trama trama, Material material,
-			String nombre, Guardarropa unGuardarropa) {
+    public Prenda(Tipo tipo, Material material, Trama trama, Color colorPrimario, Color colorSecundario) {
 		this.tipo = tipo;
+        this.material = material;
+        this.trama = trama;
 		this.colorPrimario = colorPrimario;
 		this.colorSecundario = colorSecundario;
-		this.trama = trama;
-		this.material = material;
-		this.nombre = nombre;
-		this.guardarropaAlQuePertenece = unGuardarropa;
 	}
 
-	public Tipo getTipo() {
+    public Tipo tipo() {
 		return tipo;
 	}
+
+    public Material material() {
+        return material;
+    }
+
+    public Trama trama() {
+        return trama;
+    }
+
+    public Color colorPrimario() {
+        return colorPrimario;
+    }
+
+    public Color colorSecundario() {
+        return colorSecundario;
+    }
 
 	public Categoria categoria() {
 		return tipo.categoria();
 	}
-
-	public String getNombre() {
-		return nombre;
-	}
-
 }

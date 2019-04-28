@@ -1,102 +1,59 @@
 package dominio;
 
-import java.util.HashSet;
-import java.util.List;
-
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 import com.google.common.collect.Sets;
 
-import excepciones.NoHayPrendas;
+import dominio.enumerados.Categoria;
 
 public class Guardarropa {
-	Set<Prenda> superiores;
-	Set<Prenda> inferiores;
-	Set<Prenda> calzados;
-	Set<Prenda> accesorios;
 
-	public Guardarropa(Set<Prenda> superiores, Set<Prenda> inferiores, Set<Prenda> calzados, Set<Prenda> accesorios) {
-		this.superiores = validarPrendasNoNulas(superiores, "Hay una prenda nula en las prendas superiores");
-		this.inferiores = validarPrendasNoNulas(inferiores, "Hay una prenda nula en las prendas inferiores");
-		this.calzados = validarPrendasNoNulas(calzados, "Hay una prenda nula en las prendas calzados");
-		this.accesorios = validarPrendasNoNulas(accesorios, "Hay una prenda nula en las prendas accesorios");
+	private Map<Categoria, Set<Prenda>> prendas;
+
+	public Guardarropa() {
+		prendas = new HashMap<>();
+		prendas.put(Categoria.PARTE_SUPERIOR, new HashSet<>());
+		prendas.put(Categoria.PARTE_INFERIOR, new HashSet<>());
+		prendas.put(Categoria.CALZADO, new HashSet<>());
+		prendas.put(Categoria.ACCESORIOS, new HashSet<>());
 	}
 
-	// Este metodo es por el requerimiento de que "Las personas pueden acceder a sus
-	// prendas a través de un guardarropas"
-
-	public void mostrarPrendas() {
-		System.out.println("Superiores:");
-		superiores.forEach(prenda -> System.out.println(prenda.getNombre()));
-		System.out.println();
-		System.out.println("Inferiores:");
-		inferiores.forEach(prenda -> System.out.println(prenda.getNombre()));
-		System.out.println();
-		System.out.println("Calzados:");
-		calzados.forEach(prenda -> System.out.println(prenda.getNombre()));
-		System.out.println();
-		System.out.println("Accesorios:");
-		accesorios.forEach(prenda -> System.out.println(prenda.getNombre()));
-		System.out.println();
+	public void agregarPrendas(Prenda prenda) {
+		prendas.get(prenda.categoria()).add(prenda);
 	}
 
-	public void sugerir() {
-		Objects.requireNonNull(superiores, "Se necesita una lista de prendas superiores");
-		Objects.requireNonNull(inferiores, "Se necesita una lista de prendas inferiores");
-		Objects.requireNonNull(calzados, "Se necesita una lista de calzados");
+	public Set<Prenda> prendasSegunCategoria(Categoria categoria) {
+		return prendas.get(categoria);
+	}
 
-		Set<List<Prenda>> setDelistasDeAtuendosSinAccesorios = Sets.cartesianProduct(superiores, inferiores, calzados);
+	public Set<Atuendo> sugerenciasDeAtuendos() {
+		Set<Atuendo> atuendos = new HashSet<>();
+
+		Set<Prenda> superiores = prendasSegunCategoria(Categoria.PARTE_SUPERIOR);
+		Set<Prenda> inferiores = prendasSegunCategoria(Categoria.PARTE_INFERIOR);
+		Set<Prenda> calzados = prendasSegunCategoria(Categoria.CALZADO);
+		Set<Prenda> accesorios = prendasSegunCategoria(Categoria.ACCESORIOS);
+
+		Set<List<Prenda>> setDeAtuendosSinAccesorios = Sets.cartesianProduct(
+				superiores,
+				inferiores,
+				calzados
+		);
+
+		setDeAtuendosSinAccesorios.forEach(lista -> atuendos.add(new Atuendo(lista)));
+
 		if (accesorios.isEmpty()) {
-			setDelistasDeAtuendosSinAccesorios.forEach(lista -> mostrarSugerenciasDeUnaListaDePrendas(lista));
-		} else {
-			Set<List<Prenda>> setDelistasDeAtuendosConAccesorios = Sets.cartesianProduct(superiores, inferiores,
-					calzados, accesorios);
-			// El producto cartesiano de la libreria me devuelve un set inmutable por esa
-			// razon agregamos est
-			Set<List<Prenda>> setDeListasDeAtuendosDefinitivo = new HashSet<List<Prenda>>();
-			setDeListasDeAtuendosDefinitivo.addAll(setDelistasDeAtuendosSinAccesorios);
-			setDeListasDeAtuendosDefinitivo.addAll(setDelistasDeAtuendosConAccesorios);
-			setDeListasDeAtuendosDefinitivo.forEach(lista -> mostrarSugerenciasDeUnaListaDePrendas(lista));
+			return atuendos;
 		}
+		Set<List<Prenda>> setDeAtuendosConAccesorios = Sets.cartesianProduct(
+				superiores,
+				inferiores,
+				calzados,
+				accesorios);
 
+		setDeAtuendosConAccesorios.forEach(lista -> atuendos.add(new Atuendo(lista)));
+
+		return atuendos;
 	}
 
-	private void mostrarSugerenciasDeUnaListaDePrendas(List<Prenda> lista) {
-		Atuendo miAtuendo;
-		if(lista.size() == 4) {
-			miAtuendo = new Atuendo(lista.get(0), lista.get(1), lista.get(2), lista.get(3));
-		}
-		else {
-			miAtuendo = new Atuendo(lista.get(0), lista.get(1), lista.get(2), null);
-		}
-		miAtuendo.mostrarAtuendo();
-		System.out.println();
-		
-		//lista.forEach(prenda -> System.out.println(prenda.getNombre()));
-		//System.out.println();
-	}
-
-	private Set<Prenda> validarPrendasNoNulas(Set<Prenda> unasPrendas, String mensaje) throws NoHayPrendas {
-		if (unasPrendas.stream().anyMatch((Prenda prenda) -> prenda == null)) {
-			throw new NoHayPrendas(mensaje);
-		}
-		return unasPrendas;
-	}
-
-	public void setPrendaSuperior(Prenda unaPrenda) {
-		superiores.add(unaPrenda);
-	}
-
-	public void setPrendaInferior(Prenda unaPrenda) {
-		inferiores.add(unaPrenda);
-	}
-
-	public void setPrendaCalzado(Prenda unaPrenda) {
-		calzados.add(unaPrenda);
-	}
-
-	public void setPrendaAccesorio(Prenda unaPrenda) {
-		accesorios.add(unaPrenda);
-	}
 }

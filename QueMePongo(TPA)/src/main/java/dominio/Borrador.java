@@ -1,9 +1,11 @@
 package dominio;
 
-import java.util.Objects;
+import dominio.enumerados.Material;
+import dominio.enumerados.Tipo;
+import dominio.enumerados.Trama;
+import dominio.excepciones.*;
 
-import excepciones.MaterialInconsistente;
-import excepciones.RequiereColorDistinto;
+import static java.util.Objects.requireNonNull;
 
 public class Borrador {
 	Tipo tipo;
@@ -11,8 +13,6 @@ public class Borrador {
 	Color colorSecundario;
 	Trama trama = Trama.LISA;
 	Material material;
-	String nombre;
-	Guardarropa guardarropa;
 
 	public void definirTipo(Tipo tipoPrenda) {
 		this.tipo = tipoPrenda;
@@ -33,50 +33,26 @@ public class Borrador {
 	public void definirMaterial(Material material) {
 		this.material = material;
 	}
-	
-	public void definirNombre(String nombre) {
-		this.nombre = nombre;
-	}
-	
-	public void definirGuardarropa(Guardarropa guardarropa) {
-		this.guardarropa = guardarropa;
+
+	public Prenda crearPrenda() {
+		requireNonNull(tipo, "Se requiere un tipo");
+		requireNonNull(material, "Se requiere un material");
+		requireNonNull(colorPrimario, "Se requiere un color primario");
+
+		chequearColorDistinto();
+		chequearMaterialSegunTipoDePrenda();
+
+		return new Prenda(tipo, material, trama, colorPrimario, colorSecundario);
 	}
 
-	public Prenda crearPrenda() throws MaterialInconsistente {
-		Objects.requireNonNull(colorPrimario, "Se requiere un color primario");
-		chequearColorDistinto(colorPrimario, colorSecundario);
-		Objects.requireNonNull(trama, "Se requiere una trama");
-		Objects.requireNonNull(material, "Se requiere un material");
-		Objects.requireNonNull(tipo, "Se requiere un tipo");
-		Objects.requireNonNull(guardarropa, "Se requiere un guardarropa al que pertenece la prenda");
-		if (tipo.permiteMaterial(material)) {
-			Prenda unaPrenda = new Prenda(tipo, colorPrimario, colorSecundario, trama, material, nombre, guardarropa);
-			
-			 switch(unaPrenda.tipo.categoria) {
-				case CALZADO:
-					guardarropa.setPrendaCalzado(unaPrenda);
-					break;
-				case PARTE_SUPERIOR:
-					guardarropa.setPrendaSuperior(unaPrenda);
-					break;
-				case PARTE_INFERIOR:
-					guardarropa.setPrendaInferior(unaPrenda);
-					break;
-				case ACCESORIOS:
-					guardarropa.setPrendaAccesorio(unaPrenda);
-					break;
-				default:
-					break;
-			}
-			 
-			 return unaPrenda;
-		}
-			throw new MaterialInconsistente("El material elegido no es compatible con el tipo de prenda");
-	}
-
-	private void chequearColorDistinto(Color color1, Color color2) {
-		if (color1.esIgualA(color2))
+	private void chequearColorDistinto() {
+		if (colorPrimario.esIgualA(colorSecundario))
 			throw new RequiereColorDistinto("El color secundario debe ser distinto del primario");
+	}
+
+	private void chequearMaterialSegunTipoDePrenda() {
+		if (!tipo.permiteMaterial(material))
+			throw new MaterialInconsistente("El material elegido no es compatible con el tipo de prenda");
 	}
 
 }

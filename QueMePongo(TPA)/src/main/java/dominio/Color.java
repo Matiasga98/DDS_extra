@@ -9,13 +9,10 @@ public class Color {
 		this.azul = azul;
 	}
 
-	public boolean esIgualA(Color color2) {
-		if(!(color2 == null)) {
-			return (this.rojo == color2.rojo && 
-					this.verde == color2.verde && 
-					this.azul == color2.azul);
-		}
-		return false;
+    public boolean esIgualA(Color color) {
+        return color != null && this.rojo == color.rojo &&
+                this.verde == color.verde &&
+                this.azul == color.azul;
 	}
 
 }
