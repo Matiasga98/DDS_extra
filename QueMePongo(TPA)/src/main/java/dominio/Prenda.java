@@ -12,6 +12,7 @@ public class Prenda {
     Trama trama;
 	Color colorPrimario;
 	Color colorSecundario;
+	int temperaturaAdecuada;
 
     public Prenda(Tipo tipo, Material material, Trama trama, Color colorPrimario, Color colorSecundario) {
 		this.tipo = tipo;
@@ -44,4 +45,12 @@ public class Prenda {
 	public Categoria categoria() {
 		return tipo.categoria();
 	}
+
+	public int temperaturaAdecuada() {
+        return temperaturaAdecuada;
+    }
+
+    public boolean esAdecuada(int temperatura) {
+        return this.temperaturaAdecuada >= temperatura;
+    }
 }

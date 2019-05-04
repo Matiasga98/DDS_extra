@@ -34,6 +34,8 @@ public class Guardarropa {
 		Set<Prenda> calzados = prendasSegunCategoria(Categoria.CALZADO);
 		Set<Prenda> accesorios = prendasSegunCategoria(Categoria.ACCESORIOS);
 
+		superiores.stream().filter(prenda -> prenda.esAdecuada(0));
+
 		Set<List<Prenda>> setDeAtuendosSinAccesorios = Sets.cartesianProduct(
 				superiores,
 				inferiores,

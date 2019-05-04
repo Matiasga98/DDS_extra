@@ -1,11 +1,15 @@
 package dominio;
 
+import com.google.gson.Gson;
 import dominio.enumerados.Categoria;
 import dominio.enumerados.Material;
 import dominio.enumerados.Tipo;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.List;
 
 import static java.util.Arrays.asList;
@@ -29,11 +33,20 @@ public class UsuarieTest {
 
 
     @Before
-    public void setUp() {
+    public void setUp() throws IOException {
 
         borrador = new Borrador();
         usuarie = new Usuarie();
         colores = colores();
+        Gson gson = new Gson();
+        String path = "C:\\Users\\ALUMNO\\Desktop\\Nueva carpeta\\2019-vi-no-group-12\\QueMePongo(TPA)\\src\\main\\Clima.json";
+
+        try (FileReader reader = new FileReader(path)) {
+            EstadisticaClimatica dato = gson.fromJson(reader, EstadisticaClimatica.class);
+            System.out.println(dato.results.get(1).IconPhrase);
+
+        }
+
 
 /*
         //REMERAS LISAS DE DISTINTOS COLORES
@@ -61,6 +74,8 @@ public class UsuarieTest {
         guardarropa.agregarPrendas(borrador.crearPrenda());
 */
     }
+
+
 
     @Test
     public void usuarioSinGuardarropaPidenSugerencias() {

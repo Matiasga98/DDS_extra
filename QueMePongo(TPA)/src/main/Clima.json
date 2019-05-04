@@ -1,0 +1,35 @@
+{
+  "results": [        //es CASE SENSITIVE, si aca arrancan con mayuscula,
+                      //nuestros atributos tambien tienen que hacerlo
+    {
+      "DateTime": "2017-11-29T21:00:00+08:00",
+      "EpochDateTime": 1511960400,
+      "WeatherIcon": 35,
+      "IconPhrase": "Partly cloudy",
+      "IsDaylight": false,
+      "Temperature": {
+        "Value": 58,
+        "Unit": "C",
+        "UnitType": 17
+      },
+      "PrecipitationProbability": 30,
+      "MobileLink": "http://m.accuweather.com/en/cn/matouying-town/83987/hourly-weather-forecast/83987?day=1&unit=c&lang=en-us",
+      "Link": "http://www.accuweather.com/en/cn/matouying-town/83987/hourly-weather-forecast/83987?day=1&hbhhour=21&unit=c&lang=en-us"
+    },
+    {
+      "DateTime": "2017-11-29T21:00:00+08:00",
+      "EpochDateTime": 1511960400,
+      "WeatherIcon": 35,
+      "IconPhrase": "Partly fran",
+      "IsDaylight": false,
+      "Temperature": {
+        "Value": 8,
+        "Unit": "C",
+        "UnitType": 17
+      },
+      "PrecipitationProbability": 30,
+      "MobileLink": "http://m.accuweather.com/en/cn/matouying-town/83987/hourly-weather-forecast/83987?day=1&unit=c&lang=en-us",
+      "Link": "http://www.accuweather.com/en/cn/matouying-town/83987/hourly-weather-forecast/83987?day=1&hbhhour=21&unit=c&lang=en-us"
+    }
+  ]
+}
