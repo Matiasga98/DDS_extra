@@ -20,6 +20,10 @@ public class Guardarropa {
 		prendas.get(prenda.categoria()).add(prenda);
 	}
 
+	public int cantidadPrendas() {
+		return prendas.values().stream().mapToInt(categoria -> categoria.size()).sum();
+	}
+
 	public Set<Prenda> prendasSegunCategoria(Categoria categoria) {
 		return prendas.get(categoria);
 	}
@@ -81,7 +85,11 @@ public class Guardarropa {
 	}
 
 	public Set<Atuendo> generarSugerencia(Temperatura temperatura){
-		return this.generarAtuendos();
+		return (Set<Atuendo>) this.generarAtuendos().stream().filter(atuendo-> estaBienVestido(atuendo.abrigoTotal(), temperatura) );
+	}
+
+	public boolean estaBienVestido(int abrigo, Temperatura temperatura){
+		return abrigo>= 36-temperatura.Value && abrigo <= 46 - temperatura.Value;
 	}
 
 }

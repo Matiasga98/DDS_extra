@@ -44,4 +44,7 @@ public enum Tipo {
     public PrioridadSuperior estado() {
         return this.prioridadSuperior;
     }
+    public int PuntajeAbrigo() {
+        return this.puntajeAbrigo;
+    }
 }

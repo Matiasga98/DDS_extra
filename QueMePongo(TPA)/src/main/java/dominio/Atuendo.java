@@ -16,6 +16,10 @@ public class Atuendo {
         this.accesorio = accesorio;
     }
 
+    public int abrigoTotal(){
+        return inferior.tipo.PuntajeAbrigo() + calzado.tipo.PuntajeAbrigo() + accesorio.tipo.PuntajeAbrigo() + superiores.stream().mapToInt(prenda -> prenda.tipo.PuntajeAbrigo()).sum();
+    }
+
     /*public List<Prenda> prendas() {
         return prendasDelAtuendo;
     }*/
