@@ -60,7 +60,7 @@ public class GuardarropaTest {
 
     @Test
     public void NoHayCalzadosEntoncesSugerenciasDeAtuendosEsVacio() {
-        assertTrue(guardarropa.sugerenciasDeAtuendos().isEmpty());
+        assertTrue(guardarropa.generarAtuendos().isEmpty());
     }
 
     @Test
@@ -72,7 +72,7 @@ public class GuardarropaTest {
         assertEquals(6, guardarropa.prendasSegunCategoria(Categoria.PARTE_INFERIOR).size());
         assertEquals(1, guardarropa.prendasSegunCategoria(Categoria.CALZADO).size());
 
-        Set<Atuendo> atuendos = guardarropa.sugerenciasDeAtuendos();
+        Set<Atuendo> atuendos = guardarropa.generarAtuendos();
 
         assertFalse(atuendos.isEmpty());
         assertEquals(36, atuendos.size());
@@ -89,7 +89,7 @@ public class GuardarropaTest {
         assertEquals(1, guardarropa.prendasSegunCategoria(Categoria.CALZADO).size());
         assertEquals(1, guardarropa.prendasSegunCategoria(Categoria.ACCESORIOS).size());
 
-        Set<Atuendo> atuendos = guardarropa.sugerenciasDeAtuendos();
+        Set<Atuendo> atuendos = guardarropa.generarAtuendos();
 
         assertFalse(atuendos.isEmpty());
         assertEquals(72, atuendos.size());

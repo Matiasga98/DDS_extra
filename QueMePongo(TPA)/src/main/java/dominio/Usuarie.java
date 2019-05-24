@@ -21,7 +21,7 @@ public class Usuarie {
     }
 
     public Set<Atuendo> sugerenciasDeAtuendosDeTodosLosGuardarropas() {
-        return guardarropas.stream().flatMap(guardarropa -> guardarropa.sugerenciasDeAtuendos().stream()).collect(Collectors.toSet());
+        return guardarropas.stream().flatMap(guardarropa -> guardarropa.generarAtuendos().stream()).collect(Collectors.toSet());
     }
 
 

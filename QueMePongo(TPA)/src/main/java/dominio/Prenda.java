@@ -10,7 +10,6 @@ public class Prenda {
 	Color colorPrimario;
 	Color colorSecundario;
 
-
     public Prenda(Tipo tipo, Material material, Trama trama, Color colorPrimario, Color colorSecundario) {
 		this.tipo = tipo;
         this.material = material;
@@ -43,10 +42,18 @@ public class Prenda {
 		return tipo.categoria();
 	}
 
+	public boolean puedePonerseEn(PrioridadSuperior prioridadSuperior){
+        if (prioridadSuperior.equals(PrioridadSuperior.MEDIABAJA)){
+            return this.tipo.estado().equals(PrioridadSuperior.BAJA) || this.tipo.estado().equals(PrioridadSuperior.MEDIA);
+        }
+        return this.tipo.estado().equals(prioridadSuperior);
+    }
+
+    /*
     public boolean puedePonerseAbajo() {
-        return this.tipo.estado().equals(Estado.AMBOS) || this.tipo.estado().equals(Estado.INTERIOR);
+        return this.tipo.estado().equals(PrioridadSuperior.MEDIABAJA) || this.tipo.estado().equals(PrioridadSuperior.BAJA);
     }
     public boolean puedePonerseArriba() {
-        return this.tipo.estado().equals(Estado.AMBOS) || this.tipo.estado().equals(Estado.EXTERIOR);
-    }
+        return this.tipo.estado().equals(PrioridadSuperior.MEDIA) || this.tipo.estado().equals(PrioridadSuperior.ALTA);
+    }*/
 }

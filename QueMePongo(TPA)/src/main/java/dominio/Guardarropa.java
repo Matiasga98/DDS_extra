@@ -1,17 +1,15 @@
 package dominio;
 
 import java.util.*;
-
 import com.google.common.collect.Sets;
-
 import dominio.enumerados.Categoria;
+import dominio.enumerados.PrioridadSuperior;
 
 public class Guardarropa {
 
-	private Map<Categoria, Set<Prenda>> prendas;
+	private Map<Categoria, Set<Prenda>> prendas = new HashMap<>();
 
 	public Guardarropa() {
-		prendas = new HashMap<>();
 		prendas.put(Categoria.PARTE_SUPERIOR, new HashSet<>());
 		prendas.put(Categoria.PARTE_INFERIOR, new HashSet<>());
 		prendas.put(Categoria.CALZADO, new HashSet<>());
@@ -26,49 +24,64 @@ public class Guardarropa {
 		return prendas.get(categoria);
 	}
 
-	public Set<Atuendo> sugerenciasDeAtuendos() {
+	public Set<Atuendo> generarAtuendos() {
 		Set<Atuendo> atuendos = new HashSet<>();
-
-
 		Set<Prenda> superiores = prendasSegunCategoria(Categoria.PARTE_SUPERIOR);
 		Set<Prenda> inferiores = prendasSegunCategoria(Categoria.PARTE_INFERIOR);
 		Set<Prenda> calzados = prendasSegunCategoria(Categoria.CALZADO);
 		Set<Prenda> accesorios = prendasSegunCategoria(Categoria.ACCESORIOS);
 
-		Set<Prenda> superioresQueSePuedenPonerDebajo = (Set<Prenda>) superiores.stream().filter(prenda -> prenda.puedePonerseAbajo());
+		Set<Prenda> superioresBaja = (Set<Prenda>) superiores.stream().filter(prenda -> prenda.puedePonerseEn(PrioridadSuperior.BAJA));
+		Set<Prenda> superioresMedia = (Set<Prenda>) superiores.stream().filter(prenda -> prenda.puedePonerseEn(PrioridadSuperior.MEDIA));
+		Set<Prenda> superioresAlta = (Set<Prenda>) superiores.stream().filter(prenda -> prenda.puedePonerseEn(PrioridadSuperior.ALTA));
 
-		Set<Prenda> superioresQueSePuedenPonerArriba = (Set<Prenda>) superiores.stream().filter(prenda -> prenda.puedePonerseArriba());
-
-		Set<List<Prenda>> setDeAtuendosSinAccesoriosSinAbrigo = Sets.cartesianProduct(
-				superioresQueSePuedenPonerDebajo,
+		Set<List<Prenda>> setDeAtuendosSinAccesoriosAbrigoBaja = Sets.cartesianProduct(
+				superioresBaja,
 				inferiores,
 				calzados
 		);
 
-		setDeAtuendosSinAccesoriosSinAbrigo.forEach(lista -> atuendos.add(new Atuendo(Arrays.asList(lista.get(0)),lista.get(1),lista.get(2),null));
+		setDeAtuendosSinAccesoriosAbrigoBaja.forEach(lista -> atuendos.add(new Atuendo(Arrays.asList(lista.get(0)),lista.get(1),lista.get(2),null)));
 
-		Set<List<Prenda>> setDeAtuendosSinAccesoriosConAbrigo = Sets.cartesianProduct(
-				superioresQueSePuedenPonerDebajo,
-				superioresQueSePuedenPonerArriba,
+		Set<List<Prenda>> setDeAtuendosSinAccesoriosAbrigoMedio = Sets.cartesianProduct(
+				superioresBaja,
+				superioresMedia,
 				inferiores,
 				calzados
 		);
 
+		setDeAtuendosSinAccesoriosAbrigoMedio.forEach(lista -> atuendos.add(new Atuendo(Arrays.asList(lista.get(0),lista.get(1)),lista.get(2),lista.get(3),null)));
 
-		setDeAtuendosSinAccesoriosConAbrigo.forEach(lista -> atuendos.add(new Atuendo(lista)));
+
+		Set<List<Prenda>> setDeAtuendosSinAccesoriosAbrigoAlta = Sets.cartesianProduct(
+				superioresBaja,
+				superioresMedia,
+				superioresAlta,
+				inferiores,
+				calzados
+		);
+
+		setDeAtuendosSinAccesoriosAbrigoAlta.forEach(lista -> atuendos.add(new Atuendo(Arrays.asList(lista.get(0),lista.get(1),lista.get(2)),lista.get(3),lista.get(4),null)));
 
 		if (accesorios.isEmpty()) {
 			return atuendos;
 		}
+		
 		Set<List<Prenda>> setDeAtuendosConAccesorios = Sets.cartesianProduct(
-				superioresQueSePuedenPonerDebajo,
-				superioresQueSePuedenPonerArriba,
+				superioresBaja,
+				superioresMedia,
+				superioresAlta,
+				inferiores,
 				calzados,
 				accesorios);
 
-		setDeAtuendosConAccesorios.forEach(lista -> atuendos.add(new Atuendo(lista)));
+		setDeAtuendosConAccesorios.forEach(lista -> atuendos.add(new Atuendo(Arrays.asList(lista.get(0)),lista.get(1),lista.get(2), lista.get(3))));
 
 		return atuendos;
+	}
+
+	public Set<Atuendo> generarSugerencia(Temperatura temperatura){
+		return this.generarAtuendos();
 	}
 
 }
