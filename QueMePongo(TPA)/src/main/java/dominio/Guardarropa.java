@@ -29,27 +29,40 @@ public class Guardarropa {
 	public Set<Atuendo> sugerenciasDeAtuendos() {
 		Set<Atuendo> atuendos = new HashSet<>();
 
+
 		Set<Prenda> superiores = prendasSegunCategoria(Categoria.PARTE_SUPERIOR);
 		Set<Prenda> inferiores = prendasSegunCategoria(Categoria.PARTE_INFERIOR);
 		Set<Prenda> calzados = prendasSegunCategoria(Categoria.CALZADO);
 		Set<Prenda> accesorios = prendasSegunCategoria(Categoria.ACCESORIOS);
 
-		superiores.stream().filter(prenda -> prenda.esAdecuada(0));
+		Set<Prenda> superioresQueSePuedenPonerDebajo = (Set<Prenda>) superiores.stream().filter(prenda -> prenda.puedePonerseAbajo());
 
-		Set<List<Prenda>> setDeAtuendosSinAccesorios = Sets.cartesianProduct(
-				superiores,
+		Set<Prenda> superioresQueSePuedenPonerArriba = (Set<Prenda>) superiores.stream().filter(prenda -> prenda.puedePonerseArriba());
+
+		Set<List<Prenda>> setDeAtuendosSinAccesoriosSinAbrigo = Sets.cartesianProduct(
+				superioresQueSePuedenPonerDebajo,
 				inferiores,
 				calzados
 		);
 
-		setDeAtuendosSinAccesorios.forEach(lista -> atuendos.add(new Atuendo(lista)));
+		setDeAtuendosSinAccesoriosSinAbrigo.forEach(lista -> atuendos.add(new Atuendo(Arrays.asList(lista.get(0)),lista.get(1),lista.get(2),null));
+
+		Set<List<Prenda>> setDeAtuendosSinAccesoriosConAbrigo = Sets.cartesianProduct(
+				superioresQueSePuedenPonerDebajo,
+				superioresQueSePuedenPonerArriba,
+				inferiores,
+				calzados
+		);
+
+
+		setDeAtuendosSinAccesoriosConAbrigo.forEach(lista -> atuendos.add(new Atuendo(lista)));
 
 		if (accesorios.isEmpty()) {
 			return atuendos;
 		}
 		Set<List<Prenda>> setDeAtuendosConAccesorios = Sets.cartesianProduct(
-				superiores,
-				inferiores,
+				superioresQueSePuedenPonerDebajo,
+				superioresQueSePuedenPonerArriba,
 				calzados,
 				accesorios);
 

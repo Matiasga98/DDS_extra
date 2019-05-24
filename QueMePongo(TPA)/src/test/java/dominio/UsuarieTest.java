@@ -38,7 +38,7 @@ public class UsuarieTest {
         borrador = new Borrador();
         usuarie = new Usuarie();
         colores = colores();
-        Gson gson = new Gson();
+       /* Gson gson = new Gson();
         String path = "C:\\Users\\ALUMNO\\Desktop\\Nueva carpeta\\2019-vi-no-group-12\\QueMePongo(TPA)\\src\\main\\Clima.json";
 
         try (FileReader reader = new FileReader(path)) {
@@ -46,7 +46,7 @@ public class UsuarieTest {
             System.out.println(dato.results.get(1).IconPhrase);
 
         }
-
+*/
 
 /*
         //REMERAS LISAS DE DISTINTOS COLORES

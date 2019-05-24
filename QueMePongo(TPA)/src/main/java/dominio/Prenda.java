@@ -1,9 +1,6 @@
 package dominio;
 
-import dominio.enumerados.Categoria;
-import dominio.enumerados.Material;
-import dominio.enumerados.Tipo;
-import dominio.enumerados.Trama;
+import dominio.enumerados.*;
 
 public class Prenda {
 
@@ -12,7 +9,7 @@ public class Prenda {
     Trama trama;
 	Color colorPrimario;
 	Color colorSecundario;
-	int temperaturaAdecuada;
+
 
     public Prenda(Tipo tipo, Material material, Trama trama, Color colorPrimario, Color colorSecundario) {
 		this.tipo = tipo;
@@ -46,11 +43,10 @@ public class Prenda {
 		return tipo.categoria();
 	}
 
-	public int temperaturaAdecuada() {
-        return temperaturaAdecuada;
+    public boolean puedePonerseAbajo() {
+        return this.tipo.estado().equals(Estado.AMBOS) || this.tipo.estado().equals(Estado.INTERIOR);
     }
-
-    public boolean esAdecuada(int temperatura) {
-        return this.temperaturaAdecuada >= temperatura;
+    public boolean puedePonerseArriba() {
+        return this.tipo.estado().equals(Estado.AMBOS) || this.tipo.estado().equals(Estado.EXTERIOR);
     }
 }
