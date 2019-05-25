@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class UsuarioPremium implements Usuario {
+public class UsuarioPremium extends Usuario {
 
     Set<Guardarropa> guardarropas;
 
@@ -26,4 +26,5 @@ public class UsuarioPremium implements Usuario {
     public Set<Atuendo> sugerenciasDeAtuendosDeTodosLosGuardarropas() {
         return guardarropas.stream().flatMap(guardarropa -> guardarropa.generarAtuendos().stream()).collect(Collectors.toSet());
     }
+
 }

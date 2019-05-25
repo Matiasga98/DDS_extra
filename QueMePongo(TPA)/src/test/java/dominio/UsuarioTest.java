@@ -1,5 +1,7 @@
 package dominio;
 
+import dominio.AccuweatherData.Accuweather;
+import dominio.ApixuData.Apixu;
 import dominio.enumerados.Categoria;
 import dominio.enumerados.Material;
 import dominio.enumerados.Tipo;
@@ -39,7 +41,7 @@ public class UsuarioTest {
         String path = "C:\\Users\\ALUMNO\\Desktop\\Nueva carpeta\\2019-vi-no-group-12\\QueMePongo(TPA)\\src\\main\\Clima.json";
 
         try (FileReader reader = new FileReader(path)) {
-            EstadisticaClimatica dato = gson.fromJson(reader, EstadisticaClimatica.class);
+            EstadisticaClimaticaAccu dato = gson.fromJson(reader, EstadisticaClimaticaAccu.class);
             System.out.println(dato.results.get(1).IconPhrase);
 
         }
@@ -73,11 +75,21 @@ public class UsuarioTest {
     }
 
 
-
     @Test
     public void usuarioSinGuardarropaPidenSugerencias() {
         assertTrue(usuario.guardarropas().isEmpty());
         assertTrue(usuario.sugerenciasDeAtuendosDeTodosLosGuardarropas().isEmpty());
+    }
+    @Test
+    public void AccuweatherTest() {
+        Accuweather.ObtenerClima();
+
+
+    }
+
+    @Test
+    public void ApixuTest() {
+        Apixu.ObtenerClima();
     }
 
     @Test

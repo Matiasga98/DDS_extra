@@ -2,6 +2,7 @@ package dominio;
 
 import java.util.*;
 import com.google.common.collect.Sets;
+import dominio.AccuweatherData.TemperaturaAccu;
 import dominio.enumerados.Categoria;
 import dominio.enumerados.PrioridadSuperior;
 
@@ -84,12 +85,15 @@ public class Guardarropa {
 		return atuendos;
 	}
 
-	public Set<Atuendo> generarSugerencia(Temperatura temperatura){
+	public Set<Atuendo> generarSugerencia(Double temperatura, ProveedorClima unProveedor){
+		ProveedorClima.ObtenerClima();
 		return (Set<Atuendo>) this.generarAtuendos().stream().filter(atuendo-> estaBienVestido(atuendo.abrigoTotal(), temperatura) );
 	}
 
-	public boolean estaBienVestido(int abrigo, Temperatura temperatura){
-		return abrigo>= 36-temperatura.Value && abrigo <= 46 - temperatura.Value;
+
+
+	public boolean estaBienVestido(int abrigo, Double temperatura){
+		return abrigo>= 36-temperatura && abrigo <= 46 - temperatura;
 	}
 
 }

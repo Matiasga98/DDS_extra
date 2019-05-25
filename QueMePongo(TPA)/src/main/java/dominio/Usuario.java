@@ -4,13 +4,31 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public interface Usuario {
+public class Usuario {
+    Set<Guardarropa> guardarropas;
+    Set<Evento> eventos;
 
-    Set<Guardarropa> guardarropas();
+    public Usuario() {
+        this.guardarropas = new HashSet<>();
+    }
 
-    void agregarGuardarropa(Guardarropa guardarropa);
-    void agregarPrenda(Prenda prenda, Guardarropa guardarropa);
-    Set<Atuendo> sugerenciasDeAtuendosDeTodosLosGuardarropas();
+    public Set<Guardarropa> guardarropas() {
+        return guardarropas;
+    }
+    public void agregarGuardarropa(Guardarropa guardarropa) {
+        guardarropas.add(guardarropa);
+    }
 
+    public void agregarPrenda(Prenda prenda, Guardarropa guardarropa) {
+        guardarropa.agregarPrendas(prenda);
+    }
+
+    public Set<Atuendo> sugerenciasDeAtuendosDeTodosLosGuardarropas() {
+        return guardarropas.stream().flatMap(guardarropa -> guardarropa.generarAtuendos().stream()).collect(Collectors.toSet());
+    }
+
+    public void agregarEvento (Evento unEvento){
+        eventos.add(unEvento);
+    }
 
 }
