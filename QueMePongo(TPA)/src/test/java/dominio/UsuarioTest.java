@@ -2,6 +2,7 @@ package dominio;
 
 import dominio.AccuweatherData.Accuweather;
 import dominio.ApixuData.Apixu;
+import dominio.ProveedorMock.ProveedorMock;
 import dominio.enumerados.Categoria;
 import dominio.enumerados.Material;
 import dominio.enumerados.Tipo;
@@ -29,6 +30,9 @@ public class UsuarioTest {
     Color amarillo;
 
     List<Color> colores;
+    private Accuweather accuweather;
+    private Apixu apixu;
+    private ProveedorMock mock;
 
 
     @Before
@@ -71,7 +75,11 @@ public class UsuarioTest {
         borrador.definirMaterial(Material.CUERO);
         borrador.definirColorPrimario(negro);
         guardarropa.agregarPrendas(borrador.crearPrenda());
+
 */
+        accuweather = new Accuweather();
+        apixu = new Apixu();
+        mock = new ProveedorMock();
     }
 
 
@@ -82,15 +90,29 @@ public class UsuarioTest {
     }
     @Test
     public void AccuweatherTest() {
-        Accuweather.ObtenerClima();
+        accuweather.obtenerClima();
+
+
+    }
+    @Test
+    public void GsonTest() {
+        testeandoGson.haceAlgoPapu();
 
 
     }
 
     @Test
     public void ApixuTest() {
-        Apixu.ObtenerClima();
+        apixu.obtenerClima();
     }
+
+
+    @Test
+    public void MockTest() {
+        mock.obtenerClima();
+    }
+
+
 
     @Test
     public void usuarioConUnGuardarropa() {

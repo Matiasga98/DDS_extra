@@ -1,5 +1,7 @@
 package dominio;
 
+import dominio.enumerados.EstadoAtuendo;
+
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -30,5 +32,28 @@ public class Usuario {
     public void agregarEvento (Evento unEvento){
         eventos.add(unEvento);
     }
+
+    public Set<Atuendo> pedirSugerenciaParaEvento (Evento evento, Guardarropa guardarropa, ProveedorClima unProveedor, boolean flexible){
+        return guardarropa.sugerirParaEvento(evento, unProveedor, flexible );
+    }
+    public void aceptarSugerencia (Atuendo atuendo, Guardarropa guardarropa){
+        guardarropa.agregarAAceptados(atuendo);
+        atuendo.cambiarEstado(EstadoAtuendo.ACEPTADO);
+    }
+    public void rechazarSugerencia (Atuendo atuendo, Guardarropa guardarropa){
+        guardarropa.agregarARechazados(atuendo);
+        atuendo.cambiarEstado(EstadoAtuendo.RECHAZADO);
+    }
+
+    public void deshacerDecision (Atuendo atuendo, Guardarropa guardarropa){
+        if (atuendo.estado .equals(EstadoAtuendo.RECHAZADO)){
+            guardarropa.atuendosRechazados.remove(atuendo);
+        }
+        else{
+            guardarropa.atuendosAceptados.remove(atuendo);
+        }
+        atuendo.cambiarEstado(EstadoAtuendo.NUEVO);
+    }
+
 
 }

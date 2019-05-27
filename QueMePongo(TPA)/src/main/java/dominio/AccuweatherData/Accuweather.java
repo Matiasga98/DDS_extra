@@ -1,6 +1,9 @@
 package dominio.AccuweatherData;
 import com.google.gson.Gson;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 
 import dominio.Clima;
@@ -12,10 +15,12 @@ import org.apache.http.HttpEntity;
         import org.apache.http.impl.client.CloseableHttpClient;
         import org.apache.http.impl.client.HttpClients;
         import org.apache.http.util.EntityUtils;
-
+import java.time.*;
+import java.time.format.DateTimeFormatter;
+import com.google.gson.GsonBuilder;
 public class Accuweather implements ProveedorClima {
 
-    public static void ObtenerClima(){
+    public  Clima obtenerClima(){       //consultar si deberia ser static o no
         //http://dataservice.accuweather.com/forecasts/v1/daily/1day/348735?apikey=<ApiKey>
         //http://dataservice.accuweather.com/forecasts/v1/daily/1day/<CITYID>?apikey=<ApiKey>
 
@@ -27,16 +32,35 @@ public class Accuweather implements ProveedorClima {
         try {
             resp = client.execute(get);
             HttpEntity entity = resp.getEntity();
-            Gson gson = new Gson();
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
             String infoClimatica = EntityUtils.toString(entity);
             EstadisticaClimaticaAccu dato = gson.fromJson(infoClimatica, EstadisticaClimaticaAccu.class);
             Clima clima = new Clima();
-            for (int i=0; i<5; i++){
-                clima.pronosticos.add(new Pronostico(dato.DailyForecasts.get(i).Date, (dato.DailyForecasts.get(i).Temperature.Maximum.Value + dato.DailyForecasts.get(i).Temperature.Minimum.Value)/2));
+            dato.DailyForecasts.stream().forEach(pronostico -> this.guardarEnPronostico(clima,pronostico));
+            //for (int i=0; i<5; i++){
+             //   ZonedDateTime result = ZonedDateTime.parse(dato.DailyForecasts.get(i).Date, DateTimeFormatter.ISO_DATE_TIME);
+             //   clima.pronosticos.add(new Pronostico(result.toLocalDate(), (dato.DailyForecasts.get(i).Temperature.Maximum.Value + dato.DailyForecasts.get(i).Temperature.Minimum.Value)/2));
+            //}
+
+            //String path = "C:\\Users\\Public\\Clima.json";
+            try (FileWriter writer = new FileWriter(".\\clima.json")) {
+                gson.toJson(clima, writer);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            System.out.println(clima.pronosticos.get(0).temperaturaPromedio);
+            //FileWriter writer = new FileWriter(path);
+            //gson.toJson(clima, writer);
+            //String json = gson.toJson(clima);
+            //writer.write(json);
+            return clima;
         }
-        catch (IOException ioe) { System.err.println("Something went wrong getting the weather: ");  ioe.printStackTrace(); }
-        catch (Exception e ){ System.err.println("Unknown error: "); e.printStackTrace(); }
+        catch (IOException ioe) { System.err.println("Algo salio mal ");  ioe.printStackTrace(); }
+        catch (Exception e ){ System.err.println("Error desconocido "); e.printStackTrace(); }
+        return null;
     }
+    public void guardarEnPronostico( Clima clima, DatoClimaticoAccu dato){
+        ZonedDateTime result = ZonedDateTime.parse(dato.Date, DateTimeFormatter.ISO_DATE_TIME);
+        clima.pronosticos.add(new Pronostico(result.toLocalDate(), (dato.Temperature.Maximum.Value + dato.Temperature.Minimum.Value)/2));
+    }
+
 }

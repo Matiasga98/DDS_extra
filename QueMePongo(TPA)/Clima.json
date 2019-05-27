@@ -1,0 +1,44 @@
+{
+  "pronosticos": [
+    {
+      "fecha": {
+        "year": 2019,
+        "month": 5,
+        "day": 26
+      },
+      "temperaturaPromedio": 16.1
+    },
+    {
+      "fecha": {
+        "year": 2019,
+        "month": 5,
+        "day": 27
+      },
+      "temperaturaPromedio": 14.7
+    },
+    {
+      "fecha": {
+        "year": 2019,
+        "month": 5,
+        "day": 28
+      },
+      "temperaturaPromedio": 14.2
+    },
+    {
+      "fecha": {
+        "year": 2019,
+        "month": 5,
+        "day": 29
+      },
+      "temperaturaPromedio": 14.0
+    },
+    {
+      "fecha": {
+        "year": 2019,
+        "month": 5,
+        "day": 30
+      },
+      "temperaturaPromedio": 13.05
+    }
+  ]
+}
