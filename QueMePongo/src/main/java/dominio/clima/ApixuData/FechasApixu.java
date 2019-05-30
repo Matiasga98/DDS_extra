@@ -1,6 +1,4 @@
-package dominio.ApixuData;
-
-import java.time.LocalDate;
+package dominio.clima.ApixuData;
 
 public class FechasApixu {
     public String date;

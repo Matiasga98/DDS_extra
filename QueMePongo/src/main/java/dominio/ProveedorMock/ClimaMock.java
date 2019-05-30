@@ -1,7 +1,5 @@
 package dominio.ProveedorMock;
 
-import dominio.Pronostico;
-
 import java.util.ArrayList;
 import java.util.List;
 

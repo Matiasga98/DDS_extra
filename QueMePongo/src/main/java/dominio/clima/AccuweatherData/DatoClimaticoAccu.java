@@ -1,6 +1,4 @@
-package dominio.AccuweatherData;
-
-import java.time.LocalDate;
+package dominio.clima.AccuweatherData;
 
 public class DatoClimaticoAccu {
 

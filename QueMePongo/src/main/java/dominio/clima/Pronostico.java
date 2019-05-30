@@ -1,4 +1,4 @@
-package dominio;
+package dominio.clima;
 
 import java.time.LocalDate;
 

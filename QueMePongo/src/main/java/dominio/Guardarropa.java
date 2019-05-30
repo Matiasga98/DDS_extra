@@ -4,27 +4,36 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import com.google.common.collect.Sets;
 import com.google.gson.Gson;
+import dominio.clima.Clima;
+import dominio.clima.Pronostico;
+import dominio.clima.ProveedorClima;
 import dominio.enumerados.Categoria;
 import dominio.enumerados.PrioridadSuperior;
 import dominio.excepciones.NoSeEncuentraLaFecha;
 
 public class Guardarropa {
 
-	private Map<Categoria, Set<Prenda>> prendas = new HashMap<>();
-
-	public Set<Atuendo> atuendosAceptados;
-	public Set<Atuendo> atuendosRechazados;
+	private Map<Categoria, Set<Prenda>> prendas;
+	private Set<Atuendo> atuendosAceptados;
+	private Set<Atuendo> atuendosRechazados;
 
 	public Guardarropa() {
+		prendas = new HashMap<>();
+		atuendosAceptados = new HashSet<>();
+		atuendosRechazados = new HashSet<>();
 		prendas.put(Categoria.PARTE_SUPERIOR, new HashSet<>());
 		prendas.put(Categoria.PARTE_INFERIOR, new HashSet<>());
 		prendas.put(Categoria.CALZADO, new HashSet<>());
 		prendas.put(Categoria.ACCESORIOS, new HashSet<>());
 	}
 
+	public boolean incluye(Prenda prenda){
+		return prendas.get(prenda.categoria()).contains(prenda);
+	}
 
 	public void agregarPrendas(Prenda prenda) {
 		prendas.get(prenda.categoria()).add(prenda);
@@ -45,9 +54,9 @@ public class Guardarropa {
 		Set<Prenda> calzados = prendasSegunCategoria(Categoria.CALZADO);
 		Set<Prenda> accesorios = prendasSegunCategoria(Categoria.ACCESORIOS);
 
-		Set<Prenda> superioresBaja = (Set<Prenda>) superiores.stream().filter(prenda -> prenda.puedePonerseEn(PrioridadSuperior.BAJA));
-		Set<Prenda> superioresMedia = (Set<Prenda>) superiores.stream().filter(prenda -> prenda.puedePonerseEn(PrioridadSuperior.MEDIA));
-		Set<Prenda> superioresAlta = (Set<Prenda>) superiores.stream().filter(prenda -> prenda.puedePonerseEn(PrioridadSuperior.ALTA));
+		Set<Prenda> superioresBaja = superiores.stream().filter(prenda -> prenda.puedePonerseEn(PrioridadSuperior.BAJA)).collect(Collectors.toSet());
+		Set<Prenda> superioresMedia = superiores.stream().filter(prenda -> prenda.puedePonerseEn(PrioridadSuperior.MEDIA)).collect(Collectors.toSet());
+		Set<Prenda> superioresAlta = superiores.stream().filter(prenda -> prenda.puedePonerseEn(PrioridadSuperior.ALTA)).collect(Collectors.toSet());
 
 		Set<List<Prenda>> setDeAtuendosSinAccesoriosAbrigoBaja = Sets.cartesianProduct(
 				superioresBaja,
@@ -55,7 +64,7 @@ public class Guardarropa {
 				calzados
 		);
 
-		setDeAtuendosSinAccesoriosAbrigoBaja.forEach(lista -> atuendos.add(new Atuendo(Arrays.asList(lista.get(0)),lista.get(1),lista.get(2),null)));
+		setDeAtuendosSinAccesoriosAbrigoBaja.forEach(lista -> atuendos.add(new Atuendo(lista)));
 
 		Set<List<Prenda>> setDeAtuendosSinAccesoriosAbrigoMedio = Sets.cartesianProduct(
 				superioresBaja,
@@ -64,7 +73,7 @@ public class Guardarropa {
 				calzados
 		);
 
-		setDeAtuendosSinAccesoriosAbrigoMedio.forEach(lista -> atuendos.add(new Atuendo(Arrays.asList(lista.get(0),lista.get(1)),lista.get(2),lista.get(3),null)));
+		setDeAtuendosSinAccesoriosAbrigoMedio.forEach(lista -> atuendos.add(new Atuendo(lista)));
 
 
 		Set<List<Prenda>> setDeAtuendosSinAccesoriosAbrigoAlta = Sets.cartesianProduct(
@@ -75,32 +84,52 @@ public class Guardarropa {
 				calzados
 		);
 
-		setDeAtuendosSinAccesoriosAbrigoAlta.forEach(lista -> atuendos.add(new Atuendo(Arrays.asList(lista.get(0),lista.get(1),lista.get(2)),lista.get(3),lista.get(4),null)));
+		setDeAtuendosSinAccesoriosAbrigoAlta.forEach(lista -> atuendos.add(new Atuendo(lista)));
 
 		if (accesorios.isEmpty()) {
 			return atuendos;
 		}
-		
-		Set<List<Prenda>> setDeAtuendosConAccesorios = Sets.cartesianProduct(
+
+		Set<List<Prenda>> setDeAtuendosConAccesoriosAbrigoBaja = Sets.cartesianProduct(
+				superioresBaja,
+				inferiores,
+				calzados,
+				accesorios
+		);
+
+		setDeAtuendosConAccesoriosAbrigoBaja.forEach(lista -> atuendos.add(new Atuendo(lista)));
+
+		Set<List<Prenda>> setDeAtuendosConAccesoriosAbrigoMedio = Sets.cartesianProduct(
+				superioresBaja,
+				superioresMedia,
+				inferiores,
+				calzados,
+				accesorios
+		);
+
+		setDeAtuendosConAccesoriosAbrigoMedio.forEach(lista -> atuendos.add(new Atuendo(lista)));
+
+		Set<List<Prenda>> setDeAtuendosConAccesoriosAbrigoAlta = Sets.cartesianProduct(
 				superioresBaja,
 				superioresMedia,
 				superioresAlta,
 				inferiores,
 				calzados,
-				accesorios);
+				accesorios
+		);
 
-		setDeAtuendosConAccesorios.forEach(lista -> atuendos.add(new Atuendo(Arrays.asList(lista.get(0)),lista.get(1),lista.get(2), lista.get(3))));
+		setDeAtuendosConAccesoriosAbrigoAlta.forEach(lista -> atuendos.add(new Atuendo(lista)));
 
 		return atuendos;
 	}
 
 	public Set<Atuendo> generarSugerencia(Double temperatura, Set<Atuendo> atuendos, boolean flexible) {
 		if (flexible) {
-			return (Set<Atuendo>) atuendos.stream().filter(atuendo -> estaBienVestidoFlexible(atuendo.abrigoTotal(), temperatura));
+			return atuendos.stream().filter(atuendo -> estaBienVestidoFlexible(atuendo.abrigoTotal(), temperatura)).collect(Collectors.toSet());
 
 		}
 		else{
-			return (Set<Atuendo>) atuendos.stream().filter(atuendo -> estaBienVestido(atuendo.abrigoTotal(), temperatura));
+			return atuendos.stream().filter(atuendo -> estaBienVestido(atuendo.abrigoTotal(), temperatura)).collect(Collectors.toSet());
 
 		}
 	}
@@ -122,10 +151,10 @@ public class Guardarropa {
 		}
 
 
-		if (clima.pronosticos.stream().noneMatch(pronostico -> pronostico.fecha.equals(evento.fecha))){
+		if (clima.pronosticos.stream().noneMatch(pronostico -> pronostico.fecha.equals(evento.getFecha()))){
 			clima = proveedor.obtenerClima();
 		}
-		Pronostico pronosticoParaElEvento = clima.pronosticos.stream().filter(pronostico -> pronostico.fecha.equals(evento.fecha)).findAny().orElse(null);
+		Pronostico pronosticoParaElEvento = clima.pronosticos.stream().filter(pronostico -> pronostico.fecha.equals(evento.getFecha())).findAny().orElse(null);
 		if (pronosticoParaElEvento.equals(null)){
 			throw new NoSeEncuentraLaFecha("Falta demasiado para el evento, probar mas proximo al mismo");
 		}
@@ -153,4 +182,7 @@ public class Guardarropa {
 		this.atuendosRechazados.remove(atuendo);
 	}
 
+	public boolean incluye(Atuendo atuendo){
+		return atuendo.prendas().stream().allMatch(prenda -> incluye(prenda));
+	}
 }

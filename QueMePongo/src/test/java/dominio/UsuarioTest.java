@@ -1,7 +1,7 @@
 package dominio;
 
-import dominio.AccuweatherData.Accuweather;
-import dominio.ApixuData.Apixu;
+import dominio.clima.AccuweatherData.Accuweather;
+import dominio.clima.ApixuData.Apixu;
 import dominio.ProveedorMock.ProveedorMock;
 import dominio.enumerados.Categoria;
 import dominio.enumerados.Material;
@@ -30,56 +30,14 @@ public class UsuarioTest {
     Color amarillo;
 
     List<Color> colores;
-    private Accuweather accuweather;
-    private Apixu apixu;
-    private ProveedorMock mock;
-
 
     @Before
     public void setUp() throws IOException {
 
         borrador = new Borrador();
-        usuario = new UsuarioPremium();
+        usuario = new Usuario();
         colores = colores();
-       /* Gson gson = new Gson();
-        String path = "C:\\Users\\ALUMNO\\Desktop\\Nueva carpeta\\2019-vi-no-group-12\\QueMePongo(TPA)\\src\\main\\Clima.json";
 
-        try (FileReader reader = new FileReader(path)) {
-            EstadisticaClimaticaAccu dato = gson.fromJson(reader, EstadisticaClimaticaAccu.class);
-            System.out.println(dato.results.get(1).IconPhrase);
-
-        }
-*/
-
-/*
-        //REMERAS LISAS DE DISTINTOS COLORES
-        borrador.definirTipo(Tipo.REMERA);
-        borrador.definirMaterial(Material.ALGODON);
-
-        colores.forEach(color -> {
-            borrador.definirColorPrimario(color);
-            guardarropa.agregarPrendas(borrador.crearPrenda());
-        });
-
-        //PANTALONES LISOS DE DISTINTOS COLORES
-        borrador.definirTipo(Tipo.PANTALON);
-        borrador.definirMaterial(Material.JEAN);
-
-        colores.forEach(color -> {
-            borrador.definirColorPrimario(color);
-            guardarropa.agregarPrendas(borrador.crearPrenda());
-        });
-
-        //CALZADO
-        borrador.definirTipo(Tipo.ZAPATO);
-        borrador.definirMaterial(Material.CUERO);
-        borrador.definirColorPrimario(negro);
-        guardarropa.agregarPrendas(borrador.crearPrenda());
-
-*/
-        accuweather = new Accuweather();
-        apixu = new Apixu();
-        mock = new ProveedorMock();
     }
 
 
@@ -88,31 +46,6 @@ public class UsuarioTest {
         assertTrue(usuario.guardarropas().isEmpty());
         assertTrue(usuario.sugerenciasDeAtuendosDeTodosLosGuardarropas().isEmpty());
     }
-    @Test
-    public void AccuweatherTest() {
-        accuweather.obtenerClima();
-
-
-    }
-    @Test
-    public void GsonTest() {
-        testeandoGson.haceAlgoPapu();
-
-
-    }
-
-    @Test
-    public void ApixuTest() {
-        apixu.obtenerClima();
-    }
-
-
-    @Test
-    public void MockTest() {
-        mock.obtenerClima();
-    }
-
-
 
     @Test
     public void usuarioConUnGuardarropa() {

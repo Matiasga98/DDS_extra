@@ -1,4 +1,4 @@
-package dominio;
+package dominio.clima;
 
 public interface ProveedorClima {
 

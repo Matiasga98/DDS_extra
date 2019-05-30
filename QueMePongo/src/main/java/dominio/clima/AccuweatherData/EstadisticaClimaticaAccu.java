@@ -1,4 +1,4 @@
-package dominio.AccuweatherData;
+package dominio.clima.AccuweatherData;
 
 import java.util.List;
 

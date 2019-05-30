@@ -1,4 +1,4 @@
-package dominio.ApixuData;
+package dominio.clima.ApixuData;
 
 import java.util.List;
 

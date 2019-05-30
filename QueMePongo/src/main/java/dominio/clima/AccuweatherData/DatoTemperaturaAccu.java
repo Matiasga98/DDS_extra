@@ -1,4 +1,4 @@
-package dominio.AccuweatherData;
+package dominio.clima.AccuweatherData;
 
 public class DatoTemperaturaAccu {
     public double Value;

@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -30,8 +31,6 @@ public class GuardarropaTest {
     Color amarillo;
 
     List<Color> colores;
-    private Atuendo testing;
-
 
     @Before
     public void setUp() {
@@ -57,16 +56,6 @@ public class GuardarropaTest {
             borrador.definirColorPrimario(color);
             guardarropa.agregarPrendas(borrador.crearPrenda());
         });
-
-        Prenda remeraNegra = new Prenda(Tipo.REMERA, Material.ALGODON, Trama.LISA, negro, null);
-        Prenda pantalonRojo = new Prenda(Tipo.PANTALON, Material.JEAN, Trama.LISA, rojo, null);
-        Prenda zapatosAzul = new Prenda(Tipo.ZAPATO, Material.CUERO, Trama.LISA, azul, null);
-        Prenda buzoBlanco = new Prenda(Tipo.BUZO, Material.ALGODON, Trama.LISA, blanco, null);
-        Prenda anilloLinternaVerde = new Prenda(Tipo.ANILLO, Material.ORO, Trama.LISA, verde, null);
-        List<Prenda> superioreseses = new ArrayList<>();
-        superioreseses.add(remeraNegra);
-        superioreseses.add(buzoBlanco);      
-        testing = new Atuendo(superioreseses,zapatosAzul,pantalonRojo,anilloLinternaVerde);
     }
 
     @Test
@@ -74,12 +63,8 @@ public class GuardarropaTest {
         assertTrue(guardarropa.generarAtuendos().isEmpty());
     }
     @Test
-    public void MeCalculaBienElAbrigo() {
-        System.out.println(testing.abrigoTotal());
-    }
-    @Test
     public void cantidadDePrendas() {
-        System.out.println(guardarropa.cantidadPrendas());
+        assertEquals(12,guardarropa.cantidadPrendas());
     }
 
     @Test
@@ -113,6 +98,18 @@ public class GuardarropaTest {
         assertFalse(atuendos.isEmpty());
         assertEquals(72, atuendos.size());
 
+    }
+
+    @Test
+    public void MeCalculaBienElAbrigo() {
+        Atuendo atuendoDePrueba = new Atuendo(Arrays.asList(
+                new Prenda(Tipo.REMERA, Material.ALGODON, Trama.LISA, negro, null),
+                new Prenda(Tipo.PANTALON, Material.JEAN, Trama.LISA, rojo, null),
+                new Prenda(Tipo.ZAPATO, Material.CUERO, Trama.LISA, azul, null),
+                new Prenda(Tipo.BUZO, Material.ALGODON, Trama.LISA, blanco, null),
+                new Prenda(Tipo.ANILLO, Material.ORO, Trama.LISA, verde, null)
+                ));
+        assertEquals(21,atuendoDePrueba.abrigoTotal());
     }
 
     public List<Color> colores() {

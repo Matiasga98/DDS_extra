@@ -1,9 +1,9 @@
-package dominio.ApixuData;
+package dominio.clima.ApixuData;
 
 import com.google.gson.Gson;
-import dominio.Clima;
-import dominio.Pronostico;
-import dominio.ProveedorClima;
+import dominio.clima.Clima;
+import dominio.clima.Pronostico;
+import dominio.clima.ProveedorClima;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
