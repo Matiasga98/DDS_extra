@@ -12,13 +12,14 @@ import java.util.stream.Collectors;
 public class Usuario {
     private Set<Guardarropa> guardarropas;
     private Set<Evento> eventos;
-    private boolean esPremium;
+    private boolean esPremium = false;
     private int prendasMaximas = 20;
 
-    public Usuario() {
+    public Usuario(boolean esPago) {
         this.guardarropas = new HashSet<>();
         this.eventos = new HashSet<>();
-        this.esPremium = false;
+        this.esPremium = esPago;
+        this.prendasMaximas = 20;
     }
 
     public Set<Guardarropa> guardarropas() {

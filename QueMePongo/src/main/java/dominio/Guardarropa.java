@@ -143,7 +143,7 @@ public class Guardarropa {
 		try (FileReader reader = new FileReader(path)) {
 			Gson gson = new Gson();
 			clima = gson.fromJson(reader, Clima.class);
-			System.out.println(clima.pronosticos.get(1).temperaturaPromedio);
+
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

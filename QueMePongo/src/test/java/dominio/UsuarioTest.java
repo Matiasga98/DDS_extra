@@ -1,16 +1,20 @@
 package dominio;
 
+import dominio.ProveedorMock.ClimaMock;
 import dominio.clima.AccuweatherData.Accuweather;
 import dominio.clima.ApixuData.Apixu;
 import dominio.ProveedorMock.ProveedorMock;
 import dominio.enumerados.Categoria;
 import dominio.enumerados.Material;
 import dominio.enumerados.Tipo;
+import dominio.enumerados.Trama;
+import org.assertj.core.internal.cglib.core.CollectionUtils;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.util.*;
 
 import static java.util.Arrays.asList;
 import static org.junit.Assert.*;
@@ -30,14 +34,17 @@ public class UsuarioTest {
     Color amarillo;
 
     List<Color> colores;
+    private Evento cumpleDeHernan;
+    private Guardarropa guardarropas;
 
     @Before
     public void setUp() throws IOException {
 
         borrador = new Borrador();
-        usuario = new Usuario();
+        usuario = new Usuario(true);
+        Guardarropa guardarropa = new Guardarropa();
+        usuario.agregarGuardarropa(guardarropa);
         colores = colores();
-
     }
 
 
@@ -84,6 +91,81 @@ public class UsuarioTest {
         assertEquals(72, usuario.sugerenciasDeAtuendosDeTodosLosGuardarropas().size());
 
     }
+    @Test
+    public void superTest() {
+        usuario = new Usuario(true);
+        Guardarropa guardarropa = new Guardarropa();
+
+        Prenda remera = new Prenda(Tipo.REMERA,Material.ALGODON, Trama.LISA,rojo,null);
+        Prenda buzo = new Prenda(Tipo.BUZO,Material.ALGODON, Trama.LISA,rojo,null);
+        Prenda pantalon = new Prenda(Tipo.PANTALON,Material.JEAN, Trama.LISA,rojo,null);
+        Prenda zapatos = new Prenda(Tipo.ZAPATO,Material.CUERO, Trama.LISA,rojo,null);
+        Prenda bufanda = new Prenda(Tipo.BUFANDA,Material.LANA, Trama.LISA,rojo,null);
+
+        usuario.agregarGuardarropa(guardarropa);
+        usuario.agregarPrenda(remera,guardarropa);
+        usuario.agregarPrenda(buzo,guardarropa);
+        usuario.agregarPrenda(pantalon,guardarropa);
+        usuario.agregarPrenda(zapatos,guardarropa);
+        usuario.agregarPrenda(bufanda,guardarropa);
+        List<Prenda> prendasTest = new ArrayList<Prenda>();;
+        prendasTest.add(remera);
+        prendasTest.add(buzo);
+        prendasTest.add(pantalon);
+        prendasTest.add(zapatos);
+        Atuendo atuendoTest1 = new Atuendo(prendasTest);
+        prendasTest.remove(buzo);
+        Atuendo atuendoTest2 = new Atuendo (prendasTest);
+        prendasTest.add(bufanda);
+        Atuendo atuendoTest3 = new Atuendo (prendasTest);
+        Set<Atuendo> atuendosTest = new HashSet<>();
+        atuendosTest.add(atuendoTest1);
+        atuendosTest.add(atuendoTest2);
+        atuendosTest.add(atuendoTest3);
+
+
+        Evento cumpleDeHernan = new Evento("cumple Hernan AAAAA", LocalDateTime.parse("2019-05-31T13:00:00"));
+
+        ProveedorMock mock = new ProveedorMock();
+        // System.out.println(guardarropa.cantidadPrendas());
+        Set<Atuendo> atuendosSugeridos = usuario.pedirSugerenciaParaEvento(cumpleDeHernan,guardarropa, mock, false );
+        /*atuendosSugeridos.stream().forEach(atuendo -> atuendo.prendas().stream().forEach(prenda->System.out.println(prenda)));
+        System.out.println("--");
+        atuendosTest.stream().forEach(atuendo -> atuendo.prendas().stream().forEach(prenda->System.out.println(prenda)));
+        System.out.println(atuendosSugeridos.containsAll(atuendosTest));*/
+        assertTrue(this.compararSets(atuendosSugeridos,atuendosTest));
+    }
+    @Test
+    public void testSetEquals(){
+        Prenda remera = new Prenda(Tipo.REMERA,Material.ALGODON, Trama.LISA,rojo,null);
+        List<Prenda> prendaTest = new ArrayList<>();
+        prendaTest.add(remera);
+        Atuendo atuendo1 = new Atuendo(prendaTest);
+
+        Atuendo atuendo2 = new Atuendo(prendaTest);
+
+        System.out.println(this.compararAtuendos(atuendo1,atuendo2));
+
+        Set<Atuendo> atuendos1 = new HashSet<>();
+        Set<Atuendo> atuendos2 = new HashSet<>();
+        atuendos1.add(atuendo1);
+        atuendos2.add(atuendo2);
+
+        System.out.println(atuendos1.stream().allMatch(atuendo -> estaAtuendoEnSet(atuendo,atuendos2)));
+
+        /* String elements[] = { "B", "A", "C", "D", "E" };
+         Set set = new HashSet(Arrays.asList(elements));
+         elements = new String[] { "A", "B", "C", "D","E" };
+         Set set2 = new HashSet(Arrays.asList(elements));
+         System.out.println(set.equals(set2));*/
+    }
+    public boolean estaAtuendoEnSet (Atuendo atuendo, Set<Atuendo> atuendos){
+       return atuendos.stream().anyMatch(atuendoSet -> compararAtuendos(atuendoSet,atuendo));
+
+    }
+    public boolean compararSets (Set<Atuendo> atuendos1, Set<Atuendo> atuendos2){
+        return atuendos1.stream().allMatch(atuendo -> estaAtuendoEnSet(atuendo,atuendos2));
+    }
 
     public void agregoUnGuardarropa() {
         //REMERAS LISAS DE DISTINTOS COLORES
@@ -126,4 +208,8 @@ public class UsuarioTest {
 
         return asList(negro, rojo, blanco, azul, verde, amarillo);
     }
+    public boolean compararAtuendos(Atuendo atuendo1, Atuendo atuendo2){
+        return atuendo1.prendas().containsAll(atuendo2.prendas());
+    }
+
 }

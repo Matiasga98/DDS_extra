@@ -40,4 +40,6 @@ public class Atuendo {
     public boolean rechazado(){
         return EstadoAtuendo.RECHAZADO.equals(estado);
     }
+
+
 }

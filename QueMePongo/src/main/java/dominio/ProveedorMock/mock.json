@@ -2,23 +2,23 @@
   "pronosticos": [        //es CASE SENSITIVE, si aca arrancan con mayuscula,
                       //nuestros atributos tambien tienen que hacerlo
     {
-      "fecha": "2019-05-26",
+      "fecha": "2019-05-31T10:00:00",
       "temperaturaPromedio": 255000
     },
     {
-      "fecha": "2019-05-27",
+      "fecha": "2019-05-31T11:00:00",
       "temperaturaPromedio": 25
     },
     {
-      "fecha": "2019-05-28",
+      "fecha": "2019-05-31T12:00:00",
       "temperaturaPromedio": 25
     },
     {
-      "fecha": "2019-05-29",
+      "fecha": "2019-05-31T13:00:00",
       "temperaturaPromedio": 25
     },
     {
-      "fecha": "2019-05-30",
+      "fecha": "2019-05-31T14:00:00",
       "temperaturaPromedio": 25
     }
   ]

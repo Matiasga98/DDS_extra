@@ -7,6 +7,11 @@ public class Evento {
     private String tipo;
     private LocalDateTime fecha;
 
+    public Evento (String elEvento, LocalDateTime unaFecha){
+        tipo = elEvento;
+        fecha = unaFecha;
+    }
+
     public String getTipo() {
         return tipo;
     }
