@@ -2,8 +2,8 @@ package dominio.clima.AccuweatherData;
 
 public class DatoClimaticoAccu {
 
-    public String Date;
-    public long EpochDate;
+    public String DateTime;
+    public long EpochDateTime;
     public TemperaturaAccu Temperature;
 
 

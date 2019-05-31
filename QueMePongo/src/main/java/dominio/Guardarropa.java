@@ -136,11 +136,12 @@ public class Guardarropa {
 
 	public Set<Atuendo> sugerirParaEvento(Evento evento, ProveedorClima proveedor, boolean flexible){
 		Set<Atuendo> atuendos = this.generarAtuendos();
-		Gson gson = new Gson();
+
 		//String path = "C:\\Users\\ALUMNO\\Desktop\\Nueva carpeta\\2019-vi-no-group-12\\QueMePongo(TPA)\\src\\main\\Clima.json";
 		Clima clima = new Clima();
 		String path = ".\\Clima.json";
 		try (FileReader reader = new FileReader(path)) {
+			Gson gson = new Gson();
 			clima = gson.fromJson(reader, Clima.class);
 			System.out.println(clima.pronosticos.get(1).temperaturaPromedio);
 

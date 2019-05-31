@@ -4,6 +4,6 @@ import java.util.List;
 
 
 public class EstadisticaClimaticaAccu {
-   public List<DatoClimaticoAccu> DailyForecasts;
+   public List<DatoClimaticoAccu> HourlyForecasts;
 
 }

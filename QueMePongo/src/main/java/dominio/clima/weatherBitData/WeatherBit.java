@@ -1,4 +1,4 @@
-package dominio.clima.ApixuData;
+package dominio.clima.weatherBitData;
 
 import com.google.gson.Gson;
 import dominio.clima.Clima;
@@ -18,12 +18,12 @@ import java.time.LocalDateTime;
 
 import com.google.gson.GsonBuilder;
 
-public class Apixu implements ProveedorClima {
+public class WeatherBit implements ProveedorClima {
 
     public   Clima obtenerClima(){  //consultar si deberia ser static o no
 
 
-        String url = "http://api.apixu.com/v1/forecast.json?key=867f3bfe21674112a7830607192505&q=Buenos%20Aires&days=5";
+        String url = "http://api.weatherbit.io/v2.0/forecast/hourly?key=36905efcce0846dd81efb1fe0cd613f3&city=Buenos%20Aires,07&country=AR";
 
         CloseableHttpClient client = HttpClients.createDefault();
         HttpGet get = new HttpGet(url);
@@ -33,12 +33,12 @@ public class Apixu implements ProveedorClima {
             HttpEntity entity = resp.getEntity();
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             String infoClimatica = EntityUtils.toString(entity);
-            EstadisticaApixu dato = gson.fromJson(infoClimatica, EstadisticaApixu.class);
+            ClimaWeatherBit dato = gson.fromJson(infoClimatica, ClimaWeatherBit.class);
             Clima clima = new Clima();
-            dato.forecast.forecastday.stream().forEach(pronostico -> this.guardarEnPronostico(clima,pronostico));
+            dato.data.stream().forEach(pronostico -> this.guardarEnPronostico(clima,pronostico));
             // for (int i=0; i<5; i++){
 
-             //   clima.pronosticos.add(new Pronostico(LocalDate.parse(dato.forecast.forecastday.get(i).date), dato.forecast.forecastday.get(i).day.avgtemp_c));
+            //   clima.pronosticos.add(new Pronostico(LocalDate.parse(dato.forecast.forecastday.get(i).date), dato.forecast.forecastday.get(i).day.avgtemp_c));
 
             //}
 
@@ -56,7 +56,7 @@ public class Apixu implements ProveedorClima {
         catch (Exception e ){ System.err.println("Error desconocido "); e.printStackTrace(); }
         return null;
     }
-    public void guardarEnPronostico( Clima clima,  FechasApixu dato){
-        clima.pronosticos.add(new Pronostico(LocalDateTime.parse(dato.date), dato.day.avgtemp_c));
+    public void guardarEnPronostico( Clima clima,  pronosticoBit dato){
+        clima.pronosticos.add(new Pronostico(LocalDateTime.parse(dato.timestamp_local), dato.temp));
     }
 }

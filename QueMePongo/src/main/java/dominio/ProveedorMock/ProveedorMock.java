@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.time.LocalDateTime;
 
 import com.google.gson.GsonBuilder;
 public class ProveedorMock implements ProveedorClima {
@@ -41,7 +42,7 @@ public class ProveedorMock implements ProveedorClima {
     }
 
     private void guardarEnPronostico(Clima clima, PronosticoMock pronostico) {
-        clima.pronosticos.add(new Pronostico(LocalDate.parse(pronostico.fecha), pronostico.temperaturaPromedio));
+        clima.pronosticos.add(new Pronostico(LocalDateTime.parse(pronostico.fecha), pronostico.temperaturaPromedio));
     }
 
 

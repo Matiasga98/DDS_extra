@@ -1,10 +1,11 @@
 package dominio;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Evento {
     private String tipo;
-    private LocalDate fecha;
+    private LocalDateTime fecha;
 
     public String getTipo() {
         return tipo;
@@ -14,11 +15,11 @@ public class Evento {
         this.tipo = tipo;
     }
 
-    public LocalDate getFecha() {
+    public LocalDateTime getFecha() {
         return fecha;
     }
 
-    public void setFecha(LocalDate fecha) {
+    public void setFecha(LocalDateTime fecha) {
         this.fecha = fecha;
     }
 }

@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import com.google.gson.reflect.TypeToken;
 import dominio.clima.Clima;
 import dominio.clima.Pronostico;
 import dominio.clima.ProveedorClima;
@@ -13,8 +14,12 @@ import org.apache.http.HttpEntity;
         import org.apache.http.impl.client.CloseableHttpClient;
         import org.apache.http.impl.client.HttpClients;
         import org.apache.http.util.EntityUtils;
+
+import java.lang.reflect.Type;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+
 import com.google.gson.GsonBuilder;
 public class Accuweather implements ProveedorClima {
 
@@ -22,7 +27,7 @@ public class Accuweather implements ProveedorClima {
         //http://dataservice.accuweather.com/forecasts/v1/daily/1day/348735?apikey=<ApiKey>
         //http://dataservice.accuweather.com/forecasts/v1/daily/1day/<CITYID>?apikey=<ApiKey>
 
-        String url = "http://dataservice.accuweather.com/forecasts/v1/daily/5day/7894?apikey=" + "Cq6ZRPqswizBYVfSEulxqimVsrAGKZT9&metric=true";
+        String url = "http://dataservice.accuweather.com/forecasts/v1/hourly/12hour/7894?apikey=" + "Cq6ZRPqswizBYVfSEulxqimVsrAGKZT9&metric=true";
 
         CloseableHttpClient client = HttpClients.createDefault();
         HttpGet get = new HttpGet(url);
@@ -32,9 +37,10 @@ public class Accuweather implements ProveedorClima {
             HttpEntity entity = resp.getEntity();
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             String infoClimatica = EntityUtils.toString(entity);
-            EstadisticaClimaticaAccu dato = gson.fromJson(infoClimatica, EstadisticaClimaticaAccu.class);
+            Type listType = new TypeToken<List<DatoClimaticoAccu>>(){}.getType();
+            List<DatoClimaticoAccu> HourlyForecasts = gson.fromJson(infoClimatica, listType);
             Clima clima = new Clima();
-            dato.DailyForecasts.stream().forEach(pronostico -> this.guardarEnPronostico(clima,pronostico));
+            HourlyForecasts.stream().forEach(pronostico -> this.guardarEnPronostico(clima,pronostico));
             //for (int i=0; i<5; i++){
              //   ZonedDateTime result = ZonedDateTime.parse(dato.DailyForecasts.get(i).Date, DateTimeFormatter.ISO_DATE_TIME);
              //   clima.pronosticos.add(new Pronostico(result.toLocalDate(), (dato.DailyForecasts.get(i).Temperature.Maximum.Value + dato.DailyForecasts.get(i).Temperature.Minimum.Value)/2));
@@ -57,8 +63,8 @@ public class Accuweather implements ProveedorClima {
         return null;
     }
     public void guardarEnPronostico( Clima clima, DatoClimaticoAccu dato){
-        ZonedDateTime result = ZonedDateTime.parse(dato.Date, DateTimeFormatter.ISO_DATE_TIME);
-        clima.pronosticos.add(new Pronostico(result.toLocalDate(), (dato.Temperature.Maximum.Value + dato.Temperature.Minimum.Value)/2));
+        ZonedDateTime result = ZonedDateTime.parse(dato.DateTime, DateTimeFormatter.ISO_DATE_TIME);
+        clima.pronosticos.add(new Pronostico(result.toLocalDateTime(), (dato.Temperature.Value)));
     }
 
 }
