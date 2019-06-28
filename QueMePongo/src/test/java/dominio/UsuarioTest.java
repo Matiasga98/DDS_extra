@@ -1,14 +1,11 @@
 package dominio;
 
-import dominio.ProveedorMock.ClimaMock;
-import dominio.clima.AccuweatherData.Accuweather;
-import dominio.clima.ApixuData.Apixu;
-import dominio.ProveedorMock.ProveedorMock;
+import dominio.clima.AccuweatherData.AccuWeather;
+import dominio.clima.ProveedorClima;
 import dominio.enumerados.Categoria;
 import dominio.enumerados.Material;
 import dominio.enumerados.Tipo;
 import dominio.enumerados.Trama;
-import org.assertj.core.internal.cglib.core.CollectionUtils;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -126,7 +123,7 @@ public class UsuarioTest {
 
         Evento cumpleDeHernan = new Evento("cumple Hernan AAAAA", LocalDateTime.parse("2019-05-31T13:00:00"));
 
-        ProveedorMock mock = new ProveedorMock();
+        ProveedorClima mock = new AccuWeather();
         // System.out.println(guardarropa.cantidadPrendas());
         Set<Atuendo> atuendosSugeridos = usuario.pedirSugerenciaParaEvento(cumpleDeHernan,guardarropa, mock, false );
         /*atuendosSugeridos.stream().forEach(atuendo -> atuendo.prendas().stream().forEach(prenda->System.out.println(prenda)));

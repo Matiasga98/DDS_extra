@@ -1,19 +1,12 @@
 package dominio;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
 import com.google.common.collect.Sets;
-import com.google.gson.Gson;
-import dominio.clima.Clima;
-import dominio.clima.Pronostico;
 import dominio.clima.ProveedorClima;
 import dominio.enumerados.Categoria;
 import dominio.enumerados.PrioridadSuperior;
-import dominio.excepciones.NoSeEncuentraLaFecha;
 
 public class Guardarropa {
 
@@ -47,6 +40,7 @@ public class Guardarropa {
 		return prendas.get(categoria);
 	}
 
+	//Cambiar este metodo. Al parecer hay un smellazo de code del tipo SO BIG METOD.
 	public Set<Atuendo> generarAtuendos() {
 		Set<Atuendo> atuendos = new HashSet<>();
 		Set<Prenda> superiores = prendasSegunCategoria(Categoria.PARTE_SUPERIOR);
@@ -136,32 +130,9 @@ public class Guardarropa {
 
 	public Set<Atuendo> sugerirParaEvento(Evento evento, ProveedorClima proveedor, boolean flexible){
 		Set<Atuendo> atuendos = this.generarAtuendos();
+		double temperatura = proveedor.temperatura(evento.getFecha());
 
-		//String path = "C:\\Users\\ALUMNO\\Desktop\\Nueva carpeta\\2019-vi-no-group-12\\QueMePongo(TPA)\\src\\main\\Clima.json";
-		Clima clima = new Clima();
-		String path = ".\\Clima.json";
-		try (FileReader reader = new FileReader(path)) {
-			Gson gson = new Gson();
-			clima = gson.fromJson(reader, Clima.class);
-
-
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-
-		if (clima.pronosticos.stream().noneMatch(pronostico -> pronostico.fecha.equals(evento.getFecha()))){
-			clima = proveedor.obtenerClima();
-		}
-		Pronostico pronosticoParaElEvento = clima.pronosticos.stream().filter(pronostico -> pronostico.fecha.equals(evento.getFecha())).findAny().orElse(null);
-		if (pronosticoParaElEvento.equals(null)){
-			throw new NoSeEncuentraLaFecha("Falta demasiado para el evento, probar mas proximo al mismo");
-		}
-
-
-			return this.generarSugerencia(pronosticoParaElEvento.temperaturaPromedio, atuendos, flexible);
+		return this.generarSugerencia(temperatura, atuendos, flexible);
 	}
 
 	public boolean estaBienVestido(int abrigo, Double temperatura){

@@ -1,9 +1,11 @@
 package dominio.clima.WeatherBitTest;
 
-import dominio.clima.ApixuData.Apixu;
 import dominio.clima.weatherBitData.WeatherBit;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.time.LocalDateTime;
+
 import static org.junit.Assert.*;
 
 public class WeatherBitTest {
@@ -16,6 +18,6 @@ public class WeatherBitTest {
 
     @Test
     public void BitTest() {
-        assertNotNull(weatherBit.obtenerClima());
+        assertNotNull(weatherBit.temperatura(LocalDateTime.now().plusHours(20)));
     }
 }

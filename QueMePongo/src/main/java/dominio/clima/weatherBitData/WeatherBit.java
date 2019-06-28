@@ -1,62 +1,61 @@
 package dominio.clima.weatherBitData;
 
-import com.google.gson.Gson;
-import dominio.clima.Clima;
-import dominio.clima.Pronostico;
-import dominio.clima.ProveedorClima;
-import org.apache.http.HttpEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
+import dominio.clima.*;
+import dominio.clima.AccuweatherData.AccuWeather;
+import dominio.excepciones.ErrorAlConsumirAPI;
 
-import java.io.FileWriter;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
-import com.google.gson.GsonBuilder;
+import retrofit2.Call;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+import static java.util.stream.Collectors.toList;
 
 public class WeatherBit implements ProveedorClima {
 
-    public   Clima obtenerClima(){  //consultar si deberia ser static o no
+    private String URL = "http://api.weatherbit.io/v2.0/";
+    private String CODIGO_PAIS = "3427408";
+    private String KEY = "36905efcce0846dd81efb1fe0cd613f3";
+    private String LENGUAJE = "es";
 
+    private WeatherBitAPI getWeatherBitAPI(){
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        return retrofit.create(WeatherBitAPI.class);
+    }
 
-        String url = "http://api.weatherbit.io/v2.0/forecast/hourly?key=36905efcce0846dd81efb1fe0cd613f3&city=Buenos%20Aires,07&country=AR";
-
-        CloseableHttpClient client = HttpClients.createDefault();
-        HttpGet get = new HttpGet(url);
-        CloseableHttpResponse resp = null;
+    private WeatherBitPronosticoDTO pronosticosDesdeWeatherBit(){
+        WeatherBitAPI service = getWeatherBitAPI();
+        Call<WeatherBitPronosticoDTO> call = service.pronosticosPorHora(CODIGO_PAIS,KEY,LENGUAJE);
+        Response<WeatherBitPronosticoDTO> response;
         try {
-            resp = client.execute(get);
-            HttpEntity entity = resp.getEntity();
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String infoClimatica = EntityUtils.toString(entity);
-            ClimaWeatherBit dato = gson.fromJson(infoClimatica, ClimaWeatherBit.class);
-            Clima clima = new Clima();
-            dato.data.stream().forEach(pronostico -> this.guardarEnPronostico(clima,pronostico));
-            // for (int i=0; i<5; i++){
-
-            //   clima.pronosticos.add(new Pronostico(LocalDate.parse(dato.forecast.forecastday.get(i).date), dato.forecast.forecastday.get(i).day.avgtemp_c));
-
-            //}
-
-            try (FileWriter writer = new FileWriter(".\\Clima.json")) {
-                gson.toJson(clima, writer);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            //String path = "..\\..\\..\\Clima.json";
-            //gson.toJson(clima, new FileWriter(path));
-            return clima;
-
+            response = call.execute();
+        } catch (IOException e) {
+            throw new ErrorAlConsumirAPI("Error al consumir WeatherBit", e);
         }
-        catch (IOException ioe) { System.err.println("Algo salio mal ");  ioe.printStackTrace(); }
-        catch (Exception e ){ System.err.println("Error desconocido "); e.printStackTrace(); }
-        return null;
+        return response.body();
     }
-    public void guardarEnPronostico( Clima clima,  pronosticoBit dato){
-        clima.pronosticos.add(new Pronostico(LocalDateTime.parse(dato.timestamp_local), dato.temp));
+
+    private List<Pronostico> pronosticosNormalizados(){
+        return pronosticosDesdeWeatherBit()
+                .getData()
+                .stream()
+                .map(dato->dato.normalizar())
+                .collect(toList());
     }
+
+    // La consulta tiene que estar en el rango de 48 por delante.
+    public  double temperatura(LocalDateTime fechaYHora){
+        if(!CachePronosticos.datoDisponible(fechaYHora)){
+            CachePronosticos.actualizar(pronosticosNormalizados());
+        }
+        return CachePronosticos.temperatura(fechaYHora);
+    }
+
 }
