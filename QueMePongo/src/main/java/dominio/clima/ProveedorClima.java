@@ -1,6 +1,9 @@
 package dominio.clima;
 
+import java.time.LocalDateTime;
+
 public interface ProveedorClima {
 
-    public Clima obtenerClima();
+    double temperatura(LocalDateTime fechaYHora);
+
 }
