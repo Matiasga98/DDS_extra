@@ -40,7 +40,4 @@ public class Pronostico {
                 &&this.fechaYHora.toLocalDate().isEqual(fechaYHora.toLocalDate());
     }
 
-    public boolean esAntiguo() {
-        return fechaYHora.compareTo(LocalDateTime.now())==-1;
-    }
 }
