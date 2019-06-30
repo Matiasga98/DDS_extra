@@ -55,6 +55,7 @@ public class Usuario {
         guardarropaIncluyeAtuendo(guardarropa,atuendo);
         guardarropa.agregarAAceptados(atuendo);
         atuendo.cambiarEstado(EstadoAtuendo.ACEPTADO);
+        atuendo.enUso();
     }
     public void rechazarSugerencia (Atuendo atuendo, Guardarropa guardarropa){
         guardarropaIncluyeAtuendo(guardarropa,atuendo);
@@ -87,5 +88,11 @@ public class Usuario {
         return prendasMaximas < guardarropa.cantidadPrendas();
     }
 
-
+    public void compartirGuardarropa(Guardarropa guardarropa, Usuario usuario){
+    	usuario.agragarGuardarropa(guardarropa);
+    }
+    
+    public void agragarGuardarropa(Guardarropa guardarropa){
+    	this.guardarropas().add(guardarropa);
+    }
 }

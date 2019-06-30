@@ -41,5 +41,11 @@ public class Atuendo {
         return EstadoAtuendo.RECHAZADO.equals(estado);
     }
 
-
+    public void enUso(){
+    	this.prendas().forEach(prenda -> prenda.setEnUso());
+    }
+    
+    public boolean estaEnUso(){
+    	return this.prendas().stream().anyMatch(prenda -> prenda.enUso());
+    }
 }

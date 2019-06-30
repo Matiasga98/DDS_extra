@@ -13,7 +13,7 @@ public class Guardarropa {
 	private Map<Categoria, Set<Prenda>> prendas;
 	private Set<Atuendo> atuendosAceptados;
 	private Set<Atuendo> atuendosRechazados;
-
+	
 	public Guardarropa() {
 		prendas = new HashMap<>();
 		atuendosAceptados = new HashSet<>();
@@ -119,11 +119,11 @@ public class Guardarropa {
 
 	public Set<Atuendo> generarSugerencia(Double temperatura, Set<Atuendo> atuendos, boolean flexible) {
 		if (flexible) {
-			return atuendos.stream().filter(atuendo -> estaBienVestidoFlexible(atuendo.abrigoTotal(), temperatura)).collect(Collectors.toSet());
+			return atuendos.stream().filter(atuendo -> estaBienVestidoFlexible(atuendo.abrigoTotal(), temperatura) && !atuendo.estaEnUso()).collect(Collectors.toSet());
 
 		}
 		else{
-			return atuendos.stream().filter(atuendo -> estaBienVestido(atuendo.abrigoTotal(), temperatura)).collect(Collectors.toSet());
+			return atuendos.stream().filter(atuendo -> estaBienVestido(atuendo.abrigoTotal(), temperatura) && !atuendo.estaEnUso()).collect(Collectors.toSet());
 
 		}
 	}
