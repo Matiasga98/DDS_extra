@@ -7,10 +7,8 @@ import dominio.enumerados.Trama;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static java.util.Arrays.asList;
 import static org.junit.Assert.*;
@@ -112,6 +110,45 @@ public class GuardarropaTest {
         assertEquals(21,atuendoDePrueba.abrigoTotal());
     }
 
+    @Test
+    public void GenerarAtuendosNuevo() {
+        Prenda remerita = new Prenda(Tipo.REMERA, Material.ALGODON, Trama.LISA, negro, null);
+        Prenda pantaloncito =new Prenda(Tipo.PANTALON, Material.JEAN, Trama.LISA, rojo, null);
+        Prenda inviernito =new Prenda(Tipo.PANTALONINVIERNO, Material.JEAN, Trama.LISA, rojo, null);
+        Prenda zapatito =new Prenda(Tipo.ZAPATO, Material.CUERO, Trama.LISA, azul, null);
+        Prenda buzito =new Prenda(Tipo.BUZO, Material.ALGODON, Trama.LISA, blanco, null);
+        Prenda anillito =new Prenda(Tipo.ANILLO, Material.ORO, Trama.LISA, verde, null);
+        Prenda camperita = new Prenda(Tipo.CAMPERA,Material.ALGODON,Trama.LISA,rojo,null);
+        Prenda camisita = new Prenda (Tipo.CAMISA,Material.ALGODON,Trama.LISA,azul,null);
+        Guardarropa testito = new Guardarropa();
+        testito.agregarPrendas(remerita);
+        testito.agregarPrendas(zapatito);
+        testito.agregarPrendas(buzito);
+        testito.agregarPrendas(pantaloncito);
+        testito.agregarPrendas(anillito);
+        testito.agregarPrendas(camperita);
+        testito.agregarPrendas(camisita);
+        testito.agregarPrendas(inviernito);
+        Set<Atuendo>  atuendos = new HashSet<>();
+        /*
+        System.out.println(testito.prendasSegunCategoria(Categoria.ACCESORIOS));
+        System.out.println(testito.prendasSegunCategoria(Categoria.PARTE_INFERIOR));
+        System.out.println(testito.prendasSegunCategoria(Categoria.CALZADO));
+        System.out.println(testito.prendasSegunCategoria(Categoria.PARTE_SUPERIOR));
+        System.out.println(testito.prendasSegunCategoria(Categoria.PARTE_SUPERIOR).stream().filter(prenda -> prenda.tipo.Capa() <=2).collect(Collectors.toSet()));
+        System.out.println(remerita);*/
+        atuendos = testito.generarAtuendos();
+        //System.out.println(remerita.tipo);
+        //testito.generarAtuendos().stream().forEach(atuendo->System.out.println(atuendo.prendas()));
+        //testito.generarAtuendos().stream().forEach(atuendo->this.mostrarAtuendos(atuendo.prendas()));
+        //System.out.println(testito.generarAtuendos());
+        atuendos.stream().forEach(atuendo -> atuendo.mostrarPrendas());
+
+    }
+    public void mostrarAtuendos (List<Prenda> atuendo){
+        System.out.println("----------");
+        atuendo.stream().forEach(prenda->System.out.println(prenda.tipo));
+    }
     public List<Color> colores() {
         negro = new Color(0, 0, 0);
         rojo = new Color(255, 0, 0);

@@ -48,12 +48,7 @@ public class Prenda {
 		return this.enUso;
 	}
 	
-	public boolean puedePonerseEn(PrioridadSuperior prioridadSuperior){
-        if (prioridadSuperior.equals(PrioridadSuperior.MEDIABAJA)){
-            return this.tipo.estado().equals(PrioridadSuperior.BAJA) || this.tipo.estado().equals(PrioridadSuperior.MEDIA);
-        }
-        return this.tipo.estado().equals(prioridadSuperior);
-    }
+
 
 	public void setEnUso(){
 		this.enUso = true;

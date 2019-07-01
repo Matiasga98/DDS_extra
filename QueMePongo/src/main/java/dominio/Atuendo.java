@@ -1,9 +1,11 @@
 package dominio;
 
+import dominio.enumerados.Categoria;
 import dominio.enumerados.EstadoAtuendo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Atuendo {
     private List<Prenda> prendas = new ArrayList<Prenda>();
@@ -14,9 +16,41 @@ public class Atuendo {
         this.estado = EstadoAtuendo.NUEVO;
     }
 
+    public void mostrarPrendas (){
+        prendas.stream().forEach(prenda -> System.out.println(prenda.tipo));
+        System.out.println("---");
+    }
+
     public int abrigoTotal(){
         return prendas.stream().mapToInt(prenda -> prenda.tipo.PuntajeAbrigo()).sum();
     }
+
+    public int abrigoSuperior(){
+        return superiores().stream().mapToInt(prenda -> prenda.tipo.PuntajeAbrigo()).sum();
+    }
+    public int abrigoInferior(){
+        return inferiores().stream().mapToInt(prenda -> prenda.tipo.PuntajeAbrigo()).sum();
+    }
+    public int abrigoCalzado(){
+        return calzado().stream().mapToInt(prenda -> prenda.tipo.PuntajeAbrigo()).sum();
+    }
+
+    public List<Prenda> superiores(){
+        return prendas.stream().filter(prenda->prenda.tipo.categoria() == Categoria.PARTE_SUPERIOR).collect(Collectors.toList());
+    }
+    public List<Prenda> inferiores(){
+        return prendas.stream().filter(prenda->prenda.tipo.categoria() == Categoria.PARTE_INFERIOR).collect(Collectors.toList());
+    }
+    public List<Prenda> calzado(){
+        return prendas.stream().filter(prenda->prenda.tipo.categoria() == Categoria.CALZADO).collect(Collectors.toList());
+    }
+    public List<Prenda> accesorio(){
+        return prendas.stream().filter(prenda->prenda.tipo.categoria() == Categoria.ACCESORIOS).collect(Collectors.toList());
+    }
+
+
+
+
     public void cambiarEstado(EstadoAtuendo unEstado){
         estado = unEstado;
     }

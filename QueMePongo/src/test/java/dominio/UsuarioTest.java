@@ -121,7 +121,7 @@ public class UsuarioTest {
         atuendosTest.add(atuendoTest3);
 
 
-        Evento cumpleDeHernan = new Evento("cumple Hernan AAAAA", LocalDateTime.parse("2019-05-31T13:00:00"));
+        Evento cumpleDeHernan = new Evento("cumple Hernan AAAAA", LocalDateTime.parse("2019-05-31T13:00:00"),false);
 
         ProveedorClima mock = new AccuWeather();
         // System.out.println(guardarropa.cantidadPrendas());
