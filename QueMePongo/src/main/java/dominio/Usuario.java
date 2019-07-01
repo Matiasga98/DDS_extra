@@ -4,7 +4,6 @@ import dominio.clima.ProveedorClima;
 import dominio.enumerados.EstadoAtuendo;
 import dominio.excepciones.AtuendoNoPerteneceAGuardarropa;
 import dominio.excepciones.SuperoLaCantidadDePrendas;
-
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -94,5 +93,11 @@ public class Usuario {
     
     public void agragarGuardarropa(Guardarropa guardarropa){
     	this.guardarropas().add(guardarropa);
+    }
+    
+    public Set<Atuendo> pedirSugerenciaParaEventoDeTodosLosGuadaropas(Evento evento, ProveedorClima proveedor, boolean flexible) {
+    	Set<Atuendo> atuendos = new HashSet<Atuendo>();
+    	this.guardarropas().forEach(guardarropa -> atuendos.addAll(guardarropa.sugerirParaEvento(evento, proveedor, flexible)));
+    	return atuendos;
     }
 }
