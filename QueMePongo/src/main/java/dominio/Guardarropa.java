@@ -2,7 +2,6 @@ package dominio;
 
 import java.util.*;
 import java.util.stream.Collectors;
-
 import com.google.common.collect.Sets;
 import dominio.clima.ProveedorClima;
 import dominio.enumerados.Categoria;

@@ -4,15 +4,14 @@ import dominio.clima.AccuweatherData.AccuWeather;
 import dominio.clima.ProveedorClima;
 import dominio.enumerados.Categoria;
 import dominio.enumerados.Material;
+import dominio.enumerados.ModoDeRepeticion;
 import dominio.enumerados.Tipo;
 import dominio.enumerados.Trama;
 import org.junit.Before;
 import org.junit.Test;
-
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.*;
-
 import static java.util.Arrays.asList;
 import static org.junit.Assert.*;
 
@@ -32,14 +31,13 @@ public class UsuarioTest {
 
     List<Color> colores;
     private Evento cumpleDeHernan;
-    private Guardarropa guardarropas;
+    private Guardarropa guardarropa;
 
     @Before
     public void setUp() throws IOException {
-
         borrador = new Borrador();
         usuario = new Usuario(true);
-        Guardarropa guardarropa = new Guardarropa();
+        guardarropa = new Guardarropa();
         usuario.agregarGuardarropa(guardarropa);
         colores = colores();
     }
@@ -120,12 +118,10 @@ public class UsuarioTest {
         atuendosTest.add(atuendoTest2);
         atuendosTest.add(atuendoTest3);
 
-
-        Evento cumpleDeHernan = new Evento("cumple Hernan AAAAA", LocalDateTime.parse("2019-05-31T13:00:00"));
-
         ProveedorClima mock = new AccuWeather();
+        cumpleDeHernan = new Evento("cumple Hernan AAAAA", mock, LocalDateTime.parse("2019-05-31T13:00:00"), ModoDeRepeticion.NUNCA, usuario, false);
         // System.out.println(guardarropa.cantidadPrendas());
-        Set<Atuendo> atuendosSugeridos = usuario.pedirSugerenciaParaEvento(cumpleDeHernan,guardarropa, mock, false );
+        Set<Atuendo> atuendosSugeridos = usuario.pedirSugerenciaParaEvento(cumpleDeHernan,guardarropa, mock, false);
         /*atuendosSugeridos.stream().forEach(atuendo -> atuendo.prendas().stream().forEach(prenda->System.out.println(prenda)));
         System.out.println("--");
         atuendosTest.stream().forEach(atuendo -> atuendo.prendas().stream().forEach(prenda->System.out.println(prenda)));
@@ -156,6 +152,16 @@ public class UsuarioTest {
          Set set2 = new HashSet(Arrays.asList(elements));
          System.out.println(set.equals(set2));*/
     }
+    
+    @Test
+    public void testPlanificador() {
+    	Evento evento = new Evento("Nuevo evento.", mock, LocalDateTime.parse("2019-06-30T23:15:00"), ModoDeRepeticion.NUNCA, usuario, false);
+    	try {
+    		Thread.sleep(120000);
+    	}
+    	catch (InterruptedException e) {}
+    }
+    
     public boolean estaAtuendoEnSet (Atuendo atuendo, Set<Atuendo> atuendos){
        return atuendos.stream().anyMatch(atuendoSet -> compararAtuendos(atuendoSet,atuendo));
 
