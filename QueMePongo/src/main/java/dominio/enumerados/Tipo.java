@@ -20,8 +20,12 @@ public enum Tipo {
     PANTALONINVIERNO(Categoria.PARTE_INFERIOR,0,15,Material.ALGODON),
     SHORT(Categoria.PARTE_INFERIOR, 0, 4, Material.ALGODON),
     POLLERA(Categoria.PARTE_INFERIOR, 0, 2, Material.ALGODON, Material.LANA),
-    ANILLO(Categoria.ACCESORIOS, 0, 0,Material.ORO, Material.DIAMANTE),
-    BUFANDA(Categoria.ACCESORIOS, 0, 7, Material.LANA);
+    ANILLO(Categoria.ACCESORIOS, 1, 0,Material.ORO, Material.DIAMANTE),
+    GUANTES(Categoria.ACCESORIOS,1,5,Material.LANA),
+    LENTES(Categoria.ACCESORIOS,3,0,Material.VIDRIO),
+    GORRO(Categoria.ACCESORIOS,4,5,Material.LANA),
+    BUFANDA(Categoria.ACCESORIOS, 2, 7, Material.LANA);
+
 
     List<Material> materiales = new ArrayList<>();
     Categoria categoria;

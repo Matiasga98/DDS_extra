@@ -118,17 +118,23 @@ public class GuardarropaTest {
         Prenda zapatito =new Prenda(Tipo.ZAPATO, Material.CUERO, Trama.LISA, azul, null);
         Prenda buzito =new Prenda(Tipo.BUZO, Material.ALGODON, Trama.LISA, blanco, null);
         Prenda anillito =new Prenda(Tipo.ANILLO, Material.ORO, Trama.LISA, verde, null);
+        Prenda guantitos =new Prenda(Tipo.GUANTES, Material.LANA, Trama.LISA, verde, null);
+        Prenda bufandita =new Prenda(Tipo.BUFANDA, Material.LANA, Trama.LISA, verde, null);
         Prenda camperita = new Prenda(Tipo.CAMPERA,Material.ALGODON,Trama.LISA,rojo,null);
         Prenda camisita = new Prenda (Tipo.CAMISA,Material.ALGODON,Trama.LISA,azul,null);
+        Prenda lentitos = new Prenda (Tipo.LENTES,Material.VIDRIO,Trama.LISA,negro,null);
         Guardarropa testito = new Guardarropa();
+        testito.agregarPrendas(guantitos);
+        testito.agregarPrendas(bufandita);
         testito.agregarPrendas(remerita);
         testito.agregarPrendas(zapatito);
-        testito.agregarPrendas(buzito);
+        testito.agregarPrendas(lentitos);
+        //testito.agregarPrendas(buzito);
         testito.agregarPrendas(pantaloncito);
         testito.agregarPrendas(anillito);
-        testito.agregarPrendas(camperita);
-        testito.agregarPrendas(camisita);
-        testito.agregarPrendas(inviernito);
+        //testito.agregarPrendas(camperita);
+        //testito.agregarPrendas(camisita);
+        //testito.agregarPrendas(inviernito);
         Set<Atuendo>  atuendos = new HashSet<>();
         /*
         System.out.println(testito.prendasSegunCategoria(Categoria.ACCESORIOS));

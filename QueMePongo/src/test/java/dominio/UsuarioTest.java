@@ -86,7 +86,7 @@ public class UsuarioTest {
         assertEquals(72, usuario.sugerenciasDeAtuendosDeTodosLosGuardarropas().size());
 
     }
-    @Test
+   /* @Test
     public void superTest() {
         usuario = new Usuario(true);
         Guardarropa guardarropa = new Guardarropa();
@@ -130,9 +130,9 @@ public class UsuarioTest {
         /*atuendosSugeridos.stream().forEach(atuendo -> atuendo.prendas().stream().forEach(prenda->System.out.println(prenda)));
         System.out.println("--");
         atuendosTest.stream().forEach(atuendo -> atuendo.prendas().stream().forEach(prenda->System.out.println(prenda)));
-        System.out.println(atuendosSugeridos.containsAll(atuendosTest));*/
+        System.out.println(atuendosSugeridos.containsAll(atuendosTest))
         assertTrue(this.compararSets(atuendosSugeridos,atuendosTest));
-    }
+    }*/
     @Test
     public void testSetEquals(){
         Prenda remera = new Prenda(Tipo.REMERA,Material.ALGODON, Trama.LISA,rojo,null);
@@ -158,7 +158,7 @@ public class UsuarioTest {
          System.out.println(set.equals(set2));*/
     }
     
-    @Test
+    /*@Test
     public void testPlanificador() {
     	Evento evento = new Evento("Nuevo evento.", mock, LocalDateTime.parse("2019-06-30T23:15:00"), ModoDeRepeticion.NUNCA, usuario, false);
     	try {
@@ -166,7 +166,7 @@ public class UsuarioTest {
     	}
     	catch (InterruptedException e) {}
     }
-    
+    */
     public boolean estaAtuendoEnSet (Atuendo atuendo, Set<Atuendo> atuendos){
        return atuendos.stream().anyMatch(atuendoSet -> compararAtuendos(atuendoSet,atuendo));
 

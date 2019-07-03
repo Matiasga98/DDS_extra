@@ -13,6 +13,8 @@ public class Guardarropa {
 	private Set<Atuendo> atuendosAceptados;
 	private Set<Atuendo> atuendosRechazados;
 	private Set<List<Prenda>> combinacionesSuperioresValidas = new HashSet<List<Prenda>>();
+	private Set<List<Prenda>> combinacionesAccesoriosValidas = new HashSet<List<Prenda>>();
+	private Set<Set<Prenda>> combinacionesAccesoriosValidasConRepeticion = new HashSet<Set<Prenda>>();
 
 	public Guardarropa() {
 		prendas = new HashMap<>();
@@ -59,25 +61,60 @@ public class Guardarropa {
 		Set<Prenda> accesorios = prendasSegunCategoria(Categoria.ACCESORIOS);
 
 		//Method Mati
+
 		List<Prenda> superioresDeCapaBaja = superiores.stream().filter(prenda -> prenda.tipo.Capa() <=2).collect(Collectors.toList());
 		superioresDeCapaBaja.stream().forEach(prenda -> this.arnarCondicionInicialSuperiores(prenda));
+		accesorios.stream().forEach(unAccesorio->armarCondicionInicialAccesorios(unAccesorio));
+
 		Set<List<Prenda>> atuendosSinSuperior = Sets.cartesianProduct(
 				inferiores,
-				calzados,
-				accesorios
+				calzados
 		);
+
+		combinacionesAccesoriosValidasConRepeticion.forEach(lista -> combinacionesAccesoriosValidas.add(new ArrayList<>(lista)));
+
 		Set<List<List<Prenda>>> atuendosObtenidos = Sets.cartesianProduct(
 				combinacionesSuperioresValidas,
-				atuendosSinSuperior
+				atuendosSinSuperior,
+				combinacionesAccesoriosValidas
+
 		);
+
 		Set<List<Prenda>> AtuendosFinales = new HashSet<>();
-
 		atuendosObtenidos.stream().forEach(pipi->AtuendosFinales.add(this.aplanarLista(pipi)));
-
 		AtuendosFinales.forEach(lista -> atuendos.add(new Atuendo(lista)));
+
 		return atuendos;
 
 	}
+
+	public void armarCondicionInicialAccesorios (Prenda prenda){
+		Set<Prenda> conjuntoAccesorios = new HashSet<>();
+		conjuntoAccesorios.add(prenda);
+		combinacionesAccesoriosValidasConRepeticion.add(conjuntoAccesorios);
+		Set<Prenda> conjunto = new HashSet<>(conjuntoAccesorios);
+		this.armarAccesorios(conjunto);
+	}
+
+	public void armarAccesorios(Set<Prenda> combinacion){
+		List<Prenda> accesoriosACombinar = arnarAccesoriosACombinar(combinacion);
+		accesoriosACombinar.stream().forEach(unAccesorio->completarAccesorios(combinacion,unAccesorio));
+	}
+
+	public void completarAccesorios(Set<Prenda> combinacion, Prenda accesorio){
+		if (!combinacion.contains(accesorio)) {
+			Set<Prenda> conjuntoNuevo = new HashSet<>();
+			conjuntoNuevo.addAll(combinacion);
+			conjuntoNuevo.add(accesorio);
+
+			combinacionesAccesoriosValidasConRepeticion.add(conjuntoNuevo);
+
+			this.armarAccesorios(conjuntoNuevo);
+		}
+	}
+
+
+
 	public void arnarCondicionInicialSuperiores(Prenda prenda){
 		List<Prenda> conjuntoHastaAhora = new ArrayList<>();
 
@@ -96,7 +133,7 @@ public class Guardarropa {
 	}
 
 	public void completarParteSuperior (List<Prenda> conjuntoHastaAhora, Prenda prenda){
-		if(this.seCumpleCondicionParaAgregar(conjuntoHastaAhora,prenda) && !conjuntoHastaAhora.contains(prenda)){
+		if(this.seCumpleCondicionParaAgregarSuperior(conjuntoHastaAhora,prenda) && !conjuntoHastaAhora.contains(prenda)){
 			List<Prenda> conjuntoNuevo = new ArrayList<>();
 			conjuntoNuevo.addAll(conjuntoHastaAhora);
 			conjuntoNuevo.add(prenda);
@@ -111,12 +148,23 @@ public class Guardarropa {
 	}
 
 
-	public boolean seCumpleCondicionParaAgregar(List<Prenda> conjunto, Prenda prenda){
+	public boolean seCumpleCondicionParaAgregarSuperior(List<Prenda> conjunto, Prenda prenda){
 		if (prenda.tipo.Capa() == conjunto.get(conjunto.size()-1).tipo.Capa()){
 			return conjunto.stream().filter(unaPrenda -> unaPrenda.tipo.Capa() == prenda.tipo.Capa() ).collect(Collectors.toList()).size()<2;
 
 		}
 		return true;
+	}
+
+	public boolean seCumpleCondicionParaAgregarAccesorio(Set<Prenda> combinacion, Prenda prenda){
+		return combinacion.stream().allMatch(accesorio->accesorio.tipo.Capa()!=prenda.tipo.Capa());
+	}
+
+	public List<Prenda> arnarAccesoriosACombinar (Set<Prenda> combinacion){
+
+		Set<Prenda> accesorios = prendasSegunCategoria(Categoria.ACCESORIOS);
+
+		return accesorios.stream().filter(unaPrenda->seCumpleCondicionParaAgregarAccesorio(combinacion,unaPrenda)).collect(Collectors.toList());
 	}
 
 	public List<Prenda> armarSuperioresAPonerArriba (List<Prenda> conjunto){
