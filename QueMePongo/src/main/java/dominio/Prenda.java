@@ -4,6 +4,7 @@ import dominio.enumerados.*;
 
 public class Prenda {
 
+	String nombre;
 	Tipo tipo;
     Material material;
     Trama trama;
@@ -11,8 +12,9 @@ public class Prenda {
 	Color colorSecundario;
 	boolean enUso;
 
-    public Prenda(Tipo tipo, Material material, Trama trama, Color colorPrimario, Color colorSecundario) {
-		this.tipo = tipo;
+    public Prenda(String nombre, Tipo tipo, Material material, Trama trama, Color colorPrimario, Color colorSecundario) {
+		this.nombre = nombre;
+    	this.tipo = tipo;
         this.material = material;
         this.trama = trama;
 		this.colorPrimario = colorPrimario;
@@ -20,6 +22,10 @@ public class Prenda {
 		this.enUso = false;
 	}
 
+    public String nombre() {
+    	return nombre;
+    }
+    
     public Tipo tipo() {
 		return tipo;
 	}

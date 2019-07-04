@@ -37,6 +37,7 @@ public class BorradorTest {
         amarillo = new Color(255, 233, 0);
 
         //COMPLETAMOS
+        borrador.definirNombre("Jeans");
         borrador.definirTipo(Tipo.PANTALON);
         borrador.definirMaterial(Material.JEAN);
         borrador.definirColorPrimario(azul);
@@ -88,7 +89,7 @@ public class BorradorTest {
         Prenda prenda = borrador.crearPrenda();
 
         assertNotNull(prenda);
-
+        assertEquals("Jeans", prenda.nombre());
         assertEquals(Tipo.PANTALON, prenda.tipo());
         assertEquals(Material.JEAN, prenda.material());
         assertEquals(Trama.LISA, prenda.trama());

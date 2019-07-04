@@ -101,4 +101,12 @@ public class Atuendo {
     public boolean estaEnUso(){
     	return this.prendas().stream().anyMatch(prenda -> prenda.enUso());
     }
+    
+    public String toString() {
+    	String string = "Atuendo {";
+    	for (Prenda prenda : this.prendas)
+    		string += prenda.nombre() + ", ";
+    	string += "}\n";
+    	return string;
+    }
 }

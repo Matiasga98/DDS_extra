@@ -8,12 +8,17 @@ import dominio.excepciones.*;
 import static java.util.Objects.requireNonNull;
 
 public class Borrador {
+	String nombre;
 	Tipo tipo;
 	Color colorPrimario;
 	Color colorSecundario;
 	Trama trama = Trama.LISA;
 	Material material;
 
+	public void definirNombre(String nombre) {
+		this.nombre = nombre;
+	}
+	
 	public void definirTipo(Tipo tipoPrenda) {
 		this.tipo = tipoPrenda;
 	}
@@ -35,6 +40,7 @@ public class Borrador {
 	}
 
 	public Prenda crearPrenda() {
+		requireNonNull(nombre, "Se requiere un nombre");
 		requireNonNull(tipo, "Se requiere un tipo");
 		requireNonNull(material, "Se requiere un material");
 		requireNonNull(colorPrimario, "Se requiere un color primario");
@@ -42,7 +48,7 @@ public class Borrador {
 		chequearColorDistinto();
 		chequearMaterialSegunTipoDePrenda();
 
-		return new Prenda(tipo, material, trama, colorPrimario, colorSecundario);
+		return new Prenda(nombre, tipo, material, trama, colorPrimario, colorSecundario);
 	}
 
 	private void chequearColorDistinto() {
