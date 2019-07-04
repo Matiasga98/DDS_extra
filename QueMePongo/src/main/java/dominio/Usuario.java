@@ -1,6 +1,7 @@
 package dominio;
 
 import dominio.clima.ProveedorClima;
+import dominio.enumerados.Categoria;
 import dominio.enumerados.EstadoAtuendo;
 import dominio.excepciones.AtuendoNoPerteneceAGuardarropa;
 import dominio.excepciones.SuperoLaCantidadDePrendas;
@@ -13,12 +14,21 @@ public class Usuario {
     private Set<Evento> eventos;
     private boolean esPremium = false;
     private int prendasMaximas = 20;
+    private Set<Categoria> friolentoEn = new HashSet<>();
+    private Set<Categoria> calurosoEn = new HashSet<>();
 
     public Usuario(boolean esPago) {
         this.guardarropas = new HashSet<>();
         this.eventos = new HashSet<>();
         this.esPremium = esPago;
         this.prendasMaximas = 20;
+    }
+    public Set<Categoria> FriolentoEn(){
+        return friolentoEn;
+    }
+
+    public Set<Categoria> CalurosoEn(){
+        return calurosoEn;
     }
 
     public Set<Guardarropa> guardarropas() {
@@ -48,7 +58,7 @@ public class Usuario {
     }
 
     public Set<Atuendo> pedirSugerenciaParaEvento (Evento evento, Guardarropa guardarropa, ProveedorClima unProveedor, boolean flexible){
-        return guardarropa.sugerirParaEvento(evento, unProveedor, flexible );
+        return guardarropa.sugerirParaEvento(evento, unProveedor, flexible, this );
     }
     public void aceptarSugerencia (Atuendo atuendo, Guardarropa guardarropa){
         guardarropaIncluyeAtuendo(guardarropa,atuendo);
@@ -97,7 +107,8 @@ public class Usuario {
     
     public Set<Atuendo> pedirSugerenciaParaEventoDeTodosLosGuadaropas(Evento evento, ProveedorClima proveedor, boolean flexible) {
     	Set<Atuendo> atuendos = new HashSet<Atuendo>();
-    	this.guardarropas().forEach(guardarropa -> atuendos.addAll(guardarropa.sugerirParaEvento(evento, proveedor, flexible)));
+    	this.guardarropas().forEach(guardarropa -> atuendos.addAll(guardarropa.sugerirParaEvento(evento, proveedor, flexible, this)));
     	return atuendos;
     }
+
 }

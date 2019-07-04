@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 import com.google.common.collect.Sets;
 import dominio.clima.ProveedorClima;
 import dominio.enumerados.Categoria;
+import org.checkerframework.checker.units.qual.C;
 
 
 public class Guardarropa {
@@ -24,6 +25,10 @@ public class Guardarropa {
 		prendas.put(Categoria.PARTE_INFERIOR, new HashSet<>());
 		prendas.put(Categoria.CALZADO, new HashSet<>());
 		prendas.put(Categoria.ACCESORIOS, new HashSet<>());
+		prendas.put(Categoria.CABEZA, new HashSet<>());
+		prendas.put(Categoria.CARA, new HashSet<>());
+		prendas.put(Categoria.CUELLO, new HashSet<>());
+		prendas.put(Categoria.MANOS, new HashSet<>());
 	}
 
 	public boolean incluye(Prenda prenda){
@@ -58,7 +63,7 @@ public class Guardarropa {
 		Set<Prenda> superiores = prendasSegunCategoria(Categoria.PARTE_SUPERIOR);
 		Set<Prenda> inferiores = prendasSegunCategoria(Categoria.PARTE_INFERIOR);
 		Set<Prenda> calzados = prendasSegunCategoria(Categoria.CALZADO);
-		Set<Prenda> accesorios = prendasSegunCategoria(Categoria.ACCESORIOS);
+		Set<Prenda> accesorios = conseguirAccesorios();
 
 		//Method Mati
 
@@ -113,7 +118,14 @@ public class Guardarropa {
 		}
 	}
 
+	public Set<Prenda> conseguirAccesorios(){
 
+		Set<Prenda> accesorios = prendasSegunCategoria(Categoria.CABEZA);
+		accesorios.addAll(prendasSegunCategoria(Categoria.CUELLO));
+		accesorios.addAll(prendasSegunCategoria(Categoria.CARA));
+		accesorios.addAll(prendasSegunCategoria(Categoria.MANOS));
+		return accesorios;
+	}
 
 	public void arnarCondicionInicialSuperiores(Prenda prenda){
 		List<Prenda> conjuntoHastaAhora = new ArrayList<>();
@@ -157,12 +169,12 @@ public class Guardarropa {
 	}
 
 	public boolean seCumpleCondicionParaAgregarAccesorio(Set<Prenda> combinacion, Prenda prenda){
-		return combinacion.stream().allMatch(accesorio->accesorio.tipo.Capa()!=prenda.tipo.Capa());
+		return combinacion.stream().allMatch(accesorio->accesorio.tipo.categoria()!=prenda.tipo.categoria());
 	}
 
 	public List<Prenda> arnarAccesoriosACombinar (Set<Prenda> combinacion){
 
-		Set<Prenda> accesorios = prendasSegunCategoria(Categoria.ACCESORIOS);
+		Set<Prenda> accesorios = conseguirAccesorios();
 
 		return accesorios.stream().filter(unaPrenda->seCumpleCondicionParaAgregarAccesorio(combinacion,unaPrenda)).collect(Collectors.toList());
 	}
@@ -175,33 +187,88 @@ public class Guardarropa {
 
 
 
-	public Set<Atuendo> generarSugerencia(Double temperatura, Set<Atuendo> atuendos, boolean flexible) {
+	public Set<Atuendo> generarSugerencia(Double temperatura, Set<Atuendo> atuendos, boolean flexible, Usuario usuario) {
 		if (flexible) {
-			return atuendos.stream().filter(atuendo -> estaBienVestidoFlexible(atuendo, temperatura) && !atuendo.estaEnUso()).collect(Collectors.toSet());
+			return atuendos.stream().filter(atuendo -> estaBienVestidoFlexible(atuendo, temperatura, usuario) && !atuendo.estaEnUso()).collect(Collectors.toSet());
 
 		}
 		else{
-			return atuendos.stream().filter(atuendo -> estaBienVestido(atuendo, temperatura) && !atuendo.estaEnUso()).collect(Collectors.toSet());
+			return atuendos.stream().filter(atuendo -> estaBienVestido(atuendo, temperatura, usuario) && !atuendo.estaEnUso()).collect(Collectors.toSet());
 
 		}
 	}
 
-	public Set<Atuendo> sugerirParaEvento(Evento evento, ProveedorClima proveedor, boolean flexible){
+	public Set<Atuendo> sugerirParaEvento(Evento evento, ProveedorClima proveedor, boolean flexible, Usuario usuario){
 		Set<Atuendo> atuendos = this.generarAtuendos();
 		double temperatura = proveedor.temperatura(evento.getFecha());
 
-		return this.generarSugerencia(temperatura, atuendos, flexible);
+		return this.generarSugerencia(temperatura, atuendos, flexible, usuario);
 	}
 
-	public boolean estaBienVestido(Atuendo atuendo, Double temperatura){
-		return atuendo.abrigoTotal()>= 36-temperatura && atuendo.abrigoTotal() <= 46 - temperatura && estaDistribuidoElAbrigo(atuendo, temperatura);
+	public boolean estaBienVestido(Atuendo atuendo, Double temperatura, Usuario usuario){
+		return atuendo.abrigoTotal()>= 36-temperatura && atuendo.abrigoTotal() <= 46 - temperatura && estaDistribuidoElAbrigo(atuendo, temperatura, usuario);
 	}
-	public boolean estaDistribuidoElAbrigo (Atuendo atuendo, Double temperatura){
-		return atuendo.abrigoSuperior()>= (36-temperatura)*0.6 && atuendo.abrigoInferior()>= (36-temperatura)*0.3 && atuendo.abrigoCalzado() >= (36-temperatura)*0.1;
+	public boolean estaDistribuidoElAbrigo (Atuendo atuendo, Double temperatura, Usuario usuario){
+		return estaAbrigadoEnSuperior(atuendo, temperatura, usuario)
+				&& estaAbrigadoEnInferior(atuendo, temperatura, usuario)
+				&& estaAbrigadoEnCalzado(atuendo,temperatura,usuario)
+				&& estaAbrigadoEnAccesorios(atuendo,temperatura,usuario) ;
+
 	}
 
-	public boolean estaBienVestidoFlexible(Atuendo atuendo, Double temperatura){
-		return atuendo.abrigoTotal()>= 26-temperatura && atuendo.abrigoTotal() <= 56 - temperatura && estaDistribuidoElAbrigo(atuendo, temperatura);
+	public boolean estaAbrigadoEnSuperior (Atuendo atuendo, Double temperatura, Usuario usuario){
+		return atuendo.abrigoSuperior()>= (coeficienteDeTemperaturaPrincipal(usuario,Categoria.PARTE_SUPERIOR)-temperatura)*0.6;
+	}
+	public boolean estaAbrigadoEnInferior (Atuendo atuendo, Double temperatura, Usuario usuario){
+		return atuendo.abrigoInferior()>= (coeficienteDeTemperaturaPrincipal(usuario,Categoria.PARTE_INFERIOR)-temperatura)*0.3;
+	}
+	public boolean estaAbrigadoEnCalzado (Atuendo atuendo, Double temperatura, Usuario usuario){
+		return atuendo.abrigoCalzado()>= (coeficienteDeTemperaturaPrincipal(usuario,Categoria.CALZADO)-temperatura)*0.1;
+	}
+	public boolean estaAbrigadoEnAccesorios(Atuendo atuendo, Double temperatura, Usuario usuario){
+		return estaAbrigadoEnMano(atuendo,temperatura,usuario)
+				&& estaAbrigadoEnCabeza(atuendo,temperatura,usuario)
+				&& estaAbrigadoEnCara(atuendo,temperatura,usuario)
+				&& estaAbrigadoEnCuello(atuendo,temperatura,usuario);
+	}
+	public boolean estaAbrigadoEnMano (Atuendo atuendo, Double temperatura, Usuario usuario){
+		return atuendo.abrigoManos()>coeficienteDeTemperaturaAccesorios(usuario, Categoria.MANOS);
+	}
+	public boolean estaAbrigadoEnCuello(Atuendo atuendo, Double temperatura, Usuario usuario){
+		return atuendo.abrigoCuello()>coeficienteDeTemperaturaAccesorios(usuario, Categoria.CUELLO);
+	}
+	public boolean estaAbrigadoEnCara (Atuendo atuendo, Double temperatura, Usuario usuario){
+		return atuendo.abrigoCara()>coeficienteDeTemperaturaAccesorios(usuario, Categoria.CARA);
+	}
+	public boolean estaAbrigadoEnCabeza(Atuendo atuendo, Double temperatura, Usuario usuario){
+		return atuendo.abrigoCabeza()>coeficienteDeTemperaturaAccesorios(usuario, Categoria.CABEZA);
+	}
+
+
+
+
+	public int coeficienteDeTemperaturaPrincipal(Usuario usuario, Categoria categoria){
+		if(usuario.FriolentoEn().contains(categoria)) {
+				return 40;//Da un valor mayor ya que al ser mayor, requiere de un abrigo mayor, significando que es friolento
+		}
+		if(usuario.CalurosoEn().contains(categoria)){
+			return 30;    //Da un valor menor ya que al ser menor, requiere de un abrigo menor, significando que es caluroso
+		}
+		return 36;
+	}
+	public int coeficienteDeTemperaturaAccesorios(Usuario usuario, Categoria categoria){
+		if(usuario.FriolentoEn().contains(categoria)) {
+			return 5; //Da un valor porque si es friolento, requiere de abrigo en ese sector
+		}
+		return 0; // Da 0 porque si no es friolento, no requiere de abrigo en ese sector y puede usar accesorios que no abriguen (anillo)
+	}
+
+
+
+
+
+	public boolean estaBienVestidoFlexible(Atuendo atuendo, Double temperatura, Usuario usuario){
+		return atuendo.abrigoTotal()>= 26-temperatura && atuendo.abrigoTotal() <= 56 - temperatura && estaDistribuidoElAbrigo(atuendo, temperatura,usuario);
 	}
 	public boolean estaDistribuidoElAbrigoFlexible (Atuendo atuendo, Double temperatura){
 		return atuendo.abrigoSuperior()>= (26-temperatura)*0.6 && atuendo.abrigoInferior()>= (26-temperatura)*0.3 && atuendo.abrigoCalzado() >= (26-temperatura)*0.1;
