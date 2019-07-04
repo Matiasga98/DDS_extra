@@ -43,4 +43,12 @@ public class Evento {
     public boolean isTieneSugerencias() {
         return tieneSugerencias;
     }
+    
+    public Alertador getAlertador() {
+    	return alertador;
+    }
+    
+    public void setAlertador(Alertador alertador) {
+    	this.alertador = alertador;
+    }
 }

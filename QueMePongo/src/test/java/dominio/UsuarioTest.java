@@ -158,15 +158,13 @@ public class UsuarioTest {
          System.out.println(set.equals(set2));*/
     }
     
-    /*@Test
+    @Test
     public void testPlanificador() {
-    	Evento evento = new Evento("Nuevo evento.", mock, LocalDateTime.parse("2019-06-30T23:15:00"), ModoDeRepeticion.NUNCA, usuario, false);
-    	try {
-    		Thread.sleep(120000);
-    	}
-    	catch (InterruptedException e) {}
+    	ProveedorClima mock = new AccuWeather();
+    	Evento evento = new Evento("Nuevo evento.", mock, LocalDateTime.parse("2019-06-30T23:15:00"), ModoDeRepeticion.ANUAL, usuario, false);
+    	assertTrue(evento.getAlertador().planificador.isStarted());
     }
-    */
+    
     public boolean estaAtuendoEnSet (Atuendo atuendo, Set<Atuendo> atuendos){
        return atuendos.stream().anyMatch(atuendoSet -> compararAtuendos(atuendoSet,atuendo));
 

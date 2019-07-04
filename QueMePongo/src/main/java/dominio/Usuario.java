@@ -7,7 +7,7 @@ import dominio.excepciones.AtuendoNoPerteneceAGuardarropa;
 import dominio.excepciones.SuperoLaCantidadDePrendas;
 import org.uqbar.commons.model.Entity;
 import org.uqbar.commons.model.annotations.Observable;
-
+import dominio.Notificadores.Notificador;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 @Observable
 public class Usuario extends Entity {
 
+	private Set<Notificador> mediosDeNotificacion;
     private String nombre;
     private Set<Guardarropa> guardarropas;
     private Set<Evento> eventos;
@@ -128,5 +129,27 @@ public class Usuario extends Entity {
 
     public String getNombre() {
         return nombre;
+    }
+    
+    public Set<Notificador> getMediosDeNotificacion() {
+    	return mediosDeNotificacion;
+    }
+    
+    public void setMediosDeNotificacion(Set<Notificador> medios) {
+    	this.mediosDeNotificacion = medios;
+    }
+    
+    public void agregarMedioDeNotificacion(Notificador medio) {
+    	this.getMediosDeNotificacion().add(medio);
+    }
+    
+    public void removerMedioDeNotificacion(Notificador medio) {
+    	this.getMediosDeNotificacion().remove(medio);
+    }
+    
+    public Set<Atuendo> notificarme(Evento evento, ProveedorClima proveedor, boolean flexible) {
+    	Set<Atuendo> sugerencias = this.pedirSugerenciaParaEventoDeTodosLosGuadaropas(evento, proveedor, flexible);
+    	this.getMediosDeNotificacion().forEach(medio -> medio.notificar(sugerencias));
+    	return sugerencias;
     }
 }

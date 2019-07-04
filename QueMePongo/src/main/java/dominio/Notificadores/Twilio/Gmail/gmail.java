@@ -4,10 +4,18 @@ import java.util.*;
 import javax.mail.*;
 import javax.mail.internet.*;
 import javax.activation.*;
+import java.util.Set;
+import dominio.Atuendo;
+import dominio.Notificadores.Notificador;
 
-public class gmail {
+public class gmail implements Notificador {
 
-    public static void mandarMail() {
+	@Override
+	public void notificar(Set<Atuendo> sugerencias) {
+		mandarMail(sugerencias);
+	}
+	
+    public static void mandarMail(Set<Atuendo> sugerencias) {
         final String username = "elapuestoelio@gmail.com";
         final String password = "elapuestoelio";
 
@@ -32,9 +40,8 @@ public class gmail {
                     Message.RecipientType.TO,
                     InternetAddress.parse("diegodanielgagliardi@gmail.com, hernanrodriguez806@gmail.com, matiasgamal98@gmail.com")
             );
-            message.setSubject("Tu cuenta de SHAUAUA esta a punto de expirar");
-            message.setText("Estimado señor \"Deko\","
-                    + "\n\n Le enviamos esta notificacion para recordarle que renueve su subscripcion a SHAUAUA anual. Por favor pague la cuota correspondiente y realice el KERNEl. Si realiza este trabajo en tiempo y forma, perseguiremos acciones legales. \n\n Queda usted notificado. \n\n Este mail ha sido enviado desde Java (c)");
+            message.setSubject("Se acerca un nuevo evento!! Come de verdad!!");
+            message.setText("Se te sugiere que uses los siguientes atuendos para que te veas bonito: " + sugerencias);
 
             Transport.send(message);
 

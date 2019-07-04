@@ -15,12 +15,11 @@ public class Alertador {
 		this.usuario = usuario;
 		this.evento = evento;
 		this.modoRepetitivo = modo;
-        if (this.modoRepetitivo.equals(ModoDeRepeticion.MENSUAL))
-        	planificador.schedule(unaFecha.getMinute() + " " + (unaFecha.getHour() - 1) + " " + unaFecha.getDayOfMonth() + " " + "* *", new Runnable() {public void run() {System.out.println(usuario.pedirSugerenciaParaEventoDeTodosLosGuadaropas(evento, proveedor, flexible));}});
-        else if (this.modoRepetitivo.equals(ModoDeRepeticion.ANUAL))
-        	planificador.schedule(unaFecha.getMinute() + " " + (unaFecha.getHour() - 1) + " " + unaFecha.getDayOfMonth() + " " + unaFecha.getMonthValue() + " *", new Runnable() {public void run() {usuario.pedirSugerenciaParaEventoDeTodosLosGuadaropas(evento, proveedor, flexible);}});
-        else
-        	planificador.schedule(unaFecha.getMinute() + " " + (unaFecha.getHour() - 1) + " " + unaFecha.getDayOfMonth() + " " + unaFecha.getMonthValue() + " *", new Runnable() {public void run() {System.out.println(usuario.pedirSugerenciaParaEventoDeTodosLosGuadaropas(evento, proveedor, flexible));}});
+		switch (modo) {
+			case DIARIO: planificador.schedule(unaFecha.getMinute() + " " + (unaFecha.getHour() - 1) + " * * *", new Runnable() {public void run() {usuario.notificarme(evento, proveedor, flexible);}}); break;
+			case MENSUAL: planificador.schedule(unaFecha.getMinute() + " " + (unaFecha.getHour() - 1) + " " + unaFecha.getDayOfMonth() + " * *", new Runnable() {public void run() {usuario.notificarme(evento, proveedor, flexible);}}); break;
+			case ANUAL: planificador.schedule(unaFecha.getMinute() + " " + (unaFecha.getHour() - 1) + " " + unaFecha.getDayOfMonth() + " " + unaFecha.getMonthValue() + " *", new Runnable() {public void run() {usuario.notificarme(evento, proveedor, flexible);}}); break;
+		}
         planificador.start();
 	}
 }

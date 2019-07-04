@@ -1,5 +1,5 @@
 package dominio.enumerados;
 
 public enum ModoDeRepeticion {
-	MENSUAL, ANUAL, NUNCA;
+	DIARIO, MENSUAL, ANUAL;
 }
