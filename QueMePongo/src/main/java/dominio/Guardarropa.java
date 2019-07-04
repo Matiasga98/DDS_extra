@@ -5,7 +5,6 @@ import java.util.stream.Collectors;
 import com.google.common.collect.Sets;
 import dominio.clima.ProveedorClima;
 import dominio.enumerados.Categoria;
-import org.checkerframework.checker.units.qual.C;
 
 
 public class Guardarropa {
@@ -200,7 +199,7 @@ public class Guardarropa {
 
 	public Set<Atuendo> sugerirParaEvento(Evento evento, ProveedorClima proveedor, boolean flexible, Usuario usuario){
 		Set<Atuendo> atuendos = this.generarAtuendos();
-		double temperatura = proveedor.temperatura(evento.getFecha());
+		double temperatura = proveedor.temperatura(evento.getFechaYHora());
 
 		return this.generarSugerencia(temperatura, atuendos, flexible, usuario);
 	}

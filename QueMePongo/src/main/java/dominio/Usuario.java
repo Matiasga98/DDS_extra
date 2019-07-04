@@ -5,17 +5,28 @@ import dominio.enumerados.Categoria;
 import dominio.enumerados.EstadoAtuendo;
 import dominio.excepciones.AtuendoNoPerteneceAGuardarropa;
 import dominio.excepciones.SuperoLaCantidadDePrendas;
+import org.uqbar.commons.model.Entity;
+import org.uqbar.commons.model.annotations.Observable;
+
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class Usuario {
+@Observable
+public class Usuario extends Entity {
+
+    private String nombre;
     private Set<Guardarropa> guardarropas;
     private Set<Evento> eventos;
     private boolean esPremium = false;
     private int prendasMaximas = 20;
     private Set<Categoria> friolentoEn = new HashSet<>();
     private Set<Categoria> calurosoEn = new HashSet<>();
+
+    public  Usuario(String nombre, Set<Evento> eventos){
+        this.nombre = nombre;
+        this.eventos = eventos;
+    }
 
     public Usuario(boolean esPago) {
         this.guardarropas = new HashSet<>();
@@ -111,4 +122,11 @@ public class Usuario {
     	return atuendos;
     }
 
+    public Set<Evento> getEventos() {
+        return eventos;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
 }
