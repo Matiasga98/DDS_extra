@@ -152,4 +152,10 @@ public class Usuario extends Entity {
     	this.getMediosDeNotificacion().forEach(medio -> medio.notificar(sugerencias));
     	return sugerencias;
     }
+    
+    public Set<Atuendo> alertarme(Evento evento, ProveedorClima proveedor, boolean flexible) {
+    	Set<Atuendo> sugerencias = this.pedirSugerenciaParaEventoDeTodosLosGuadaropas(evento, proveedor, flexible);
+    	this.getMediosDeNotificacion().forEach(medio -> medio.alertar(sugerencias));
+    	return sugerencias;
+    }
 }

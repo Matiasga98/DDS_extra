@@ -17,12 +17,26 @@ public class twilio implements Notificador {
     	MandarWpp(sugerencias);
     }
     
+    @Override
+    public void alertar(Set<Atuendo> sugerencias) {
+    	AlertaMeteorologica(sugerencias);
+    }
+    
     public static void MandarWpp(Set<Atuendo> sugerencias) {
         Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
         Message message = Message.creator(
                 new com.twilio.type.PhoneNumber("whatsapp:+5491131200062"),
                 new com.twilio.type.PhoneNumber("whatsapp:+14155238886"),
                 "Se acerca un nuevo evento!! Vestite bien!! " + sugerencias)
+                .create();
+    }
+    
+    public static void AlertaMeteorologica(Set<Atuendo> sugerencias) {
+    	Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
+        Message message = Message.creator(
+                new com.twilio.type.PhoneNumber("whatsapp:+5491131200062"),
+                new com.twilio.type.PhoneNumber("whatsapp:+14155238886"),
+                "Se ha detectado una nueva alerta meteorológica por lo que tus posibles atuendos deben ser reformulados. " + sugerencias)
                 .create();
     }
 }

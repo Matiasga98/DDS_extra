@@ -1,5 +1,6 @@
 package dominio;
 
+import java.util.Set;
 import java.time.LocalDateTime;
 import dominio.clima.ProveedorClima;
 import dominio.enumerados.ModoDeRepeticion;
@@ -16,9 +17,9 @@ public class Alertador {
 		this.evento = evento;
 		this.modoRepetitivo = modo;
 		switch (modo) {
-			case DIARIO: planificador.schedule(unaFecha.getMinute() + " " + (unaFecha.getHour() - 1) + " * * *", new Runnable() {public void run() {usuario.notificarme(evento, proveedor, flexible);}}); break;
-			case MENSUAL: planificador.schedule(unaFecha.getMinute() + " " + (unaFecha.getHour() - 1) + " " + unaFecha.getDayOfMonth() + " * *", new Runnable() {public void run() {usuario.notificarme(evento, proveedor, flexible);}}); break;
-			case ANUAL: planificador.schedule(unaFecha.getMinute() + " " + (unaFecha.getHour() - 1) + " " + unaFecha.getDayOfMonth() + " " + unaFecha.getMonthValue() + " *", new Runnable() {public void run() {usuario.notificarme(evento, proveedor, flexible);}}); break;
+			case DIARIO: planificador.schedule(unaFecha.getMinute() + " " + (unaFecha.getHour() - 1) + " * * *", new Runnable() {public void run() {Set<Atuendo> sugerencias = proveedor.temperatura(unaFecha) > 10? usuario.notificarme(evento, proveedor, flexible) : usuario.alertarme(evento, proveedor, flexible);}}); break;
+			case MENSUAL: planificador.schedule(unaFecha.getMinute() + " " + (unaFecha.getHour() - 1) + " " + unaFecha.getDayOfMonth() + " * *", new Runnable() {public void run() {Set<Atuendo> sugerencias = proveedor.temperatura(unaFecha) > 10? usuario.notificarme(evento, proveedor, flexible) : usuario.alertarme(evento, proveedor, flexible);}}); break;
+			case ANUAL: planificador.schedule(unaFecha.getMinute() + " " + (unaFecha.getHour() - 1) + " " + unaFecha.getDayOfMonth() + " " + unaFecha.getMonthValue() + " *", new Runnable() {public void run() {Set<Atuendo> sugerencias = proveedor.temperatura(unaFecha) > 10? usuario.notificarme(evento, proveedor, flexible) : usuario.alertarme(evento, proveedor, flexible);}}); break;
 		}
         planificador.start();
 	}

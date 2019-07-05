@@ -7,4 +7,6 @@ public interface Notificador {
 	
 	public void notificar(Set<Atuendo> sugerencias);
 	
+	public void alertar(Set<Atuendo> sugerencias);
+	
 }
