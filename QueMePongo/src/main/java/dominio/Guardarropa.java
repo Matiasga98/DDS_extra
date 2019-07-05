@@ -15,6 +15,7 @@ public class Guardarropa {
 	private Set<List<Prenda>> combinacionesSuperioresValidas = new HashSet<List<Prenda>>();
 	private Set<List<Prenda>> combinacionesAccesoriosValidas = new HashSet<List<Prenda>>();
 	private Set<Set<Prenda>> combinacionesAccesoriosValidasConRepeticion = new HashSet<Set<Prenda>>();
+	private int coeficienteDeTemperatura = 36;
 
 	public Guardarropa() {
 		prendas = new HashMap<>();
@@ -205,7 +206,13 @@ public class Guardarropa {
 	}
 
 	public boolean estaBienVestido(Atuendo atuendo, Double temperatura, Usuario usuario){
-		return atuendo.abrigoTotal()>= 36-temperatura && atuendo.abrigoTotal() <= 46 - temperatura && estaDistribuidoElAbrigo(atuendo, temperatura, usuario);
+		if(usuario.EsFriolento()) {
+			coeficienteDeTemperatura += 6;
+		}
+		if(usuario.EsCaluroso()){
+			coeficienteDeTemperatura-=6;
+		}
+		return atuendo.abrigoTotal() >= coeficienteDeTemperatura - temperatura && atuendo.abrigoTotal() <= coeficienteDeTemperatura+10 - temperatura && estaDistribuidoElAbrigo(atuendo, temperatura, usuario);
 	}
 	public boolean estaDistribuidoElAbrigo (Atuendo atuendo, Double temperatura, Usuario usuario){
 		return estaAbrigadoEnSuperior(atuendo, temperatura, usuario)
@@ -289,4 +296,11 @@ public class Guardarropa {
 	public boolean incluye(Atuendo atuendo){
 		return atuendo.prendas().stream().allMatch(prenda -> incluye(prenda));
 	}
+
+	public void procesarCalificacion (Calificacion calificacion, Usuario usuario){
+		usuario.FriolentoEn().addAll(calificacion.friolentoEn);
+		usuario.CalurosoEn().addAll(calificacion.calurosoEn);
+
+	}
+
 }

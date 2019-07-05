@@ -3,6 +3,7 @@ package dominio;
 import dominio.clima.ProveedorClima;
 import dominio.enumerados.Categoria;
 import dominio.enumerados.EstadoAtuendo;
+import dominio.enumerados.SuceptibilidadATemperatura;
 import dominio.excepciones.AtuendoNoPerteneceAGuardarropa;
 import dominio.excepciones.SuperoLaCantidadDePrendas;
 import org.uqbar.commons.model.Entity;
@@ -23,6 +24,9 @@ public class Usuario extends Entity {
     private int prendasMaximas = 20;
     private Set<Categoria> friolentoEn = new HashSet<>();
     private Set<Categoria> calurosoEn = new HashSet<>();
+    private SuceptibilidadATemperatura suceptibilidad;
+    private boolean esFriolento;
+    private boolean esCaluroso;
 
     public  Usuario(String nombre, Set<Evento> eventos){
         this.nombre = nombre;
@@ -38,9 +42,15 @@ public class Usuario extends Entity {
     public Set<Categoria> FriolentoEn(){
         return friolentoEn;
     }
-
+    public boolean EsFriolento(){
+        return suceptibilidad.equals(SuceptibilidadATemperatura.FRIOLENTO);
+    }
     public Set<Categoria> CalurosoEn(){
         return calurosoEn;
+    }
+
+    public boolean EsCaluroso(){
+        return suceptibilidad.equals(SuceptibilidadATemperatura.CALUROSO);
     }
 
     public Set<Guardarropa> guardarropas() {
