@@ -135,7 +135,7 @@ public class UsuarioTest {
     }*/
     @Test
     public void testSetEquals(){
-        Prenda remera = new Prenda(Tipo.REMERA,Material.ALGODON, Trama.LISA,rojo,null);
+        Prenda remera = new Prenda("remera",Tipo.REMERA,Material.ALGODON, Trama.LISA,rojo,null);
         List<Prenda> prendaTest = new ArrayList<>();
         prendaTest.add(remera);
         Atuendo atuendo1 = new Atuendo(prendaTest);

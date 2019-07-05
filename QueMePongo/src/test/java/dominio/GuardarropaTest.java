@@ -101,28 +101,28 @@ public class GuardarropaTest {
     @Test
     public void MeCalculaBienElAbrigo() {
         Atuendo atuendoDePrueba = new Atuendo(Arrays.asList(
-                new Prenda(Tipo.REMERA, Material.ALGODON, Trama.LISA, negro, null),
-                new Prenda(Tipo.PANTALON, Material.JEAN, Trama.LISA, rojo, null),
-                new Prenda(Tipo.ZAPATO, Material.CUERO, Trama.LISA, azul, null),
-                new Prenda(Tipo.BUZO, Material.ALGODON, Trama.LISA, blanco, null),
-                new Prenda(Tipo.ANILLO, Material.ORO, Trama.LISA, verde, null)
+                new Prenda("remera", Tipo.REMERA, Material.ALGODON, Trama.LISA, negro, null),
+                new Prenda("pantalon", Tipo.PANTALON, Material.JEAN, Trama.LISA, rojo, null),
+                new Prenda("zapato", Tipo.ZAPATO, Material.CUERO, Trama.LISA, azul, null),
+                new Prenda("buzo", Tipo.BUZO, Material.ALGODON, Trama.LISA, blanco, null),
+                new Prenda("anillo", Tipo.ANILLO, Material.ORO, Trama.LISA, verde, null)
                 ));
         assertEquals(21,atuendoDePrueba.abrigoTotal());
     }
 
     @Test
     public void GenerarAtuendosNuevo() {
-        Prenda remerita = new Prenda(Tipo.REMERA, Material.ALGODON, Trama.LISA, negro, null);
-        Prenda pantaloncito =new Prenda(Tipo.PANTALON, Material.JEAN, Trama.LISA, rojo, null);
-        Prenda inviernito =new Prenda(Tipo.PANTALONINVIERNO, Material.JEAN, Trama.LISA, rojo, null);
-        Prenda zapatito =new Prenda(Tipo.ZAPATO, Material.CUERO, Trama.LISA, azul, null);
-        Prenda buzito =new Prenda(Tipo.BUZO, Material.ALGODON, Trama.LISA, blanco, null);
-        Prenda anillito =new Prenda(Tipo.ANILLO, Material.ORO, Trama.LISA, verde, null);
-        Prenda guantitos =new Prenda(Tipo.GUANTES, Material.LANA, Trama.LISA, verde, null);
-        Prenda bufandita =new Prenda(Tipo.BUFANDA, Material.LANA, Trama.LISA, verde, null);
-        Prenda camperita = new Prenda(Tipo.CAMPERA,Material.ALGODON,Trama.LISA,rojo,null);
-        Prenda camisita = new Prenda (Tipo.CAMISA,Material.ALGODON,Trama.LISA,azul,null);
-        Prenda lentitos = new Prenda (Tipo.LENTES,Material.VIDRIO,Trama.LISA,negro,null);
+        Prenda remerita = new Prenda("remerita", Tipo.REMERA, Material.ALGODON, Trama.LISA, negro, null);
+        Prenda pantaloncito =new Prenda("pantaloncito", Tipo.PANTALON, Material.JEAN, Trama.LISA, rojo, null);
+        Prenda inviernito =new Prenda("inviernito", Tipo.PANTALONINVIERNO, Material.JEAN, Trama.LISA, rojo, null);
+        Prenda zapatito =new Prenda("zapatito", Tipo.ZAPATO, Material.CUERO, Trama.LISA, azul, null);
+        Prenda buzito =new Prenda("buzito", Tipo.BUZO, Material.ALGODON, Trama.LISA, blanco, null);
+        Prenda anillito =new Prenda("anillito", Tipo.ANILLO, Material.ORO, Trama.LISA, verde, null);
+        Prenda guantitos =new Prenda("guantitos", Tipo.GUANTES, Material.LANA, Trama.LISA, verde, null);
+        Prenda bufandita =new Prenda("bufandita", Tipo.BUFANDA, Material.LANA, Trama.LISA, verde, null);
+        Prenda camperita = new Prenda("camperita", Tipo.CAMPERA,Material.ALGODON,Trama.LISA,rojo,null);
+        Prenda camisita = new Prenda ("camisita", Tipo.CAMISA,Material.ALGODON,Trama.LISA,azul,null);
+        Prenda lentitos = new Prenda ("lentitos", Tipo.LENTES,Material.VIDRIO,Trama.LISA,negro,null);
         Guardarropa testito = new Guardarropa();
         testito.agregarPrendas(guantitos);
         testito.agregarPrendas(bufandita);
