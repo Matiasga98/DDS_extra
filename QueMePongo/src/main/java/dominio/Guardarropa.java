@@ -12,10 +12,8 @@ public class Guardarropa {
 	private Map<Categoria, Set<Prenda>> prendas;
 	private Set<Atuendo> atuendosAceptados;
 	private Set<Atuendo> atuendosRechazados;
-	private Set<List<Prenda>> combinacionesSuperioresValidas = new HashSet<List<Prenda>>();
-	private Set<List<Prenda>> combinacionesAccesoriosValidas = new HashSet<List<Prenda>>();
-	private Set<Set<Prenda>> combinacionesAccesoriosValidasConRepeticion = new HashSet<Set<Prenda>>();
-	private int coeficienteDeTemperatura = 36;
+
+
 
 	public Guardarropa() {
 		prendas = new HashMap<>();
@@ -24,7 +22,7 @@ public class Guardarropa {
 		prendas.put(Categoria.PARTE_SUPERIOR, new HashSet<>());
 		prendas.put(Categoria.PARTE_INFERIOR, new HashSet<>());
 		prendas.put(Categoria.CALZADO, new HashSet<>());
-		prendas.put(Categoria.ACCESORIOS, new HashSet<>());
+		//prendas.put(Categoria.ACCESORIOS, new HashSet<>());
 		prendas.put(Categoria.CABEZA, new HashSet<>());
 		prendas.put(Categoria.CARA, new HashSet<>());
 		prendas.put(Categoria.CUELLO, new HashSet<>());
@@ -64,19 +62,20 @@ public class Guardarropa {
 		Set<Prenda> inferiores = prendasSegunCategoria(Categoria.PARTE_INFERIOR);
 		Set<Prenda> calzados = prendasSegunCategoria(Categoria.CALZADO);
 		Set<Prenda> accesorios = conseguirAccesorios();
+		Set<List<Prenda>> combinacionesSuperioresValidas = new HashSet<List<Prenda>>();
+		Set<List<Prenda>> combinacionesAccesoriosValidas = new HashSet<List<Prenda>>();
+
 
 		//Method Mati
-
-		List<Prenda> superioresDeCapaBaja = superiores.stream().filter(prenda -> prenda.tipo.Capa() <=2).collect(Collectors.toList());
-		superioresDeCapaBaja.stream().forEach(prenda -> this.arnarCondicionInicialSuperiores(prenda));
-		accesorios.stream().forEach(unAccesorio->armarCondicionInicialAccesorios(unAccesorio));
+		combinacionesSuperioresValidas = Categoria.PARTE_SUPERIOR.obtenerCombinacionSuperiores(superiores);
+		combinacionesAccesoriosValidas = Categoria.obtenerCombinacionAccesorios(accesorios);
 
 		Set<List<Prenda>> atuendosSinSuperior = Sets.cartesianProduct(
 				inferiores,
 				calzados
 		);
 
-		combinacionesAccesoriosValidasConRepeticion.forEach(lista -> combinacionesAccesoriosValidas.add(new ArrayList<>(lista)));
+
 
 		Set<List<List<Prenda>>> atuendosObtenidos = Sets.cartesianProduct(
 				combinacionesSuperioresValidas,
@@ -93,31 +92,6 @@ public class Guardarropa {
 
 	}
 
-	public void armarCondicionInicialAccesorios (Prenda prenda){
-		Set<Prenda> conjuntoAccesorios = new HashSet<>();
-		conjuntoAccesorios.add(prenda);
-		combinacionesAccesoriosValidasConRepeticion.add(conjuntoAccesorios);
-		Set<Prenda> conjunto = new HashSet<>(conjuntoAccesorios);
-		this.armarAccesorios(conjunto);
-	}
-
-	public void armarAccesorios(Set<Prenda> combinacion){
-		List<Prenda> accesoriosACombinar = arnarAccesoriosACombinar(combinacion);
-		accesoriosACombinar.stream().forEach(unAccesorio->completarAccesorios(combinacion,unAccesorio));
-	}
-
-	public void completarAccesorios(Set<Prenda> combinacion, Prenda accesorio){
-		if (!combinacion.contains(accesorio)) {
-			Set<Prenda> conjuntoNuevo = new HashSet<>();
-			conjuntoNuevo.addAll(combinacion);
-			conjuntoNuevo.add(accesorio);
-
-			combinacionesAccesoriosValidasConRepeticion.add(conjuntoNuevo);
-
-			this.armarAccesorios(conjuntoNuevo);
-		}
-	}
-
 	public Set<Prenda> conseguirAccesorios(){
 
 		Set<Prenda> accesorios = prendasSegunCategoria(Categoria.CABEZA);
@@ -127,62 +101,11 @@ public class Guardarropa {
 		return accesorios;
 	}
 
-	public void arnarCondicionInicialSuperiores(Prenda prenda){
-		List<Prenda> conjuntoHastaAhora = new ArrayList<>();
 
-		conjuntoHastaAhora.add(prenda);
-
-		combinacionesSuperioresValidas.add(conjuntoHastaAhora);
-		List<Prenda> conjunto = new ArrayList<>(conjuntoHastaAhora);
-		this.armarParteSuperior(conjunto);
-	}
-
-	public void armarParteSuperior(List<Prenda> conjunto){
-		List<Prenda> superioresAPonerArriba = this.armarSuperioresAPonerArriba(conjunto);
-		if (superioresAPonerArriba.stream().anyMatch(prenda -> prenda.tipo.Capa() > conjunto.get(conjunto.size()-1).tipo.Capa())){
-			superioresAPonerArriba.stream().forEach(unaPrenda-> this.completarParteSuperior(conjunto,unaPrenda));
-		}
-	}
-
-	public void completarParteSuperior (List<Prenda> conjuntoHastaAhora, Prenda prenda){
-		if(this.seCumpleCondicionParaAgregarSuperior(conjuntoHastaAhora,prenda) && !conjuntoHastaAhora.contains(prenda)){
-			List<Prenda> conjuntoNuevo = new ArrayList<>();
-			conjuntoNuevo.addAll(conjuntoHastaAhora);
-			conjuntoNuevo.add(prenda);
-			combinacionesSuperioresValidas.add(conjuntoNuevo);
-			this.armarParteSuperior(conjuntoNuevo);
-		}
-	}
 
 	public List<Prenda> aplanarLista (List<List<Prenda>> ListaAProcesar){
 		List<Prenda> aplanada = ListaAProcesar.stream().flatMap(x -> x.stream()).collect(Collectors.toList());
 		return aplanada;
-	}
-
-
-	public boolean seCumpleCondicionParaAgregarSuperior(List<Prenda> conjunto, Prenda prenda){
-		if (prenda.tipo.Capa() == conjunto.get(conjunto.size()-1).tipo.Capa()){
-			return conjunto.stream().filter(unaPrenda -> unaPrenda.tipo.Capa() == prenda.tipo.Capa() ).collect(Collectors.toList()).size()<2;
-
-		}
-		return true;
-	}
-
-	public boolean seCumpleCondicionParaAgregarAccesorio(Set<Prenda> combinacion, Prenda prenda){
-		return combinacion.stream().allMatch(accesorio->accesorio.tipo.categoria()!=prenda.tipo.categoria());
-	}
-
-	public List<Prenda> arnarAccesoriosACombinar (Set<Prenda> combinacion){
-
-		Set<Prenda> accesorios = conseguirAccesorios();
-
-		return accesorios.stream().filter(unaPrenda->seCumpleCondicionParaAgregarAccesorio(combinacion,unaPrenda)).collect(Collectors.toList());
-	}
-
-	public List<Prenda> armarSuperioresAPonerArriba (List<Prenda> conjunto){
-
-		Set<Prenda> superiores = prendasSegunCategoria(Categoria.PARTE_SUPERIOR);
-		return superiores.stream().filter(unaPrenda->unaPrenda.tipo.Capa() >=conjunto.get(conjunto.size() - 1).tipo.Capa()).collect(Collectors.toList());
 	}
 
 
@@ -206,67 +129,17 @@ public class Guardarropa {
 	}
 
 	public boolean estaBienVestido(Atuendo atuendo, Double temperatura, Usuario usuario){
-		if(usuario.EsFriolento()) {
-			coeficienteDeTemperatura += 6;
-		}
-		if(usuario.EsCaluroso()){
-			coeficienteDeTemperatura-=6;
-		}
-		return atuendo.abrigoTotal() >= coeficienteDeTemperatura - temperatura && atuendo.abrigoTotal() <= coeficienteDeTemperatura+10 - temperatura && estaDistribuidoElAbrigo(atuendo, temperatura, usuario);
+		return estaDistribuidoElAbrigo(atuendo, temperatura, usuario);
 	}
 	public boolean estaDistribuidoElAbrigo (Atuendo atuendo, Double temperatura, Usuario usuario){
-		return estaAbrigadoEnSuperior(atuendo, temperatura, usuario)
-				&& estaAbrigadoEnInferior(atuendo, temperatura, usuario)
-				&& estaAbrigadoEnCalzado(atuendo,temperatura,usuario)
-				&& estaAbrigadoEnAccesorios(atuendo,temperatura,usuario) ;
+		return Categoria.estaAbrigadoEn(atuendo, temperatura, usuario, usuario.coeficienteEn(Categoria.PARTE_SUPERIOR), Categoria.PARTE_SUPERIOR)
+				&& Categoria.estaAbrigadoEn(atuendo, temperatura, usuario,usuario.coeficienteEn(Categoria.PARTE_INFERIOR), Categoria.PARTE_INFERIOR)
+				&& Categoria.estaAbrigadoEn(atuendo,temperatura,usuario, usuario.coeficienteEn(Categoria.CALZADO), Categoria.CALZADO)
+				&& Categoria.estaAbrigadoEn(atuendo,temperatura,usuario, usuario.coeficienteEn(Categoria.CARA), Categoria.CARA)
+				&& Categoria.estaAbrigadoEn(atuendo,temperatura,usuario, usuario.coeficienteEn(Categoria.CABEZA), Categoria.CABEZA)
+				&& Categoria.estaAbrigadoEn(atuendo,temperatura,usuario, usuario.coeficienteEn(Categoria.CUELLO), Categoria.CUELLO)
+				&& Categoria.estaAbrigadoEn(atuendo,temperatura,usuario,usuario.coeficienteEn(Categoria.MANOS), Categoria.MANOS);
 
-	}
-
-	public boolean estaAbrigadoEnSuperior (Atuendo atuendo, Double temperatura, Usuario usuario){
-		return atuendo.abrigoSuperior()>= (coeficienteDeTemperaturaPrincipal(usuario,Categoria.PARTE_SUPERIOR)-temperatura)*0.6;
-	}
-	public boolean estaAbrigadoEnInferior (Atuendo atuendo, Double temperatura, Usuario usuario){
-		return atuendo.abrigoInferior()>= (coeficienteDeTemperaturaPrincipal(usuario,Categoria.PARTE_INFERIOR)-temperatura)*0.3;
-	}
-	public boolean estaAbrigadoEnCalzado (Atuendo atuendo, Double temperatura, Usuario usuario){
-		return atuendo.abrigoCalzado()>= (coeficienteDeTemperaturaPrincipal(usuario,Categoria.CALZADO)-temperatura)*0.1;
-	}
-	public boolean estaAbrigadoEnAccesorios(Atuendo atuendo, Double temperatura, Usuario usuario){
-		return estaAbrigadoEnMano(atuendo,temperatura,usuario)
-				&& estaAbrigadoEnCabeza(atuendo,temperatura,usuario)
-				&& estaAbrigadoEnCara(atuendo,temperatura,usuario)
-				&& estaAbrigadoEnCuello(atuendo,temperatura,usuario);
-	}
-	public boolean estaAbrigadoEnMano (Atuendo atuendo, Double temperatura, Usuario usuario){
-		return atuendo.abrigoManos()>coeficienteDeTemperaturaAccesorios(usuario, Categoria.MANOS);
-	}
-	public boolean estaAbrigadoEnCuello(Atuendo atuendo, Double temperatura, Usuario usuario){
-		return atuendo.abrigoCuello()>coeficienteDeTemperaturaAccesorios(usuario, Categoria.CUELLO);
-	}
-	public boolean estaAbrigadoEnCara (Atuendo atuendo, Double temperatura, Usuario usuario){
-		return atuendo.abrigoCara()>coeficienteDeTemperaturaAccesorios(usuario, Categoria.CARA);
-	}
-	public boolean estaAbrigadoEnCabeza(Atuendo atuendo, Double temperatura, Usuario usuario){
-		return atuendo.abrigoCabeza()>coeficienteDeTemperaturaAccesorios(usuario, Categoria.CABEZA);
-	}
-
-
-
-
-	public int coeficienteDeTemperaturaPrincipal(Usuario usuario, Categoria categoria){
-		if(usuario.FriolentoEn().contains(categoria)) {
-				return 40;//Da un valor mayor ya que al ser mayor, requiere de un abrigo mayor, significando que es friolento
-		}
-		if(usuario.CalurosoEn().contains(categoria)){
-			return 30;    //Da un valor menor ya que al ser menor, requiere de un abrigo menor, significando que es caluroso
-		}
-		return 36;
-	}
-	public int coeficienteDeTemperaturaAccesorios(Usuario usuario, Categoria categoria){
-		if(usuario.FriolentoEn().contains(categoria)) {
-			return 5; //Da un valor porque si es friolento, requiere de abrigo en ese sector
-		}
-		return 0; // Da 0 porque si no es friolento, no requiere de abrigo en ese sector y puede usar accesorios que no abriguen (anillo)
 	}
 
 
@@ -299,7 +172,9 @@ public class Guardarropa {
 
 	public void procesarCalificacion (Calificacion calificacion, Usuario usuario){
 		usuario.FriolentoEn().addAll(calificacion.friolentoEn);
+		calificacion.friolentoEn.stream().forEach(categoria -> usuario.friolentarEn(categoria));
 		usuario.CalurosoEn().addAll(calificacion.calurosoEn);
+		calificacion.calurosoEn.stream().forEach(categoria -> usuario.calentarEn(categoria));
 
 	}
 

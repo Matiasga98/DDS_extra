@@ -23,6 +23,7 @@ public enum Tipo {
     ANILLO(Categoria.MANOS, 0, 0,Material.ORO, Material.DIAMANTE),
     GUANTES(Categoria.MANOS,0,5,Material.LANA),
     LENTES(Categoria.CARA,0,0,Material.VIDRIO),
+    BALACLAVA(Categoria.CARA,0,7,Material.LANA),
     GORRO(Categoria.CABEZA,0,5,Material.LANA),
     BUFANDA(Categoria.CUELLO, 0, 7, Material.LANA);
 

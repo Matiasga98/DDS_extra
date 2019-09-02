@@ -30,7 +30,7 @@ public class GuardarropaTest {
 
     List<Color> colores;
 
-    @Before
+    @Before       //FIXME
     public void setUp() {
         borrador = new Borrador();
         guardarropa = new Guardarropa();
@@ -40,7 +40,7 @@ public class GuardarropaTest {
         //REMERAS LISAS DE DISTINTOS COLORES
         borrador.definirTipo(Tipo.REMERA);
         borrador.definirMaterial(Material.ALGODON);
-
+        borrador.definirNombre(("reme"));
         colores.forEach(color -> {
             borrador.definirColorPrimario(color);
             guardarropa.agregarPrendas(borrador.crearPrenda());
@@ -65,50 +65,10 @@ public class GuardarropaTest {
         assertEquals(12,guardarropa.cantidadPrendas());
     }
 
-    @Test
-    public void HaySugerenciasDeAtuendosSinAccesorios() {
 
-        agregoUnCalzado(negro);
 
-        assertEquals(6, guardarropa.prendasSegunCategoria(Categoria.PARTE_SUPERIOR).size());
-        assertEquals(6, guardarropa.prendasSegunCategoria(Categoria.PARTE_INFERIOR).size());
-        assertEquals(1, guardarropa.prendasSegunCategoria(Categoria.CALZADO).size());
 
-        Set<Atuendo> atuendos = guardarropa.generarAtuendos();
-
-        assertFalse(atuendos.isEmpty());
-        assertEquals(36, atuendos.size());
-    }
-
-    @Test
-    public void haySugerenciasDeAtuendosConAccesorios() {
-
-        agregoUnCalzado(negro);
-        agregoUnAccesorio(verde);
-
-        assertEquals(6, guardarropa.prendasSegunCategoria(Categoria.PARTE_SUPERIOR).size());
-        assertEquals(6, guardarropa.prendasSegunCategoria(Categoria.PARTE_INFERIOR).size());
-        assertEquals(1, guardarropa.prendasSegunCategoria(Categoria.CALZADO).size());
-        assertEquals(1, guardarropa.prendasSegunCategoria(Categoria.ACCESORIOS).size());
-
-        Set<Atuendo> atuendos = guardarropa.generarAtuendos();
-
-        assertFalse(atuendos.isEmpty());
-        assertEquals(72, atuendos.size());
-
-    }
-
-    @Test
-    public void MeCalculaBienElAbrigo() {
-        Atuendo atuendoDePrueba = new Atuendo(Arrays.asList(
-                new Prenda("remera", Tipo.REMERA, Material.ALGODON, Trama.LISA, negro, null),
-                new Prenda("pantalon", Tipo.PANTALON, Material.JEAN, Trama.LISA, rojo, null),
-                new Prenda("zapato", Tipo.ZAPATO, Material.CUERO, Trama.LISA, azul, null),
-                new Prenda("buzo", Tipo.BUZO, Material.ALGODON, Trama.LISA, blanco, null),
-                new Prenda("anillo", Tipo.ANILLO, Material.ORO, Trama.LISA, verde, null)
-                ));
-        assertEquals(21,atuendoDePrueba.abrigoTotal());
-    }
+    
 
     @Test
     public void GenerarAtuendosNuevo() {
@@ -124,14 +84,14 @@ public class GuardarropaTest {
         Prenda camisita = new Prenda ("camisita", Tipo.CAMISA,Material.ALGODON,Trama.LISA,azul,null);
         Prenda lentitos = new Prenda ("lentitos", Tipo.LENTES,Material.VIDRIO,Trama.LISA,negro,null);
         Guardarropa testito = new Guardarropa();
-        testito.agregarPrendas(guantitos);
+        //testito.agregarPrendas(guantitos);
         testito.agregarPrendas(bufandita);
         testito.agregarPrendas(remerita);
         testito.agregarPrendas(zapatito);
         testito.agregarPrendas(lentitos);
-        //testito.agregarPrendas(buzito);
+        testito.agregarPrendas(buzito);
         testito.agregarPrendas(pantaloncito);
-        testito.agregarPrendas(anillito);
+        //testito.agregarPrendas(anillito);
         //testito.agregarPrendas(camperita);
         //testito.agregarPrendas(camisita);
         //testito.agregarPrendas(inviernito);

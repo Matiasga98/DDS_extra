@@ -25,28 +25,39 @@ public class Atuendo {
         return prendas.stream().mapToInt(prenda -> prenda.tipo.PuntajeAbrigo()).sum();
     }
 
+    public int abrigoEn(Categoria categoria){
+        if(categoria != Categoria.PARTE_SUPERIOR) {
+            return ObtenerPrendaEnCategoria(categoria).tipo.PuntajeAbrigo();
+        }
+        else{
+            return abrigoSuperior();
+        }
+    }
+
     public int abrigoSuperior(){
         return superiores().stream().mapToInt(prenda -> prenda.tipo.PuntajeAbrigo()).sum();
     }
-    public int abrigoInferior(){
-        return inferiores().stream().mapToInt(prenda -> prenda.tipo.PuntajeAbrigo()).sum();
-    }
-    public int abrigoCalzado(){
-        return calzado().stream().mapToInt(prenda -> prenda.tipo.PuntajeAbrigo()).sum();
-    }
+    public int abrigoInferior(){ return  inferiores().tipo.PuntajeAbrigo(); }
+    public int abrigoCalzado(){ return calzado().tipo.PuntajeAbrigo(); }
     public int abrigoManos() {return accesorioMano().tipo.PuntajeAbrigo();}
     public int abrigoCuello() {return accesorioCuello().tipo.PuntajeAbrigo();}
     public int abrigoCabeza() {return accesorioCabeza().tipo.PuntajeAbrigo();}
     public int abrigoCara() {return accesorioCara().tipo.PuntajeAbrigo();}
 
+
+    public Prenda ObtenerPrendaEnCategoria(Categoria categoria){
+        return prendas.stream().filter(prenda->prenda.tipo.categoria() == categoria).collect(Collectors.toList()).get(0);
+    }
+
+
     public List<Prenda> superiores(){
         return prendas.stream().filter(prenda->prenda.tipo.categoria() == Categoria.PARTE_SUPERIOR).collect(Collectors.toList());
     }
-    public List<Prenda> inferiores(){
-        return prendas.stream().filter(prenda->prenda.tipo.categoria() == Categoria.PARTE_INFERIOR).collect(Collectors.toList());
+    public Prenda inferiores(){
+        return prendas.stream().filter(prenda->prenda.tipo.categoria() == Categoria.PARTE_INFERIOR).collect(Collectors.toList()).get(0);
     }
-    public List<Prenda> calzado(){
-        return prendas.stream().filter(prenda->prenda.tipo.categoria() == Categoria.CALZADO).collect(Collectors.toList());
+    public Prenda calzado(){
+        return prendas.stream().filter(prenda->prenda.tipo.categoria() == Categoria.CALZADO).collect(Collectors.toList()).get(0);
     }
     public Prenda accesorioMano(){
         return prendas.stream().filter(prenda->prenda.tipo.categoria() == Categoria.MANOS).collect(Collectors.toList()).get(0);
@@ -63,9 +74,9 @@ public class Atuendo {
 
 
 
-    public List<Prenda> accesorio(){
-        return prendas.stream().filter(prenda->prenda.tipo.categoria() == Categoria.ACCESORIOS).collect(Collectors.toList());
-    }
+    //public List<Prenda> accesorio(){
+     //   return prendas.stream().filter(prenda->prenda.tipo.categoria() == Categoria.ACCESORIOS).collect(Collectors.toList());
+    //}
 
 
 

@@ -28,6 +28,46 @@ public class Usuario extends Entity {
     private boolean esFriolento;
     private boolean esCaluroso;
 
+
+    private int coeficienteSuperior = 25;
+    private int coeficienteInferior = 29;
+    private int coeficienteCalzado = 15;
+    private int coeficienteCabeza = 15;
+    private int coeficienteCuello = 10;
+    private int coeficienteCara = 5;
+    private int coeficienteManos = 10;
+
+    public int coeficienteEn(Categoria categoria){
+        switch (categoria){
+            case PARTE_SUPERIOR:
+                return coeficienteSuperior;
+            case PARTE_INFERIOR:
+                return coeficienteInferior;
+
+            case CALZADO:
+                return coeficienteCalzado;
+
+            case CARA:
+                return coeficienteCara;
+
+            case MANOS:
+                return coeficienteManos;
+
+            case CABEZA:
+                return coeficienteCabeza;
+
+            case CUELLO:
+                return coeficienteCuello;
+
+            default:
+                return 0;
+
+        }
+    }
+
+
+
+
     public  Usuario(String nombre, Set<Evento> eventos){
         this.nombre = nombre;
         this.eventos = eventos;
@@ -167,5 +207,43 @@ public class Usuario extends Entity {
     	Set<Atuendo> sugerencias = this.pedirSugerenciaParaEventoDeTodosLosGuadaropas(evento, proveedor, flexible);
     	this.getMediosDeNotificacion().forEach(medio -> medio.alertar(sugerencias));
     	return sugerencias;
+    }
+
+
+    public void modificarCoeficiente(Categoria categoria, int valor){
+        switch (categoria){
+            case PARTE_SUPERIOR:
+                 coeficienteSuperior += valor;
+                 break;
+            case PARTE_INFERIOR:
+                 coeficienteInferior+= valor;
+                break;
+            case CALZADO:
+                 coeficienteCalzado+= valor;
+                break;
+            case CARA:
+                 coeficienteCara+= valor;
+                break;
+            case MANOS:
+                 coeficienteManos+= valor;
+                break;
+            case CABEZA:
+                 coeficienteCabeza+= valor;
+                break;
+            case CUELLO:
+                 coeficienteCuello+= valor;
+                break;
+            default:
+                System.out.println("algo hiciste mal pipi");
+                break;
+        }
+    }
+
+    public void friolentarEn(Categoria categoria){
+        modificarCoeficiente(categoria,-5);
+    }
+
+    public void calentarEn(Categoria categoria){
+        modificarCoeficiente(categoria,5);
     }
 }
