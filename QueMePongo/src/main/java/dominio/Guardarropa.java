@@ -6,16 +6,57 @@ import com.google.common.collect.Sets;
 import dominio.clima.ProveedorClima;
 import dominio.enumerados.Categoria;
 
+import javax.persistence.*;
 
+@Entity
 public class Guardarropa {
+    @Id
+    @GeneratedValue
+    private long guardarropaId;
 
+	@OneToMany
+    @JoinColumn(name = "guardarropaId")
 	private Map<Categoria, Set<Prenda>> prendas;
+	@OneToMany
+    @JoinColumn(name = "guardarropaId")
 	private Set<Atuendo> atuendosAceptados;
+    @JoinColumn(name = "guardarropaId")
+	@OneToMany
 	private Set<Atuendo> atuendosRechazados;
 
+    public long getGuardarropaId() {
+        return guardarropaId;
+    }
 
+    public void setGuardarropaId(long guardarropaId) {
+        this.guardarropaId = guardarropaId;
+    }
 
-	public Guardarropa() {
+    public Map<Categoria, Set<Prenda>> getPrendas() {
+        return prendas;
+    }
+
+    public void setPrendas(Map<Categoria, Set<Prenda>> prendas) {
+        this.prendas = prendas;
+    }
+
+    public Set<Atuendo> getAtuendosAceptados() {
+        return atuendosAceptados;
+    }
+
+    public void setAtuendosAceptados(Set<Atuendo> atuendosAceptados) {
+        this.atuendosAceptados = atuendosAceptados;
+    }
+
+    public Set<Atuendo> getAtuendosRechazados() {
+        return atuendosRechazados;
+    }
+
+    public void setAtuendosRechazados(Set<Atuendo> atuendosRechazados) {
+        this.atuendosRechazados = atuendosRechazados;
+    }
+
+    public Guardarropa() {
 		prendas = new HashMap<>();
 		atuendosAceptados = new HashSet<>();
 		atuendosRechazados = new HashSet<>();

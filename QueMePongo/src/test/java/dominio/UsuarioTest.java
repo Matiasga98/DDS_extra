@@ -43,49 +43,7 @@ public class UsuarioTest {
     }
 
 
-    @Test
-    public void usuarioSinGuardarropaPidenSugerencias() {
-        assertTrue(usuario.guardarropas().isEmpty());
-        assertTrue(usuario.sugerenciasDeAtuendosDeTodosLosGuardarropas().isEmpty());
-    }
 
-    @Test
-    public void usuarioConUnGuardarropa() {
-
-        assertTrue(usuario.guardarropas().isEmpty());
-
-        agregoUnGuardarropa();
-
-        assertEquals(1, usuario.guardarropas().size());
-
-
-        Guardarropa guardarropaDelUsuarie = usuario.guardarropas().iterator().next();
-
-        assertEquals(6, guardarropaDelUsuarie.prendasSegunCategoria(Categoria.PARTE_SUPERIOR).size());
-        assertEquals(6, guardarropaDelUsuarie.prendasSegunCategoria(Categoria.PARTE_INFERIOR).size());
-        assertEquals(1, guardarropaDelUsuarie.prendasSegunCategoria(Categoria.CALZADO).size());
-        //assertTrue(guardarropaDelUsuarie.prendasSegunCategoria(Categoria.ACCESORIOS).isEmpty());
-
-        assertEquals(36, usuario.sugerenciasDeAtuendosDeTodosLosGuardarropas().size());
-
-    }
-
-    @Test
-    public void usuarioConDosGuardarropa() {
-
-        assertTrue(usuario.guardarropas().isEmpty());
-
-        agregoUnGuardarropa();
-
-        assertEquals(1, usuario.guardarropas().size());
-
-        agregoUnGuardarropa();
-
-        assertEquals(2, usuario.guardarropas().size());
-
-        assertEquals(72, usuario.sugerenciasDeAtuendosDeTodosLosGuardarropas().size());
-
-    }
    /* @Test
     public void superTest() {
         usuario = new Usuario(true);
