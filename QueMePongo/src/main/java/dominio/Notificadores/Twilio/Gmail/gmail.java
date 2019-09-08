@@ -4,11 +4,14 @@ import java.util.*;
 import javax.mail.*;
 import javax.mail.internet.*;
 import javax.activation.*;
+import javax.persistence.*;
 import java.util.Set;
 import dominio.Atuendo;
 import dominio.Notificadores.Notificador;
 
-public class gmail implements Notificador {
+@Entity
+@DiscriminatorValue(value="G")
+public class gmail extends Notificador {
 
 	@Override
 	public void notificar(Set<Atuendo> sugerencias) {
@@ -83,7 +86,7 @@ public class gmail implements Notificador {
                     InternetAddress.parse("diegodanielgagliardi@gmail.com, hernanrodriguez806@gmail.com, matiasgamal98@gmail.com")
             );
             message.setSubject("Tu evento se ve comprometido por una alerta meteorologica.");
-            message.setText("En base a esta alerta reformulamos tus atuendos disponibles para que te sientas cómodo: " + sugerencias);
+            message.setText("En base a esta alerta reformulamos tus atuendos disponibles para que te sientas cï¿½modo: " + sugerencias);
 
             Transport.send(message);
 

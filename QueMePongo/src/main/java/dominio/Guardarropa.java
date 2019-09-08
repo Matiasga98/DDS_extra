@@ -10,24 +10,27 @@ import javax.persistence.*;
 
 @Entity
 public class Guardarropa {
-    @Id
+   	@Id
     @GeneratedValue
     private long guardarropaId;
 
-	@OneToMany
-    @JoinColumn(name = "guardarropaId")
+   	//Esperando resolución de Roli
+	@Transient
 	private Map<Categoria, Set<Prenda>> prendas;
-	@OneToMany
-    @JoinColumn(name = "guardarropaId")
+
+	@ElementCollection(fetch = FetchType.LAZY)
+	@CollectionTable(name = "atuendos_aceptados", joinColumns = @JoinColumn(name = "guardarropaId"))
+	@Column(name = "atuendoId")
 	private Set<Atuendo> atuendosAceptados;
-    @JoinColumn(name = "guardarropaId")
-	@OneToMany
+
+	@ElementCollection(fetch = FetchType.LAZY)
+	@CollectionTable(name = "atuendos_rechazados", joinColumns = @JoinColumn(name = "guardarropaId"))
+	@Column(name = "atuendoId")
 	private Set<Atuendo> atuendosRechazados;
 
     public long getGuardarropaId() {
         return guardarropaId;
     }
-
     public void setGuardarropaId(long guardarropaId) {
         this.guardarropaId = guardarropaId;
     }
@@ -35,7 +38,6 @@ public class Guardarropa {
     public Map<Categoria, Set<Prenda>> getPrendas() {
         return prendas;
     }
-
     public void setPrendas(Map<Categoria, Set<Prenda>> prendas) {
         this.prendas = prendas;
     }
@@ -43,7 +45,6 @@ public class Guardarropa {
     public Set<Atuendo> getAtuendosAceptados() {
         return atuendosAceptados;
     }
-
     public void setAtuendosAceptados(Set<Atuendo> atuendosAceptados) {
         this.atuendosAceptados = atuendosAceptados;
     }
@@ -51,7 +52,6 @@ public class Guardarropa {
     public Set<Atuendo> getAtuendosRechazados() {
         return atuendosRechazados;
     }
-
     public void setAtuendosRechazados(Set<Atuendo> atuendosRechazados) {
         this.atuendosRechazados = atuendosRechazados;
     }

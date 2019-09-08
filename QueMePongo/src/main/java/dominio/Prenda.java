@@ -8,24 +8,37 @@ import javax.persistence.*;
 public class Prenda {
 	@Id
 	@GeneratedValue
-	long id;
+	@Column(name="id")
+    long id;
+
+    @Column(name="nombre")
 	String nombre;
+
 	@Enumerated
+    @Column(name="tipo_id")
 	Tipo tipo;
+
 	@Enumerated
+    @Column(name="material_id")
     Material material;
+
 	@Enumerated
+    @Column(name="trama_id")
     Trama trama;
+
 	@OneToOne
-	Color colorPrimario;
+    Color colorPrimario;
+
 	@OneToOne
-	Color colorSecundario;
+    Color colorSecundario;
+
+    @Column(name="enUso")
 	boolean enUso;
 
+    //Getters y Setters
     public long getId() {
         return id;
     }
-
     public void setId(long id) {
         this.id = id;
     }
@@ -33,10 +46,10 @@ public class Prenda {
     public String getNombre() {
         return nombre;
     }
-
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+
     public Tipo getTipo(){
         return tipo;
     }
@@ -47,7 +60,6 @@ public class Prenda {
     public Material getMaterial() {
         return material;
     }
-
     public void setMaterial(Material material) {
         this.material = material;
     }
@@ -55,7 +67,6 @@ public class Prenda {
     public Trama getTrama() {
         return trama;
     }
-
     public void setTrama(Trama trama) {
         this.trama = trama;
     }
@@ -63,7 +74,6 @@ public class Prenda {
     public Color getColorPrimario() {
         return colorPrimario;
     }
-
     public void setColorPrimario(Color colorPrimario) {
         this.colorPrimario = colorPrimario;
     }
@@ -78,7 +88,6 @@ public class Prenda {
     public boolean getEnUso() {
         return enUso;
     }
-
     public void setEnUso(boolean enUso) {
         this.enUso = enUso;
     }

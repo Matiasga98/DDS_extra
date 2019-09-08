@@ -3,29 +3,33 @@ package dominio;
 import dominio.enumerados.Categoria;
 import dominio.enumerados.EstadoAtuendo;
 
-import javax.persistence.Entity;
-import javax.persistence.Enumerated;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Entity
 public class Atuendo {
+    @Id
+    @GeneratedValue
+    private long id;
+
     @ManyToMany
     private List<Prenda> prendas = new ArrayList<Prenda>();
+
     @Enumerated
     private EstadoAtuendo estado;
 
     public void setPrendas(List<Prenda> prendas) {
         this.prendas = prendas;
     }
-
     public List<Prenda> getPrendas() {
         return prendas;
     }
 
+    public void setEstado(EstadoAtuendo estado) {
+        this.estado = estado;
+    }
     public EstadoAtuendo getEstado(){
         return estado;
     }
@@ -112,10 +116,6 @@ public class Atuendo {
         return prendas;
     }
 
-
-    public void setEstado(EstadoAtuendo estado) {
-        this.estado = estado;
-    }
 
     public boolean aceptado(){
         return EstadoAtuendo.ACEPTADO.equals(estado);

@@ -1,5 +1,6 @@
 package dominio;
 
+import javax.persistence.*;
 import dominio.clima.ProveedorClima;
 import dominio.enumerados.Categoria;
 import dominio.enumerados.EstadoAtuendo;
@@ -13,28 +14,62 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@javax.persistence.Entity
 @Observable
 public class Usuario extends Entity {
 
+    @Id
+    @GeneratedValue
+    @Column(name="id")
+    private long id;
+
+    @ElementCollection
+    @CollectionTable(name = "medios_notificacion_usuario", joinColumns = @JoinColumn(name = "usuario_id"))
 	private Set<Notificador> mediosDeNotificacion;
-    private String nombre;
-    private Set<Guardarropa> guardarropas;
-    private Set<Evento> eventos;
-    private boolean esPremium = false;
-    private int prendasMaximas = 20;
-    private Set<Categoria> friolentoEn = new HashSet<>();
+
+    @Column(name="nombre")
+	private String nombre;
+
+    @OneToMany
+    @JoinColumn(name="usuario_id")
+	private Set<Guardarropa> guardarropas;
+
+    @OneToMany
+    @JoinColumn(name="usuario_id")
+	private Set<Evento> eventos;
+
+    @Column(name="es_premium")
+	private boolean esPremium = false;
+
+    @ElementCollection
+    @CollectionTable(name = "usuario_friolento_en", joinColumns = @JoinColumn(name = "usuario_id"))
+    @Column(name = "categoria_id")
+	private Set<Categoria> friolentoEn = new HashSet<>();
+
+    @ElementCollection
+    @CollectionTable(name = "usuario_caluroso_en", joinColumns = @JoinColumn(name = "usuario_id"))
+    @Column(name = "categoria_id")
     private Set<Categoria> calurosoEn = new HashSet<>();
-    private SuceptibilidadATemperatura suceptibilidad;
-    private boolean esFriolento;
-    private boolean esCaluroso;
 
+    @Enumerated
+	private SuceptibilidadATemperatura suceptibilidad;
 
+	//Constantes
+    @Transient
+    private int prendasMaximas = 20;
+    @Transient
     private int coeficienteSuperior = 25;
+    @Transient
     private int coeficienteInferior = 29;
+    @Transient
     private int coeficienteCalzado = 15;
+    @Transient
     private int coeficienteCabeza = 15;
+    @Transient
     private int coeficienteCuello = 10;
+    @Transient
     private int coeficienteCara = 5;
+    @Transient
     private int coeficienteManos = 10;
 
     public int coeficienteEn(Categoria categoria){
@@ -64,9 +99,6 @@ public class Usuario extends Entity {
 
         }
     }
-
-
-
 
     public  Usuario(String nombre, Set<Evento> eventos){
         this.nombre = nombre;

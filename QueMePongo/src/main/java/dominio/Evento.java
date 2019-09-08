@@ -4,12 +4,27 @@ import java.time.LocalDateTime;
 import dominio.clima.ProveedorClima;
 import dominio.enumerados.ModoDeRepeticion;
 import org.uqbar.commons.model.annotations.Observable;
+import javax.persistence.*;
 
+@Entity
 @Observable
 public class Evento {
+
+    @Id
+    @GeneratedValue
+    @Column(name="id_evento")
+    private long id;
+
+    @Column(name="nombre")
     private String nombre;
+
+    @Column(name="fecha_hora")
     private LocalDateTime fechaYHora;
+
+    @Column(name="tiene_sugerencias")
     private boolean tieneSugerencias;
+
+    @OneToOne
     private Alertador alertador;
 
     public Evento(String nombre, LocalDateTime fechaYHora, boolean tieneSugerencias){

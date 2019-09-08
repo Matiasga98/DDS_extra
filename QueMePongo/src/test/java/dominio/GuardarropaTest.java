@@ -66,8 +66,6 @@ public class GuardarropaTest {
     }
 
 
-    
-
     @Test
     public void GenerarAtuendosNuevo() {
         Prenda remerita = new Prenda("remerita", Tipo.REMERA, Material.ALGODON, Trama.LISA, negro, null);

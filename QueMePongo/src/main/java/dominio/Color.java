@@ -1,17 +1,24 @@
 package dominio;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 public class Color {
 	@Id
 	@GeneratedValue
+    @Column(name="id")
 	private long id;
-	int rojo, verde, azul;
 
+	@Column(name="rojo")
+	int rojo;
+
+	@Column(name="verde")
+	int verde;
+
+	@Column(name="azul")
+	int azul;
+
+	//Getters y Setters
 	public long getId(){
 	    return id;
     }
@@ -22,7 +29,6 @@ public class Color {
     public int getRojo() {
         return rojo;
     }
-
     public void setRojo(int rojo) {
         this.rojo = rojo;
     }
@@ -30,7 +36,6 @@ public class Color {
     public int getAzul() {
         return azul;
     }
-
     public void setAzul(int azul) {
         this.azul = azul;
     }
@@ -38,7 +43,6 @@ public class Color {
     public int getVerde() {
         return verde;
     }
-
     public void setVerde(int verde) {
         this.verde = verde;
     }

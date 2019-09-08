@@ -5,12 +5,27 @@ import java.time.LocalDateTime;
 import dominio.clima.ProveedorClima;
 import dominio.enumerados.ModoDeRepeticion;
 import it.sauronsoftware.cron4j.Scheduler;
+import javax.persistence.*;
 
+@Entity
 public class Alertador {
-	Scheduler planificador = new Scheduler();
-	ModoDeRepeticion modoRepetitivo;
-	Usuario usuario;
-	Evento evento;
+
+	@Id
+	@GeneratedValue
+	@Column(name="id_alertador")
+	private long id;
+
+	@Transient
+	public Scheduler planificador = new Scheduler();
+
+	@Enumerated
+	private ModoDeRepeticion modoRepetitivo;
+
+	@OneToOne
+	private Usuario usuario;
+
+	@OneToOne
+	private Evento evento;
 	
 	public Alertador (Evento evento, ProveedorClima proveedor, LocalDateTime unaFecha, ModoDeRepeticion modo, Usuario usuario, boolean flexible) {
 		this.usuario = usuario;
