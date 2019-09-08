@@ -23,20 +23,16 @@ public class Evento {
 
     @Column(name="tiene_sugerencias")
     private boolean tieneSugerencias;
-
-    @OneToOne
-    private Alertador alertador;
-
-    public Evento(String nombre, LocalDateTime fechaYHora, boolean tieneSugerencias){
-        this.nombre = nombre;
-        this.fechaYHora = fechaYHora;
-        this.tieneSugerencias = tieneSugerencias;
-    }
     
-    public Evento (String elEvento, ProveedorClima proveedor, LocalDateTime unaFecha, ModoDeRepeticion modo, Usuario usuario, boolean flexible){
-        nombre = elEvento;
-        fechaYHora = unaFecha;
-        alertador = new Alertador(this, proveedor, unaFecha, modo, usuario, flexible);
+    @Column(name = "hay_alertas_meteorológicas")
+    public boolean tieneAlertasMeteorológicas;
+    
+    public Evento (String elEvento, ProveedorClima proveedor, LocalDateTime unaFecha, boolean tieneSugerencias, ModoDeRepeticion modo, Usuario usuario, boolean flexible){
+        this.nombre = elEvento;
+        this.fechaYHora = unaFecha;
+        this.tieneSugerencias = tieneSugerencias;
+        this.tieneAlertasMeteorológicas = false;
+        Alertador.planificame_porfi(this, proveedor, unaFecha, modo, usuario, flexible);
     }
 
     public String getNombre() {
@@ -57,13 +53,5 @@ public class Evento {
 
     public boolean isTieneSugerencias() {
         return tieneSugerencias;
-    }
-    
-    public Alertador getAlertador() {
-    	return alertador;
-    }
-    
-    public void setAlertador(Alertador alertador) {
-    	this.alertador = alertador;
     }
 }

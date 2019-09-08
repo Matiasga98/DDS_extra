@@ -16,25 +16,13 @@ public class Alertador {
 	private long id;
 
 	@Transient
-	public Scheduler planificador = new Scheduler();
-
-	@Enumerated
-	private ModoDeRepeticion modoRepetitivo;
-
-	@OneToOne
-	private Usuario usuario;
-
-	@OneToOne
-	private Evento evento;
+	public static Scheduler planificador = new Scheduler();
 	
-	public Alertador (Evento evento, ProveedorClima proveedor, LocalDateTime unaFecha, ModoDeRepeticion modo, Usuario usuario, boolean flexible) {
-		this.usuario = usuario;
-		this.evento = evento;
-		this.modoRepetitivo = modo;
+	public static void planificame_porfi (Evento evento, ProveedorClima proveedor, LocalDateTime unaFecha, ModoDeRepeticion modo, Usuario usuario, boolean flexible) {
 		switch (modo) {
-			case DIARIO: planificador.schedule(unaFecha.getMinute() + " " + (unaFecha.getHour() - 1) + " * * *", new Runnable() {public void run() {Set<Atuendo> sugerencias = proveedor.temperatura(unaFecha) > 10? usuario.notificarme(evento, proveedor, flexible) : usuario.alertarme(evento, proveedor, flexible);}}); break;
-			case MENSUAL: planificador.schedule(unaFecha.getMinute() + " " + (unaFecha.getHour() - 1) + " " + unaFecha.getDayOfMonth() + " * *", new Runnable() {public void run() {Set<Atuendo> sugerencias = proveedor.temperatura(unaFecha) > 10? usuario.notificarme(evento, proveedor, flexible) : usuario.alertarme(evento, proveedor, flexible);}}); break;
-			case ANUAL: planificador.schedule(unaFecha.getMinute() + " " + (unaFecha.getHour() - 1) + " " + unaFecha.getDayOfMonth() + " " + unaFecha.getMonthValue() + " *", new Runnable() {public void run() {Set<Atuendo> sugerencias = proveedor.temperatura(unaFecha) > 10? usuario.notificarme(evento, proveedor, flexible) : usuario.alertarme(evento, proveedor, flexible);}}); break;
+			case DIARIO: planificador.schedule(unaFecha.getMinute() + " " + (unaFecha.getHour() - 1) + " * * *", new Runnable() {public void run() {Set<Atuendo> sugerencias = usuario.notificarme(evento, proveedor, flexible);}}); break;
+			case MENSUAL: planificador.schedule(unaFecha.getMinute() + " " + (unaFecha.getHour() - 1) + " " + unaFecha.getDayOfMonth() + " * *", new Runnable() {public void run() {Set<Atuendo> sugerencias = usuario.notificarme(evento, proveedor, flexible);}}); break;
+			case ANUAL: planificador.schedule(unaFecha.getMinute() + " " + (unaFecha.getHour() - 1) + " " + unaFecha.getDayOfMonth() + " " + unaFecha.getMonthValue() + " *", new Runnable() {public void run() {Set<Atuendo> sugerencias = usuario.notificarme(evento, proveedor, flexible);}}); break;
 		}
         planificador.start();
 	}

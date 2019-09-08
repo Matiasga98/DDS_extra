@@ -6,6 +6,7 @@ import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
 import dominio.Notificadores.Notificador;
 import dominio.Atuendo;
+import dominio.Evento;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -18,30 +19,24 @@ public class twilio extends Notificador {
     public static final String AUTH_TOKEN = "02a147f536fb9781ae82cd6a1d1b35c3";
 
     @Override
-    public void notificar(Set<Atuendo> sugerencias) {
-    	MandarWpp(sugerencias);
+    public void notificar(Evento evento, Set<Atuendo> sugerencias) {
+    	MandarWpp(evento, sugerencias);
     }
     
-    @Override
-    public void alertar(Set<Atuendo> sugerencias) {
-    	AlertaMeteorologica(sugerencias);
-    }
-    
-    public static void MandarWpp(Set<Atuendo> sugerencias) {
+    public static void MandarWpp(Evento evento, Set<Atuendo> sugerencias) {
+    	String mensaje;
+    	if (evento.tieneAlertasMeteorológicas) {
+    		mensaje = "Se ha detectado una nueva alerta meteorológica por lo que tus posibles atuendos deben ser reformulados. ";
+    	}
+    	else {
+    		mensaje = "Se acerca un nuevo evento!! Vestite bien!! ";
+    	}
         Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
         Message message = Message.creator(
                 new com.twilio.type.PhoneNumber("whatsapp:+5491131200062"),
                 new com.twilio.type.PhoneNumber("whatsapp:+14155238886"),
-                "Se acerca un nuevo evento!! Vestite bien!! " + sugerencias)
+                mensaje + sugerencias)
                 .create();
     }
     
-    public static void AlertaMeteorologica(Set<Atuendo> sugerencias) {
-    	Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
-        Message message = Message.creator(
-                new com.twilio.type.PhoneNumber("whatsapp:+5491131200062"),
-                new com.twilio.type.PhoneNumber("whatsapp:+14155238886"),
-                "Se ha detectado una nueva alerta meteorolï¿½gica por lo que tus posibles atuendos deben ser reformulados. " + sugerencias)
-                .create();
-    }
 }

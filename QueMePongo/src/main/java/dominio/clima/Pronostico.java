@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 public class Pronostico {
     private LocalDateTime fechaYHora;
     private double temperatura;
+    private boolean tieneAlertasMeteorológicas;
 
     public Pronostico(LocalDateTime fechaYHora, Double temperatura){
         this.fechaYHora = fechaYHora;
@@ -27,6 +28,14 @@ public class Pronostico {
         this.temperatura = temperatura;
     }
 
+    public boolean tieneAlertasMeteorológicas() {
+    	return tieneAlertasMeteorológicas;
+    }
+    
+    public void tieneAlertasMeteorológicas(boolean tieneAlertasMeteorológicas) {
+    	this.tieneAlertasMeteorológicas = tieneAlertasMeteorológicas;
+    }
+    
     @Override
     public String toString() {
         return "Pronostico{" +

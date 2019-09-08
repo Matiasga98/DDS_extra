@@ -165,6 +165,7 @@ public class Guardarropa {
 	public Set<Atuendo> sugerirParaEvento(Evento evento, ProveedorClima proveedor, boolean flexible, Usuario usuario){
 		Set<Atuendo> atuendos = this.generarAtuendos();
 		double temperatura = proveedor.temperatura(evento.getFechaYHora());
+		evento.tieneAlertasMeteorológicas = proveedor.tieneAlertasMeteorológicas(evento.getFechaYHora());
 
 		return this.generarSugerencia(temperatura, atuendos, flexible, usuario);
 	}

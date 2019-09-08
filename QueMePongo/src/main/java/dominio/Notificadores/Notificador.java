@@ -2,6 +2,7 @@ package dominio.Notificadores;
 
 import java.util.Set;
 import dominio.Atuendo;
+import dominio.Evento;
 
 import javax.persistence.*;
 
@@ -14,10 +15,7 @@ public abstract class Notificador {
 	@GeneratedValue
 	private long id;
 
-	public void notificar(Set<Atuendo> sugerencias) {
-	}
-
-	public void alertar(Set<Atuendo> sugerencias) {
+	public void notificar(Evento evento, Set<Atuendo> sugerencias) {
 	}
 
 }
