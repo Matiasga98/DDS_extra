@@ -7,9 +7,10 @@ public class Pronostico {
     private double temperatura;
     private boolean tieneAlertasMeteorológicas;
 
-    public Pronostico(LocalDateTime fechaYHora, Double temperatura){
+    public Pronostico(LocalDateTime fechaYHora, Double temperatura, boolean tieneAlertasMeteorológicas){
         this.fechaYHora = fechaYHora;
         this.temperatura = temperatura;
+        this.tieneAlertasMeteorológicas = tieneAlertasMeteorológicas;
     }
 
     public LocalDateTime getFechaYHora() {
