@@ -57,8 +57,8 @@ public class AccuWeather implements ProveedorClima {
         return CachePronosticos.temperatura(fechaYHora);
     }
 
-    public boolean tieneAlertasMeteorológicas(LocalDateTime fechaYHora) {
-    	return CachePronosticos.tieneAlertasMeteorológicas(fechaYHora);
+    public boolean tieneAlertasMeteorologicas(LocalDateTime fechaYHora) {
+    	return CachePronosticos.tieneAlertasMeteorologicas(fechaYHora);
     }
     
 }

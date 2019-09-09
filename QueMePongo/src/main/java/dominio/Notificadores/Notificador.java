@@ -15,7 +15,6 @@ public abstract class Notificador {
 	@GeneratedValue
 	private long id;
 
-	public void notificar(Evento evento, Set<Atuendo> sugerencias) {
-	}
+	public void notificar(Evento evento, Set<Atuendo> sugerencias) {}
 
 }

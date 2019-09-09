@@ -25,7 +25,7 @@ public class gmail extends Notificador {
         String submensaje;
         String mensaje;
         
-        if (evento.tieneAlertasMeteorológicas) {
+        if (evento.tieneAlertasMeteorologicas) {
         	submensaje = "Tu evento se ve comprometido por una alerta meteorologica.";
         	mensaje = "En base a esta alerta reformulamos tus atuendos disponibles para que te sientas cómodo: ";
         }

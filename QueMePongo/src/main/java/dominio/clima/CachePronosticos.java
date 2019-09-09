@@ -39,12 +39,12 @@ public class CachePronosticos {
         return pronosticosGuardadosEnCache.stream().filter(dato -> dato.estaEnIntervalo(fechaYHora)).collect(toList()).get(0).getTemperatura();
     }
     
-    public static boolean tieneAlertasMeteorológicas(LocalDateTime fechaYHora) {
+    public static boolean tieneAlertasMeteorologicas(LocalDateTime fechaYHora) {
     	if (!datoDisponible(fechaYHora)) {
     		throw new DatoNoDisponible("No se encuentra el dato para la fecha" + fechaYHora);
     	}
     	
-    	return pronosticosGuardadosEnCache.stream().filter(dato -> dato.estaEnIntervalo(fechaYHora)).collect(toList()).get(0).tieneAlertasMeteorológicas();
+    	return pronosticosGuardadosEnCache.stream().filter(dato -> dato.estaEnIntervalo(fechaYHora)).collect(toList()).get(0).tieneAlertasMeteorologicas();
     }
 
     public static void actualizar(List<Pronostico> pronosticos){

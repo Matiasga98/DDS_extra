@@ -27,14 +27,14 @@ public class Evento {
     @Column(name="id_del_job")
     private String idDelJob;
     
-    @Column(name = "hay_alertas_meteorológicas")
-    public boolean tieneAlertasMeteorológicas;
+    @Column(name = "hay_alertas_meteorologicas")
+    public boolean tieneAlertasMeteorologicas;
     
     public Evento (String elEvento, ProveedorClima proveedor, LocalDateTime unaFecha, boolean tieneSugerencias, ModoDeRepeticion modo, Usuario usuario, boolean flexible){
         this.nombre = elEvento;
         this.fechaYHora = unaFecha;
         this.tieneSugerencias = tieneSugerencias;
-        this.tieneAlertasMeteorológicas = false;
+        this.tieneAlertasMeteorologicas = false;
         this.idDelJob = Alertador.planificame_porfi(this, proveedor, unaFecha, modo, usuario, flexible);
     }
 

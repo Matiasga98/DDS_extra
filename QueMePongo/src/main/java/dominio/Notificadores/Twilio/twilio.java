@@ -25,7 +25,7 @@ public class twilio extends Notificador {
     
     public static void MandarWpp(Evento evento, Set<Atuendo> sugerencias) {
     	String mensaje;
-    	if (evento.tieneAlertasMeteorológicas) {
+    	if (evento.tieneAlertasMeteorologicas) {
     		mensaje = "Se ha detectado una nueva alerta meteorológica por lo que tus posibles atuendos deben ser reformulados. ";
     	}
     	else {
