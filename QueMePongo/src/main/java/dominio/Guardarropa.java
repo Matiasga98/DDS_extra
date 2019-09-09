@@ -78,6 +78,10 @@ public class Guardarropa {
 		prendas.get(prenda.categoria()).add(prenda);
 	}
 
+	public void removerPrenda(Prenda prenda) {
+		prendas.get(prenda.categoria()).remove(prenda);
+	}
+	
 	public int cantidadPrendas() {
 		return prendas.values().stream().mapToInt(categoria -> categoria.size()).sum();
 	}

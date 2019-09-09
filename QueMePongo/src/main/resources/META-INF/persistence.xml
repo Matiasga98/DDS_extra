@@ -11,11 +11,13 @@
         <class>dominio.Guardarropa</class>
         <class>dominio.Prenda</class>
         <class>dominio.Atuendo</class>
+        <class>dominio.Borrador</class>
 
         <class>dominio.Usuario</class>
         <class>dominio.Alertador</class>
         <class>dominio.Evento</class>
         <class>dominio.Notificador</class>
+        <class>dominio.Repositorio</class>
 
         <properties>
             <property name="hibernate.archive.autodetection" value="class"/>

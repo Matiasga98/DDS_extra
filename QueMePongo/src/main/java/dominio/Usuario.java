@@ -1,15 +1,21 @@
 package dominio;
 
 import javax.persistence.*;
+
 import dominio.clima.ProveedorClima;
 import dominio.enumerados.Categoria;
 import dominio.enumerados.EstadoAtuendo;
+import dominio.enumerados.ModoDeRepeticion;
 import dominio.enumerados.SuceptibilidadATemperatura;
 import dominio.excepciones.AtuendoNoPerteneceAGuardarropa;
 import dominio.excepciones.SuperoLaCantidadDePrendas;
+
 import org.uqbar.commons.model.Entity;
 import org.uqbar.commons.model.annotations.Observable;
+
 import dominio.Notificadores.Notificador;
+
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -143,6 +149,14 @@ public class Usuario extends Entity {
         }
     }
 
+    public void removerPrenda(Prenda prenda, Guardarropa guardarropa) {
+    	guardarropa.removerPrenda(prenda);
+    }
+    
+    public Set<Atuendo> sugerenciasDe(Guardarropa guardarropa) {
+    	return guardarropa.generarAtuendos();
+    }
+    
     public Set<Atuendo> sugerenciasDeAtuendosDeTodosLosGuardarropas() {
         return guardarropas.stream().flatMap(guardarropa -> guardarropa.generarAtuendos().stream()).collect(Collectors.toSet());
     }
@@ -234,7 +248,21 @@ public class Usuario extends Entity {
     	this.getMediosDeNotificacion().forEach(medio -> medio.notificar(evento, sugerencias));
     	return sugerencias;
     }
+    
+    public void crearEvento(String nombre, ProveedorClima proveedor, LocalDateTime unaFecha, ModoDeRepeticion modo, boolean flexible) {
+    	Evento evento = new Evento(nombre, proveedor, unaFecha, false, modo, this, flexible);
+    	this.agregarEvento(evento);
+    }
 
+    public void removerEvento(Evento evento) {
+    	this.getEventos().remove(evento);
+    }
+    
+    public void destruirEvento(Evento evento) {
+    	evento.destruirEvento();
+    	this.removerEvento(evento);
+    }
+    
     public void modificarCoeficiente(Categoria categoria, int valor){
         switch (categoria){
             case PARTE_SUPERIOR:

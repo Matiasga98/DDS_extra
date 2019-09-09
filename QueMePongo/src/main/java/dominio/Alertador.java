@@ -18,12 +18,18 @@ public class Alertador {
 	@Transient
 	public static Scheduler planificador = new Scheduler();
 	
-	public static void planificame_porfi (Evento evento, ProveedorClima proveedor, LocalDateTime unaFecha, ModoDeRepeticion modo, Usuario usuario, boolean flexible) {
+	public static String planificame_porfi (Evento evento, ProveedorClima proveedor, LocalDateTime unaFecha, ModoDeRepeticion modo, Usuario usuario, boolean flexible) {
+		String id = "";
 		switch (modo) {
-			case DIARIO: planificador.schedule(unaFecha.getMinute() + " " + (unaFecha.getHour() - 1) + " * * *", new Runnable() {public void run() {Set<Atuendo> sugerencias = usuario.notificarme(evento, proveedor, flexible);}}); break;
-			case MENSUAL: planificador.schedule(unaFecha.getMinute() + " " + (unaFecha.getHour() - 1) + " " + unaFecha.getDayOfMonth() + " * *", new Runnable() {public void run() {Set<Atuendo> sugerencias = usuario.notificarme(evento, proveedor, flexible);}}); break;
-			case ANUAL: planificador.schedule(unaFecha.getMinute() + " " + (unaFecha.getHour() - 1) + " " + unaFecha.getDayOfMonth() + " " + unaFecha.getMonthValue() + " *", new Runnable() {public void run() {Set<Atuendo> sugerencias = usuario.notificarme(evento, proveedor, flexible);}}); break;
+			case DIARIO: id = planificador.schedule(unaFecha.getMinute() + " " + (unaFecha.getHour() - 1) + " * * *", new Runnable() {public void run() {Set<Atuendo> sugerencias = usuario.notificarme(evento, proveedor, flexible);}}); break;
+			case MENSUAL: id = planificador.schedule(unaFecha.getMinute() + " " + (unaFecha.getHour() - 1) + " " + unaFecha.getDayOfMonth() + " * *", new Runnable() {public void run() {Set<Atuendo> sugerencias = usuario.notificarme(evento, proveedor, flexible);}}); break;
+			case ANUAL: id = planificador.schedule(unaFecha.getMinute() + " " + (unaFecha.getHour() - 1) + " " + unaFecha.getDayOfMonth() + " " + unaFecha.getMonthValue() + " *", new Runnable() {public void run() {Set<Atuendo> sugerencias = usuario.notificarme(evento, proveedor, flexible);}}); break;
 		}
         planificador.start();
+        return id;
+	}
+	
+	public static void destruirJob (String id) {
+		planificador.deschedule(id);
 	}
 }
