@@ -6,10 +6,11 @@ import javax.persistence.*;
 
 @Entity
 public class Prenda {
+	
 	@Id
-	@GeneratedValue
-	@Column(name="id")
-    long id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="prenda_id")
+    Long id;
 
     @Column(name="nombre")
 	String nombre;

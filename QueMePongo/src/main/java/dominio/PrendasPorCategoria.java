@@ -1,6 +1,7 @@
 package dominio;
 
 import java.util.HashSet;
+import java.util.Set;
 import dominio.enumerados.Categoria;
 
 import javax.persistence.*;
@@ -10,14 +11,17 @@ public class PrendasPorCategoria {
 	
 	@Id
 	@GeneratedValue
+	@Column(name = "prendas_por_categoria_id")
 	private long id;
 	
-	@OneToOne
+	@Enumerated
+	@Column(name = "categoria")
 	private Categoria categoria;
 	
-	@OneToMany
-	@JoinColumn(name = "prendas_por_categoria_id")
-	private HashSet<Prenda> prendas = new HashSet<>();
+	@ElementCollection(fetch = FetchType.LAZY)
+	@CollectionTable(name = "prenda", joinColumns = @JoinColumn(name = "prendas_por_categoria_id"))
+	@Column(name = "prenda_id")
+	private Set<Prenda> prendas = new HashSet<>();
 	
 	public PrendasPorCategoria(Categoria categoria) {
 		this.categoria = categoria;
@@ -35,7 +39,7 @@ public class PrendasPorCategoria {
 		this.prendas = prendas;
 	}
 	
-	public HashSet<Prenda> getPrendas() {
+	public Set<Prenda> getPrendas() {
 		return this.prendas;
 	}
 	

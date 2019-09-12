@@ -16,9 +16,9 @@ public class Guardarropa {
     private long guardarropaId;
 
    	//Esperando resolución de Roli
-	@ElementCollection(fetch = FetchType.LAZY)
+   	@ElementCollection(fetch = FetchType.LAZY)
 	@CollectionTable(name = "prendas_por_categoria", joinColumns = @JoinColumn(name = "guardarropaId"))
-	@Column(name = "prendas_por_categoria")
+   	@Column(name = "prendas_por_categoria_id")
 	private Set<PrendasPorCategoria> prendas;
 
 	@ElementCollection(fetch = FetchType.LAZY)
