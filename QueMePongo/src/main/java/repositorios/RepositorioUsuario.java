@@ -2,6 +2,9 @@ package repositorios;
 
 import dominio.Evento;
 import dominio.Usuario;
+import dominio.clima.AccuweatherData.AccuWeather;
+import dominio.enumerados.ModoDeRepeticion;
+
 import org.apache.commons.collections15.Predicate;
 import org.uqbar.commons.model.CollectionBasedRepo;
 
@@ -32,11 +35,11 @@ public class RepositorioUsuario extends CollectionBasedRepo<Usuario> {
     private void init() {
         Set<Evento> eventos = new HashSet<Evento>(
                 asList(
-                        new Evento("Clase", LocalDateTime.of(2019, Month.JULY, 1, 8, 30, 0), true),
-                        new Evento("Trabajo", LocalDateTime.of(2019, Month.JULY, 2, 8, 0, 0),true),
-                        new Evento("Club", LocalDateTime.of(2019, Month.JULY, 3, 13, 30, 0),false),
-                        new Evento("Viaje", LocalDateTime.of(2019, Month.JULY, 4, 17, 30, 0),false),
-                        new Evento("Amigos", LocalDateTime.of(2019, Month.JULY, 5, 19, 30, 0),true)
+                        new Evento("Clase", new AccuWeather(), LocalDateTime.of(2019, Month.JULY, 1, 8, 30, 0), false, ModoDeRepeticion.ANUAL, new Usuario(false), false),
+                        new Evento("Trabajo", new AccuWeather(), LocalDateTime.of(2019, Month.JULY, 2, 8, 0, 0), false, ModoDeRepeticion.ANUAL, new Usuario(false), false),
+                        new Evento("Club", new AccuWeather(), LocalDateTime.of(2019, Month.JULY, 3, 13, 30, 0), false, ModoDeRepeticion.ANUAL, new Usuario(false), false),
+                        new Evento("Viaje", new AccuWeather(), LocalDateTime.of(2019, Month.JULY, 4, 17, 30, 0), false, ModoDeRepeticion.ANUAL, new Usuario(false), false),
+                        new Evento("Amigos", new AccuWeather(), LocalDateTime.of(2019, Month.JULY, 5, 19, 30, 0), false, ModoDeRepeticion.ANUAL, new Usuario(false), false)
                 )
         );
         nombres.forEach(nombre->create(nombre,eventos));

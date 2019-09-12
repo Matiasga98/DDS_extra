@@ -5,7 +5,6 @@ import javax.mail.*;
 import javax.mail.internet.*;
 import javax.activation.*;
 import javax.persistence.*;
-import java.util.Set;
 import dominio.Atuendo;
 import dominio.Notificadores.Notificador;
 import dominio.Evento;
@@ -15,11 +14,11 @@ import dominio.Evento;
 public class gmail extends Notificador {
 
 	@Override
-	public void notificar(Evento evento, Set<Atuendo> sugerencias) {
+	public void notificar(Evento evento, HashSet<Atuendo> sugerencias) {
 		mandarMail(evento, sugerencias);
 	}
 	
-    public static void mandarMail(Evento evento, Set<Atuendo> sugerencias) {
+    public static void mandarMail(Evento evento, HashSet<Atuendo> sugerencias) {
         final String username = "elapuestoelio@gmail.com";
         final String password = "elapuestoelio";
         String submensaje;

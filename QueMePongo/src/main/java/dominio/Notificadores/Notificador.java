@@ -1,6 +1,6 @@
 package dominio.Notificadores;
 
-import java.util.Set;
+import java.util.HashSet;
 import dominio.Atuendo;
 import dominio.Evento;
 
@@ -15,6 +15,6 @@ public abstract class Notificador {
 	@GeneratedValue
 	private long id;
 
-	public void notificar(Evento evento, Set<Atuendo> sugerencias) {}
+	public void notificar(Evento evento, HashSet<Atuendo> sugerencias) {}
 
 }

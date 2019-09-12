@@ -119,8 +119,8 @@ public class UsuarioTest {
     @Test
     public void testPlanificador() {
     	ProveedorClima mock = new AccuWeather();
-    	Evento evento = new Evento("Nuevo evento.", mock, LocalDateTime.parse("2019-06-30T23:15:00"), ModoDeRepeticion.ANUAL, usuario, false);
-    	assertTrue(evento.getAlertador().planificador.isStarted());
+    	Evento evento = new Evento("Nuevo evento.", mock, LocalDateTime.parse("2019-06-30T23:15:00"), false, ModoDeRepeticion.ANUAL, usuario, false);
+    	assertTrue(Alertador.planificador.isStarted());
     }
     
     public boolean estaAtuendoEnSet (Atuendo atuendo, Set<Atuendo> atuendos){

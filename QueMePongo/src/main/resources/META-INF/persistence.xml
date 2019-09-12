@@ -12,6 +12,7 @@
         <class>dominio.Prenda</class>
         <class>dominio.Atuendo</class>
         <class>dominio.Borrador</class>
+        <class>dominio.PrendasPorCategoria</class>
 
         <class>dominio.Usuario</class>
         <class>dominio.Alertador</class>

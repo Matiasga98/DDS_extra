@@ -30,7 +30,7 @@ public class Evento {
     @Column(name = "hay_alertas_meteorologicas")
     public boolean tieneAlertasMeteorologicas;
     
-    public Evento (String elEvento, ProveedorClima proveedor, LocalDateTime unaFecha, boolean tieneSugerencias, ModoDeRepeticion modo, Usuario usuario, boolean flexible){
+    public Evento (String elEvento, ProveedorClima proveedor, LocalDateTime unaFecha, boolean tieneSugerencias, ModoDeRepeticion modo, Usuario usuario, boolean flexible) {
         this.nombre = elEvento;
         this.fechaYHora = unaFecha;
         this.tieneSugerencias = tieneSugerencias;

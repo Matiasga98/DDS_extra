@@ -15,8 +15,9 @@ public class Guardarropa {
     private long guardarropaId;
 
    	//Esperando resoluci√≥n de Roli
-	@Transient
-	private Map<Categoria, Set<Prenda>> prendas;
+	@OneToMany
+	@JoinColumn(name = "guardarropa_id")
+	private LinkedList<PrendasPorCategoria> prendas;
 
 	@ElementCollection(fetch = FetchType.LAZY)
 	@CollectionTable(name = "atuendos_aceptados", joinColumns = @JoinColumn(name = "guardarropaId"))
@@ -35,16 +36,17 @@ public class Guardarropa {
         this.guardarropaId = guardarropaId;
     }
 
-    public Map<Categoria, Set<Prenda>> getPrendas() {
+    public LinkedList<PrendasPorCategoria> getPrendas() {
         return prendas;
     }
-    public void setPrendas(Map<Categoria, Set<Prenda>> prendas) {
+    public void setPrendas(LinkedList<PrendasPorCategoria> prendas) {
         this.prendas = prendas;
     }
 
     public Set<Atuendo> getAtuendosAceptados() {
         return atuendosAceptados;
     }
+    
     public void setAtuendosAceptados(Set<Atuendo> atuendosAceptados) {
         this.atuendosAceptados = atuendosAceptados;
     }
@@ -57,44 +59,46 @@ public class Guardarropa {
     }
 
     public Guardarropa() {
-		prendas = new HashMap<>();
+		prendas = new LinkedList<>();
 		atuendosAceptados = new HashSet<>();
 		atuendosRechazados = new HashSet<>();
-		prendas.put(Categoria.PARTE_SUPERIOR, new HashSet<>());
-		prendas.put(Categoria.PARTE_INFERIOR, new HashSet<>());
-		prendas.put(Categoria.CALZADO, new HashSet<>());
+		prendas.add(new PrendasPorCategoria(Categoria.PARTE_SUPERIOR));
+		prendas.add(new PrendasPorCategoria(Categoria.PARTE_INFERIOR));
+		prendas.add(new PrendasPorCategoria(Categoria.CALZADO));
 		//prendas.put(Categoria.ACCESORIOS, new HashSet<>());
-		prendas.put(Categoria.CABEZA, new HashSet<>());
-		prendas.put(Categoria.CARA, new HashSet<>());
-		prendas.put(Categoria.CUELLO, new HashSet<>());
-		prendas.put(Categoria.MANOS, new HashSet<>());
+		prendas.add(new PrendasPorCategoria(Categoria.CABEZA));
+		prendas.add(new PrendasPorCategoria(Categoria.CARA));
+		prendas.add(new PrendasPorCategoria(Categoria.CUELLO));
+		prendas.add(new PrendasPorCategoria(Categoria.MANOS));
 	}
 
 	public boolean incluye(Prenda prenda){
-		return prendas.get(prenda.categoria()).contains(prenda);
+		return prendas.stream().anyMatch(prendas -> prendas.getPrendas().contains(prenda));
 	}
 
 	public void agregarPrendas(Prenda prenda) {
-		prendas.get(prenda.categoria()).add(prenda);
+		prendas.stream().forEach(prendas -> {if (prendas.getCategoria().equals(prenda.categoria())) prendas.getPrendas().add(prenda);});
 	}
 
 	public void removerPrenda(Prenda prenda) {
-		prendas.get(prenda.categoria()).remove(prenda);
+		prendas.stream().forEach(prendas -> {if (prendas.getCategoria().equals(prenda.categoria())) prendas.getPrendas().remove(prenda);});
 	}
 	
 	public int cantidadPrendas() {
-		return prendas.values().stream().mapToInt(categoria -> categoria.size()).sum();
+		return prendas.stream().mapToInt(prendas -> prendas.getPrendas().size()).sum();
 	}
 
-	public Set<Prenda> prendasSegunCategoria(Categoria categoria) {
-		return prendas.get(categoria);
+	public HashSet<Prenda> prendasSegunCategoria(Categoria categoria) {
+		HashSet<Prenda> misPrendas = new HashSet<>();
+		prendas.stream().forEach(prendas -> {if (prendas.getCategoria().equals(categoria)) misPrendas.addAll(prendas.getPrendas());});
+		return misPrendas;
 	}
-
 
 	public void mostrarAtuendosList (List<Prenda> atuendo){
 		System.out.println("----------");
 		atuendo.stream().forEach(prenda->System.out.println(prenda.tipo));
 	}
+	
 	public void mostrarAtuendosSet (Set<Prenda> atuendo){
 		System.out.println("----------");
 		atuendo.stream().forEach(prenda->System.out.println(prenda.tipo));
@@ -110,7 +114,6 @@ public class Guardarropa {
 		Set<List<Prenda>> combinacionesSuperioresValidas = new HashSet<List<Prenda>>();
 		Set<List<Prenda>> combinacionesAccesoriosValidas = new HashSet<List<Prenda>>();
 
-
 		//Method Mati
 		combinacionesSuperioresValidas = Categoria.PARTE_SUPERIOR.obtenerCombinacionSuperiores(superiores);
 		combinacionesAccesoriosValidas = Categoria.obtenerCombinacionAccesorios(accesorios);
@@ -120,8 +123,6 @@ public class Guardarropa {
 				calzados
 		);
 
-
-
 		Set<List<List<Prenda>>> atuendosObtenidos = Sets.cartesianProduct(
 				combinacionesSuperioresValidas,
 				atuendosSinSuperior,
@@ -130,7 +131,7 @@ public class Guardarropa {
 		);
 
 		Set<List<Prenda>> AtuendosFinales = new HashSet<>();
-		atuendosObtenidos.stream().forEach(pipi->AtuendosFinales.add(this.aplanarLista(pipi)));
+		atuendosObtenidos.stream().forEach(pipi -> AtuendosFinales.add(this.aplanarLista(pipi)));
 		AtuendosFinales.forEach(lista -> atuendos.add(new Atuendo(lista)));
 
 		return atuendos;
@@ -138,7 +139,6 @@ public class Guardarropa {
 	}
 
 	public Set<Prenda> conseguirAccesorios(){
-
 		Set<Prenda> accesorios = prendasSegunCategoria(Categoria.CABEZA);
 		accesorios.addAll(prendasSegunCategoria(Categoria.CUELLO));
 		accesorios.addAll(prendasSegunCategoria(Categoria.CARA));
@@ -146,37 +146,31 @@ public class Guardarropa {
 		return accesorios;
 	}
 
-
-
 	public List<Prenda> aplanarLista (List<List<Prenda>> ListaAProcesar){
 		List<Prenda> aplanada = ListaAProcesar.stream().flatMap(x -> x.stream()).collect(Collectors.toList());
 		return aplanada;
 	}
 
-
-
 	public Set<Atuendo> generarSugerencia(Double temperatura, Set<Atuendo> atuendos, boolean flexible, Usuario usuario) {
 		if (flexible) {
 			return atuendos.stream().filter(atuendo -> estaBienVestidoFlexible(atuendo, temperatura, usuario) && !atuendo.estaEnUso()).collect(Collectors.toSet());
-
 		}
 		else{
 			return atuendos.stream().filter(atuendo -> estaBienVestido(atuendo, temperatura, usuario) && !atuendo.estaEnUso()).collect(Collectors.toSet());
-
 		}
 	}
 
 	public Set<Atuendo> sugerirParaEvento(Evento evento, ProveedorClima proveedor, boolean flexible, Usuario usuario){
 		Set<Atuendo> atuendos = this.generarAtuendos();
 		double temperatura = proveedor.temperatura(evento.getFechaYHora());
-		evento.tieneAlertasMeteorolÛgicas = proveedor.tieneAlertasMeteorolÛgicas(evento.getFechaYHora());
-
+		evento.tieneAlertasMeteorologicas = proveedor.tieneAlertasMeteorologicas(evento.getFechaYHora());
 		return this.generarSugerencia(temperatura, atuendos, flexible, usuario);
 	}
 
 	public boolean estaBienVestido(Atuendo atuendo, Double temperatura, Usuario usuario){
 		return estaDistribuidoElAbrigo(atuendo, temperatura, usuario);
 	}
+	
 	public boolean estaDistribuidoElAbrigo (Atuendo atuendo, Double temperatura, Usuario usuario){
 		return Categoria.estaAbrigadoEn(atuendo, temperatura, usuario, usuario.coeficienteEn(Categoria.PARTE_SUPERIOR), Categoria.PARTE_SUPERIOR)
 				&& Categoria.estaAbrigadoEn(atuendo, temperatura, usuario,usuario.coeficienteEn(Categoria.PARTE_INFERIOR), Categoria.PARTE_INFERIOR)
@@ -185,16 +179,12 @@ public class Guardarropa {
 				&& Categoria.estaAbrigadoEn(atuendo,temperatura,usuario, usuario.coeficienteEn(Categoria.CABEZA), Categoria.CABEZA)
 				&& Categoria.estaAbrigadoEn(atuendo,temperatura,usuario, usuario.coeficienteEn(Categoria.CUELLO), Categoria.CUELLO)
 				&& Categoria.estaAbrigadoEn(atuendo,temperatura,usuario,usuario.coeficienteEn(Categoria.MANOS), Categoria.MANOS);
-
 	}
-
-
-
-
 
 	public boolean estaBienVestidoFlexible(Atuendo atuendo, Double temperatura, Usuario usuario){
 		return atuendo.abrigoTotal()>= 26-temperatura && atuendo.abrigoTotal() <= 56 - temperatura && estaDistribuidoElAbrigo(atuendo, temperatura,usuario);
 	}
+	
 	public boolean estaDistribuidoElAbrigoFlexible (Atuendo atuendo, Double temperatura){
 		return atuendo.abrigoSuperior()>= (26-temperatura)*0.6 && atuendo.abrigoInferior()>= (26-temperatura)*0.3 && atuendo.abrigoCalzado() >= (26-temperatura)*0.1;
 	}
@@ -202,12 +192,15 @@ public class Guardarropa {
 	public void agregarAAceptados(Atuendo atuendo){
 		this.atuendosAceptados.add(atuendo);
 	}
+	
 	public void agregarARechazados(Atuendo atuendo){
 		this.atuendosRechazados.add(atuendo);
 	}
+	
 	public void quitarDeAceptados(Atuendo atuendo){
 		this.atuendosAceptados.remove(atuendo);
 	}
+	
 	public void quitarDeRechazados(Atuendo atuendo){
 		this.atuendosRechazados.remove(atuendo);
 	}
@@ -221,7 +214,6 @@ public class Guardarropa {
 		calificacion.friolentoEn.stream().forEach(categoria -> usuario.friolentarEn(categoria));
 		usuario.CalurosoEn().addAll(calificacion.calurosoEn);
 		calificacion.calurosoEn.stream().forEach(categoria -> usuario.calentarEn(categoria));
-
 	}
 
 }

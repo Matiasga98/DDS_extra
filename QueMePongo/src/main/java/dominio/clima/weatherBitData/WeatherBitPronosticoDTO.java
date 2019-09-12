@@ -365,7 +365,7 @@ class Data {
     }
 
     public Pronostico normalizar() {
-        return new Pronostico(LocalDateTime.parse(timestamp_local,formato),temp);
+        return new Pronostico(LocalDateTime.parse(timestamp_local, formato), temp, false);
     }
 }
 
