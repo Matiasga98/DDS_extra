@@ -117,9 +117,11 @@ public class Usuario extends Entity {
         this.esPremium = esPago;
         this.prendasMaximas = 20;
     }
+    
     public Set<Categoria> FriolentoEn(){
         return friolentoEn;
     }
+    
     public boolean EsFriolento(){
         return suceptibilidad.equals(SuceptibilidadATemperatura.FRIOLENTO);
     }
@@ -213,8 +215,8 @@ public class Usuario extends Entity {
     	this.guardarropas().add(guardarropa);
     }
     
-    public Set<Atuendo> pedirSugerenciaParaEventoDeTodosLosGuadaropas(Evento evento, ProveedorClima proveedor, boolean flexible) {
-    	Set<Atuendo> atuendos = new HashSet<Atuendo>();
+    public HashSet<Atuendo> pedirSugerenciaParaEventoDeTodosLosGuadaropas(Evento evento, ProveedorClima proveedor, boolean flexible) {
+    	HashSet<Atuendo> atuendos = new HashSet<Atuendo>();
     	this.guardarropas().forEach(guardarropa -> atuendos.addAll(guardarropa.sugerirParaEvento(evento, proveedor, flexible, this)));
     	return atuendos;
     }
@@ -244,7 +246,7 @@ public class Usuario extends Entity {
     }
     
     public Set<Atuendo> notificarme(Evento evento, ProveedorClima proveedor, boolean flexible) {
-    	Set<Atuendo> sugerencias = this.pedirSugerenciaParaEventoDeTodosLosGuadaropas(evento, proveedor, flexible);
+    	HashSet<Atuendo> sugerencias = this.pedirSugerenciaParaEventoDeTodosLosGuadaropas(evento, proveedor, flexible);
     	this.getMediosDeNotificacion().forEach(medio -> medio.notificar(evento, sugerencias));
     	return sugerencias;
     }

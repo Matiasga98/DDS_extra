@@ -6,9 +6,7 @@ import dominio.enumerados.ModoDeRepeticion;
 import dominio.Notificadores.Twilio.Gmail.gmail;
 import org.joda.time.LocalDateTime;
 import org.junit.Test;
-
 import java.util.HashSet;
-
 import javax.mail.MessagingException;
 
 public class mailTest {

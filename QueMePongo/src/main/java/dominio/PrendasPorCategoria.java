@@ -5,6 +5,7 @@ import dominio.enumerados.Categoria;
 
 import javax.persistence.*;
 
+@Entity
 public class PrendasPorCategoria {
 	
 	@Id

@@ -10,14 +10,16 @@ import javax.persistence.*;
 
 @Entity
 public class Guardarropa {
+	
    	@Id
     @GeneratedValue
     private long guardarropaId;
 
    	//Esperando resolución de Roli
-	@OneToMany
-	@JoinColumn(name = "guardarropa_id")
-	private LinkedList<PrendasPorCategoria> prendas;
+	@ElementCollection(fetch = FetchType.LAZY)
+	@CollectionTable(name = "prendas_por_categoria", joinColumns = @JoinColumn(name = "guardarropaId"))
+	@Column(name = "prendas_por_categoria")
+	private Set<PrendasPorCategoria> prendas;
 
 	@ElementCollection(fetch = FetchType.LAZY)
 	@CollectionTable(name = "atuendos_aceptados", joinColumns = @JoinColumn(name = "guardarropaId"))
@@ -36,10 +38,10 @@ public class Guardarropa {
         this.guardarropaId = guardarropaId;
     }
 
-    public LinkedList<PrendasPorCategoria> getPrendas() {
+    public Set<PrendasPorCategoria> getPrendas() {
         return prendas;
     }
-    public void setPrendas(LinkedList<PrendasPorCategoria> prendas) {
+    public void setPrendas(Set<PrendasPorCategoria> prendas) {
         this.prendas = prendas;
     }
 
@@ -59,7 +61,7 @@ public class Guardarropa {
     }
 
     public Guardarropa() {
-		prendas = new LinkedList<>();
+		prendas = new HashSet<>();
 		atuendosAceptados = new HashSet<>();
 		atuendosRechazados = new HashSet<>();
 		prendas.add(new PrendasPorCategoria(Categoria.PARTE_SUPERIOR));
