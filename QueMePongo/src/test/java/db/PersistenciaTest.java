@@ -32,10 +32,8 @@ public class PersistenciaTest extends AbstractPersistenceTest implements WithGlo
     }
 
     @Test
-    public void persistirPrenda() throws Exception{
-
-        EntityManager em = entityManager();
-        Prenda remerita = new Prenda("remerita", Tipo.REMERA, Material.ALGODON, Trama.LISA, negro, null);
+    public void persistirPrenda() throws Exception {
+    	Prenda remerita = new Prenda("remerita", Tipo.REMERA, Material.ALGODON, Trama.LISA, negro, null);
 
         entityManager().persist(negro);
         entityManager().persist(remerita);
@@ -45,21 +43,22 @@ public class PersistenciaTest extends AbstractPersistenceTest implements WithGlo
     }
 
     @Test
-    public void persistirGuardarropa() throws Exception
-    {
-        /*
-        EntityManager em = entityManager();
-
+    public void persistirGuardarropa() throws Exception {
         Guardarropa testito = new Guardarropa();
         testito.agregarPrendas(remerita);
         testito.agregarPrendas(pantaloncito);
 
+        entityManager().persist(remerita.colorPrimario());
+        entityManager().persist(pantaloncito.colorPrimario());
+        
         entityManager().persist(remerita);
         entityManager().persist(pantaloncito);
 
+        testito.getPrendas().forEach(prendas -> entityManager().persist(prendas));
+        
         entityManager().persist(testito);
 
-        entityManager().getTransaction().commit();*/
+        entityManager().getTransaction().commit();
     }
 
 }

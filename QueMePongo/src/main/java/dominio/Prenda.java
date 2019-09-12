@@ -8,9 +8,9 @@ import javax.persistence.*;
 public class Prenda {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue
 	@Column(name="prenda_id")
-    Long id;
+    long id;
 
     @Column(name="nombre")
 	String nombre;

@@ -19,8 +19,8 @@ public class PrendasPorCategoria {
 	private Categoria categoria;
 	
 	@ElementCollection(fetch = FetchType.LAZY)
-	@CollectionTable(name = "prenda", joinColumns = @JoinColumn(name = "prendas_por_categoria_id"))
-	@Column(name = "prenda_id")
+	@CollectionTable(name = "prendas", joinColumns = @JoinColumn(name = "prendas_por_categoria_id"))
+	@Column(name = "prendas_id")
 	private Set<Prenda> prendas = new HashSet<>();
 	
 	public PrendasPorCategoria(Categoria categoria) {
