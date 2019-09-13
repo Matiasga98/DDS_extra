@@ -57,27 +57,38 @@ public class Usuario extends Entity {
     @Column(name = "categoria_id")
     private Set<Categoria> calurosoEn = new HashSet<>();
 
-    @Enumerated
-	private SuceptibilidadATemperatura suceptibilidad;
+
+    @ElementCollection
+    @CollectionTable(name = "sugerencia", joinColumns = @JoinColumn(name = "usuario_id"))
+    @Column(name = "prenda_id")
+    private Set<Atuendo> loQueMeSugirieron = new HashSet<>();
+
+    public Set<Atuendo> getLoQueMeSugirieron() {
+        return loQueMeSugirieron;
+    }
+
+    public void setLoQueMeSugirieron(Set<Atuendo> loQueMeSugirieron) {
+        this.loQueMeSugirieron = loQueMeSugirieron;
+    }
 
 	//Constantes
-    @Transient
+    //@Transient
     private int prendasMaximas = 20;
-    @Transient
+    //@Transient
     private int coeficienteSuperior = 25;
 
-    @Transient
+    //@Transient
     private int coeficienteInferior = 20;
-    @Transient
+    //@Transient
 
     private int coeficienteCalzado = 15;
-    @Transient
+    //@Transient
     private int coeficienteCabeza = 15;
-    @Transient
+    //@Transient
     private int coeficienteCuello = 10;
-    @Transient
+    //@Transient
     private int coeficienteCara = 5;
-    @Transient
+    //@Transient
     private int coeficienteManos = 10;
 
     public int coeficienteEn(Categoria categoria){
@@ -124,16 +135,11 @@ public class Usuario extends Entity {
         return friolentoEn;
     }
     
-    public boolean EsFriolento(){
-        return suceptibilidad.equals(SuceptibilidadATemperatura.FRIOLENTO);
-    }
+
     public Set<Categoria> CalurosoEn(){
         return calurosoEn;
     }
 
-    public boolean EsCaluroso(){
-        return suceptibilidad.equals(SuceptibilidadATemperatura.CALUROSO);
-    }
 
     public Set<Guardarropa> guardarropas() {
         return guardarropas;
@@ -170,6 +176,7 @@ public class Usuario extends Entity {
     }
 
     public Set<Atuendo> pedirSugerenciaParaEvento (Evento evento, Guardarropa guardarropa, ProveedorClima unProveedor, boolean flexible){
+        loQueMeSugirieron.addAll(guardarropa.sugerirParaEvento(evento, unProveedor, flexible, this ));
         return guardarropa.sugerirParaEvento(evento, unProveedor, flexible, this );
     }
     public void aceptarSugerencia (Atuendo atuendo, Guardarropa guardarropa){
@@ -182,6 +189,7 @@ public class Usuario extends Entity {
         guardarropaIncluyeAtuendo(guardarropa,atuendo);
         guardarropa.agregarARechazados(atuendo);
         atuendo.cambiarEstado(EstadoAtuendo.RECHAZADO);
+        loQueMeSugirieron.remove(atuendo);
     }
 
     public void deshacerDecision (Atuendo atuendo, Guardarropa guardarropa){
@@ -220,6 +228,7 @@ public class Usuario extends Entity {
     public HashSet<Atuendo> pedirSugerenciaParaEventoDeTodosLosGuadaropas(Evento evento, ProveedorClima proveedor, boolean flexible) {
     	HashSet<Atuendo> atuendos = new HashSet<Atuendo>();
     	this.guardarropas().forEach(guardarropa -> atuendos.addAll(guardarropa.sugerirParaEvento(evento, proveedor, flexible, this)));
+    	loQueMeSugirieron.addAll(atuendos);
     	return atuendos;
     }
 

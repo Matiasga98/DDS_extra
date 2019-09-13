@@ -15,7 +15,7 @@ public class Guardarropa {
     @GeneratedValue
     private long guardarropaId;
 
-   	@OneToMany
+   	@OneToMany(cascade = {CascadeType.ALL})
 	@JoinColumn(name = "guardarropaId")
 	private Set<PrendasPorCategoria> prendas;
 
@@ -211,10 +211,8 @@ public class Guardarropa {
 	}
 
 	public void procesarCalificacion (Calificacion calificacion, Usuario usuario){
-		usuario.FriolentoEn().addAll(calificacion.friolentoEn);
-		calificacion.friolentoEn.stream().forEach(categoria -> usuario.friolentarEn(categoria));
-		usuario.CalurosoEn().addAll(calificacion.calurosoEn);
-		calificacion.calurosoEn.stream().forEach(categoria -> usuario.calentarEn(categoria));
+    	calificacion.friolentoEn.stream().forEach(categoria -> usuario.calentarEn(categoria));
+    	calificacion.calurosoEn.stream().forEach(categoria -> usuario.friolentarEn(categoria));
 	}
 
 }

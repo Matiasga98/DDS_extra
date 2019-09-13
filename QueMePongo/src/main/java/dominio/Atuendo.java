@@ -20,6 +20,10 @@ public class Atuendo {
     @Enumerated
     private EstadoAtuendo estado;
 
+    public Atuendo() {
+
+    }
+
     public void setPrendas(List<Prenda> prendas) {
         this.prendas = prendas;
     }
