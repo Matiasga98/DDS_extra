@@ -38,6 +38,10 @@ public class Evento {
         this.idDelJob = Alertador.planificame_porfi(this, proveedor, unaFecha, modo, usuario, flexible);
     }
 
+    public Evento(){
+
+    }
+
     public void destruirEvento () {
     	Alertador.destruirJob(this.getIdDelJob());
     }

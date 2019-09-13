@@ -9,22 +9,21 @@ public class Prenda {
 	
 	@Id
 	@GeneratedValue
-	@Column(name="prenda_id")
     long id;
 
     @Column(name="nombre")
 	String nombre;
 
 	@Enumerated
-    @Column(name="tipo_id")
+    @Column(name="tipo")
 	Tipo tipo;
 
 	@Enumerated
-    @Column(name="material_id")
+    @Column(name="material")
     Material material;
 
 	@Enumerated
-    @Column(name="trama_id")
+    @Column(name="trama")
     Trama trama;
 
 	@OneToOne

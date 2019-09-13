@@ -5,17 +5,9 @@ import java.time.LocalDateTime;
 import dominio.clima.ProveedorClima;
 import dominio.enumerados.ModoDeRepeticion;
 import it.sauronsoftware.cron4j.Scheduler;
-import javax.persistence.*;
 
-@Entity
 public class Alertador {
 
-	@Id
-	@GeneratedValue
-	@Column(name="id_alertador")
-	private long id;
-
-	@Transient
 	public static Scheduler planificador = new Scheduler();
 	
 	public static String planificame_porfi (Evento evento, ProveedorClima proveedor, LocalDateTime unaFecha, ModoDeRepeticion modo, Usuario usuario, boolean flexible) {

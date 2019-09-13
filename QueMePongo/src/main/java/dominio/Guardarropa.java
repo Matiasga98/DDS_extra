@@ -15,18 +15,16 @@ public class Guardarropa {
     @GeneratedValue
     private long guardarropaId;
 
-   	//Esperando resolución de Roli
-   	@ElementCollection(fetch = FetchType.LAZY)
-	@CollectionTable(name = "prendas_por_categoria", joinColumns = @JoinColumn(name = "guardarropaId"))
-   	@Column(name = "prendas_por_categoria_id")
+   	@OneToMany
+	@JoinColumn(name = "guardarropaId")
 	private Set<PrendasPorCategoria> prendas;
 
-	@ElementCollection(fetch = FetchType.LAZY)
+	@ElementCollection
 	@CollectionTable(name = "atuendos_aceptados", joinColumns = @JoinColumn(name = "guardarropaId"))
 	@Column(name = "atuendoId")
 	private Set<Atuendo> atuendosAceptados;
 
-	@ElementCollection(fetch = FetchType.LAZY)
+	@ElementCollection
 	@CollectionTable(name = "atuendos_rechazados", joinColumns = @JoinColumn(name = "guardarropaId"))
 	@Column(name = "atuendoId")
 	private Set<Atuendo> atuendosRechazados;

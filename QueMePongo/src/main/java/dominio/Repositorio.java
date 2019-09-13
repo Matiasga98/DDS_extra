@@ -5,19 +5,10 @@ import java.util.HashSet;
 
 import javax.persistence.*;
 
-@Entity
 public class Repositorio {
 
-	@Id
-	@GeneratedValue
-	@Column (name = "id")
-	private long id;
-	
-	@OneToMany
-	@JoinColumn (name = "repo_id")
     private Collection<Usuario> usuarios;
 
-	@Transient
     private static Repositorio instancia = new Repositorio();
 
     private Repositorio(){

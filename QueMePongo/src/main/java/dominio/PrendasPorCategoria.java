@@ -7,6 +7,7 @@ import dominio.enumerados.Categoria;
 import javax.persistence.*;
 
 @Entity
+@Table(name="prendas_por_categoria")
 public class PrendasPorCategoria {
 	
 	@Id
@@ -18,9 +19,8 @@ public class PrendasPorCategoria {
 	@Column(name = "categoria")
 	private Categoria categoria;
 	
-	@ElementCollection(fetch = FetchType.LAZY)
-	@CollectionTable(name = "prendas", joinColumns = @JoinColumn(name = "prendas_por_categoria_id"))
-	@Column(name = "prendas_id")
+	@OneToMany
+	@JoinColumn(name = "prendas_por_categoria_id")
 	private Set<Prenda> prendas = new HashSet<>();
 	
 	public PrendasPorCategoria(Categoria categoria) {
