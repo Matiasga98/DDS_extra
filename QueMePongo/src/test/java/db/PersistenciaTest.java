@@ -40,7 +40,7 @@ public class PersistenciaTest extends AbstractPersistenceTest implements WithGlo
     public void persistirPrenda() throws Exception {
     	Prenda remerita = new Prenda("remerita", Tipo.REMERA, Material.ALGODON, Trama.LISA, negro, null);
 
-        entityManager().getTransaction().begin();
+        //entityManager().getTransaction().begin();
 
         entityManager().persist(negro);
         entityManager().persist(remerita);
@@ -56,7 +56,7 @@ public class PersistenciaTest extends AbstractPersistenceTest implements WithGlo
         testito.agregarPrendas(remerita);
         testito.agregarPrendas(pantaloncito);
 
-        entityManager().getTransaction().begin();
+        //entityManager().getTransaction().begin();
         entityManager().persist(remerita.colorPrimario());
         entityManager().persist(pantaloncito.colorPrimario());
         
@@ -73,7 +73,7 @@ public class PersistenciaTest extends AbstractPersistenceTest implements WithGlo
     @Test
     public void cargarEvento() throws Exception{
         presentarEsteTP = new Evento("Prensentar TP",new AccuWeather(), LocalDateTime.parse("2019-05-31T13:00:00"),false, ModoDeRepeticion.MENSUAL,elio,false);
-        entityManager().getTransaction().begin();
+        //entityManager().getTransaction().begin();
         entityManager().persist(presentarEsteTP);
         entityManager().getTransaction().commit();
     }
