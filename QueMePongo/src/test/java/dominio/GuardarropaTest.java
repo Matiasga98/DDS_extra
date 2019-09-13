@@ -68,7 +68,7 @@ public class GuardarropaTest {
 
 
 
-    
+
 
     @Test
     public void GenerarAtuendosNuevo() {

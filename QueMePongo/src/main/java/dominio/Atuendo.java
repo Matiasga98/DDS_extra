@@ -26,12 +26,17 @@ public class Atuendo {
     }
 
     public int abrigoEn(Categoria categoria){
-        if(categoria != Categoria.PARTE_SUPERIOR) {
+        if(categoria != Categoria.PARTE_SUPERIOR && tienePrendaEn(categoria)) {
             return ObtenerPrendaEnCategoria(categoria).tipo.PuntajeAbrigo();
         }
-        else{
-            return abrigoSuperior();
+        else if (categoria != Categoria.PARTE_SUPERIOR  && !tienePrendaEn(categoria)){
+            return 0;
         }
+        return abrigoSuperior();
+    }
+
+    public boolean tienePrendaEn(Categoria categoria){
+        return !(this.prendas().stream().filter(prenda -> prenda.tipo().categoria() == categoria).collect(Collectors.toList()).size() == 0);
     }
 
     public int abrigoSuperior(){
@@ -46,7 +51,7 @@ public class Atuendo {
 
 
     public Prenda ObtenerPrendaEnCategoria(Categoria categoria){
-        return prendas.stream().filter(prenda->prenda.tipo.categoria() == categoria).collect(Collectors.toList()).get(0);
+            return prendas.stream().filter(prenda->prenda.tipo.categoria() == categoria).collect(Collectors.toList()).get(0);
     }
 
 

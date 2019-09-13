@@ -30,7 +30,7 @@ public class Usuario extends Entity {
 
 
     private int coeficienteSuperior = 25;
-    private int coeficienteInferior = 29;
+    private int coeficienteInferior = 20;
     private int coeficienteCalzado = 15;
     private int coeficienteCabeza = 15;
     private int coeficienteCuello = 10;

@@ -45,47 +45,60 @@ public class UsuarioTest {
 
     @Test
     public void usuarioSinGuardarropaPidenSugerencias() {
-        assertTrue(usuario.guardarropas().isEmpty());
+        //assertTrue(usuario.guardarropas().isEmpty());
         assertTrue(usuario.sugerenciasDeAtuendosDeTodosLosGuardarropas().isEmpty());
     }
 
     @Test
     public void usuarioConUnGuardarropa() {
 
-        assertTrue(usuario.guardarropas().isEmpty());
-
-        agregoUnGuardarropa();
-
-        assertEquals(1, usuario.guardarropas().size());
+        //assertTrue(usuario.guardarropas().isEmpty());
 
 
-        Guardarropa guardarropaDelUsuarie = usuario.guardarropas().iterator().next();
 
-        assertEquals(6, guardarropaDelUsuarie.prendasSegunCategoria(Categoria.PARTE_SUPERIOR).size());
-        assertEquals(6, guardarropaDelUsuarie.prendasSegunCategoria(Categoria.PARTE_INFERIOR).size());
-        assertEquals(1, guardarropaDelUsuarie.prendasSegunCategoria(Categoria.CALZADO).size());
-        //assertTrue(guardarropaDelUsuarie.prendasSegunCategoria(Categoria.ACCESORIOS).isEmpty());
 
-        assertEquals(36, usuario.sugerenciasDeAtuendosDeTodosLosGuardarropas().size());
+
+
+        Guardarropa testito = new Guardarropa();
+
+        Prenda remerita = new Prenda("remerita", Tipo.REMERA, Material.ALGODON, Trama.LISA, negro, null);
+        Prenda pantaloncito =new Prenda("pantaloncito", Tipo.PANTALON, Material.JEAN, Trama.LISA, rojo, null);
+        Prenda inviernito =new Prenda("inviernito", Tipo.PANTALONINVIERNO, Material.JEAN, Trama.LISA, rojo, null);
+        Prenda zapatito =new Prenda("zapatito", Tipo.ZAPATO, Material.CUERO, Trama.LISA, azul, null);
+        Prenda buzito =new Prenda("buzito", Tipo.BUZO, Material.ALGODON, Trama.LISA, blanco, null);
+        Prenda anillito =new Prenda("anillito", Tipo.ANILLO, Material.ORO, Trama.LISA, verde, null);
+        Prenda guantitos =new Prenda("guantitos", Tipo.GUANTES, Material.LANA, Trama.LISA, verde, null);
+        Prenda bufandita =new Prenda("bufandita", Tipo.BUFANDA, Material.LANA, Trama.LISA, verde, null);
+        Prenda camperita = new Prenda("camperita", Tipo.CAMPERA,Material.ALGODON,Trama.LISA,rojo,null);
+        Prenda camisita = new Prenda ("camisita", Tipo.CAMISA,Material.ALGODON,Trama.LISA,azul,null);
+        Prenda lentitos = new Prenda ("lentitos", Tipo.LENTES,Material.VIDRIO,Trama.LISA,negro,null);
+        Prenda gorrito = new Prenda ( "gorrito", Tipo.GORRO,Material.LANA,Trama.LISA,blanco,azul);
+
+        testito.agregarPrendas(guantitos);
+        testito.agregarPrendas(bufandita);
+        testito.agregarPrendas(remerita);
+        testito.agregarPrendas(zapatito);
+        testito.agregarPrendas(lentitos);
+        testito.agregarPrendas(buzito);
+        testito.agregarPrendas(pantaloncito);
+        testito.agregarPrendas(anillito);
+        testito.agregarPrendas(camperita);
+        testito.agregarPrendas(camisita);
+        testito.agregarPrendas(inviernito);
+        testito.agregarPrendas(gorrito);
+
+        assertEquals(4, testito.prendasSegunCategoria(Categoria.PARTE_SUPERIOR).size());
+        assertEquals(2, testito.prendasSegunCategoria(Categoria.PARTE_INFERIOR).size());
+        assertEquals(1, testito.prendasSegunCategoria(Categoria.CALZADO).size());
+        assertEquals(1, testito.prendasSegunCategoria(Categoria.CABEZA).size());
+        assertEquals(1, testito.prendasSegunCategoria(Categoria.CARA).size());
+        assertEquals(2, testito.prendasSegunCategoria(Categoria.MANOS).size());
+        assertEquals(1, testito.prendasSegunCategoria(Categoria.CUELLO).size());
+        
 
     }
 
-    @Test
-    public void usuarioConDosGuardarropa() {
 
-        assertTrue(usuario.guardarropas().isEmpty());
-
-        agregoUnGuardarropa();
-
-        assertEquals(1, usuario.guardarropas().size());
-
-        agregoUnGuardarropa();
-
-        assertEquals(2, usuario.guardarropas().size());
-
-        assertEquals(72, usuario.sugerenciasDeAtuendosDeTodosLosGuardarropas().size());
-
-    }
    /* @Test
     public void superTest() {
         usuario = new Usuario(true);
@@ -133,6 +146,48 @@ public class UsuarioTest {
         System.out.println(atuendosSugeridos.containsAll(atuendosTest))
         assertTrue(this.compararSets(atuendosSugeridos,atuendosTest));
     }*/
+
+
+   @Test
+   public void testSugerencia(){
+       Prenda remerita = new Prenda("remerita", Tipo.REMERA, Material.ALGODON, Trama.LISA, negro, null);
+       Prenda pantaloncito =new Prenda("pantaloncito", Tipo.PANTALON, Material.JEAN, Trama.LISA, rojo, null);
+       Prenda inviernito =new Prenda("inviernito", Tipo.PANTALONINVIERNO, Material.JEAN, Trama.LISA, rojo, null);
+       Prenda zapatito =new Prenda("zapatito", Tipo.ZAPATO, Material.CUERO, Trama.LISA, azul, null);
+       Prenda buzito =new Prenda("buzito", Tipo.BUZO, Material.ALGODON, Trama.LISA, blanco, null);
+       Prenda anillito =new Prenda("anillito", Tipo.ANILLO, Material.ORO, Trama.LISA, verde, null);
+       Prenda guantitos =new Prenda("guantitos", Tipo.GUANTES, Material.LANA, Trama.LISA, verde, null);
+       Prenda bufandita =new Prenda("bufandita", Tipo.BUFANDA, Material.LANA, Trama.LISA, verde, null);
+       Prenda camperita = new Prenda("camperita", Tipo.CAMPERA,Material.ALGODON,Trama.LISA,rojo,null);
+       Prenda camisita = new Prenda ("camisita", Tipo.CAMISA,Material.ALGODON,Trama.LISA,azul,null);
+       Prenda lentitos = new Prenda ("lentitos", Tipo.LENTES,Material.VIDRIO,Trama.LISA,negro,null);
+       Guardarropa testito = new Guardarropa();
+       //testito.agregarPrendas(guantitos);
+       testito.agregarPrendas(bufandita);
+       testito.agregarPrendas(remerita);
+       testito.agregarPrendas(zapatito);
+       testito.agregarPrendas(lentitos);
+       testito.agregarPrendas(buzito);
+       testito.agregarPrendas(pantaloncito);
+       testito.agregarPrendas(anillito);
+       //testito.agregarPrendas(camperita);
+       //testito.agregarPrendas(camisita);
+       //testito.agregarPrendas(inviernito);
+       Set<Atuendo>  sugerencias = new HashSet<>();
+       Usuario elio = new Usuario(true);
+       elio.agregarGuardarropa(testito);
+
+       Evento cumpleDeHernan = new Evento("cumple Hernan AAAAA", LocalDateTime.parse("2019-05-31T13:00:00"),false);
+       ProveedorClima mock = new AccuWeather();
+       cumpleDeHernan = new Evento("cumple Hernan AAAAA", mock, LocalDateTime.parse("2019-09-13T13:00:00"), ModoDeRepeticion.ANUAL, elio, false);
+
+       sugerencias = elio.pedirSugerenciaParaEventoDeTodosLosGuadaropas(cumpleDeHernan,mock,false);
+       //sugerencias.stream().forEach(atuendo -> atuendo.mostrarPrendas());
+       //System.out.println(mock.temperatura(LocalDateTime.parse("2019-09-13T13:00:00")));
+       assertEquals(sugerencias.size(),3);
+
+   }
+
     @Test
     public void testSetEquals(){
         Prenda remera = new Prenda("remera",Tipo.REMERA,Material.ALGODON, Trama.LISA,rojo,null);
