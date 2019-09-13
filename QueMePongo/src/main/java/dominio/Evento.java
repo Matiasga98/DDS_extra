@@ -4,26 +4,48 @@ import java.time.LocalDateTime;
 import dominio.clima.ProveedorClima;
 import dominio.enumerados.ModoDeRepeticion;
 import org.uqbar.commons.model.annotations.Observable;
+import javax.persistence.*;
 
+@Entity
 @Observable
 public class Evento {
-    private String nombre;
-    private LocalDateTime fechaYHora;
-    private boolean tieneSugerencias;
-    private Alertador alertador;
 
-    public Evento(String nombre, LocalDateTime fechaYHora, boolean tieneSugerencias){
-        this.nombre = nombre;
-        this.fechaYHora = fechaYHora;
+    @Id
+    @GeneratedValue
+    @Column(name="id_evento")
+    private long id;
+
+    @Column(name="nombre")
+    private String nombre;
+
+    @Column(name="fecha_hora")
+    private LocalDateTime fechaYHora;
+
+    @Column(name="tiene_sugerencias")
+    private boolean tieneSugerencias;
+    
+    @Column(name="id_del_job")
+    private String idDelJob;
+    
+    @Column(name = "hay_alertas_meteorologicas")
+    public boolean tieneAlertasMeteorologicas;
+    
+    public Evento (String elEvento, ProveedorClima proveedor, LocalDateTime unaFecha, boolean tieneSugerencias, ModoDeRepeticion modo, Usuario usuario, boolean flexible) {
+        this.nombre = elEvento;
+        this.fechaYHora = unaFecha;
         this.tieneSugerencias = tieneSugerencias;
+        this.tieneAlertasMeteorologicas = false;
+        this.idDelJob = Alertador.planificame_porfi(this, proveedor, unaFecha, modo, usuario, flexible);
+    }
+
+    public Evento(){
+
+    }
+
+    public void destruirEvento () {
+    	Alertador.destruirJob(this.getIdDelJob());
     }
     
-    public Evento (String elEvento, ProveedorClima proveedor, LocalDateTime unaFecha, ModoDeRepeticion modo, Usuario usuario, boolean flexible){
-        nombre = elEvento;
-        fechaYHora = unaFecha;
-        alertador = new Alertador(this, proveedor, unaFecha, modo, usuario, flexible);
-    }
-
     public String getNombre() {
         return nombre;
     }
@@ -44,11 +66,7 @@ public class Evento {
         return tieneSugerencias;
     }
     
-    public Alertador getAlertador() {
-    	return alertador;
-    }
-    
-    public void setAlertador(Alertador alertador) {
-    	this.alertador = alertador;
+    public String getIdDelJob() {
+    	return idDelJob;
     }
 }

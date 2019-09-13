@@ -2,15 +2,95 @@ package dominio;
 
 import dominio.enumerados.*;
 
-public class Prenda {
+import javax.persistence.*;
 
+@Entity
+public class Prenda {
+	
+	@Id
+	@GeneratedValue
+    long id;
+
+    @Column(name="nombre")
 	String nombre;
+
+	@Enumerated
+    @Column(name="tipo")
 	Tipo tipo;
+
+	@Enumerated
+    @Column(name="material")
     Material material;
+
+	@Enumerated
+    @Column(name="trama")
     Trama trama;
-	Color colorPrimario;
-	Color colorSecundario;
+
+	@OneToOne
+    Color colorPrimario;
+
+	@OneToOne
+    Color colorSecundario;
+
+    @Column(name="enUso")
 	boolean enUso;
+
+    //Getters y Setters
+    public long getId() {
+        return id;
+    }
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public Tipo getTipo(){
+        return tipo;
+    }
+    public void setTipo(Tipo tipo) {
+        this.tipo = tipo;
+    }
+
+    public Material getMaterial() {
+        return material;
+    }
+    public void setMaterial(Material material) {
+        this.material = material;
+    }
+
+    public Trama getTrama() {
+        return trama;
+    }
+    public void setTrama(Trama trama) {
+        this.trama = trama;
+    }
+
+    public Color getColorPrimario() {
+        return colorPrimario;
+    }
+    public void setColorPrimario(Color colorPrimario) {
+        this.colorPrimario = colorPrimario;
+    }
+
+    public Color getColorSecundario() {
+        return colorSecundario;
+    }
+    public void setColorSecundario(Color colorSecundario) {
+        this.colorSecundario = colorSecundario;
+    }
+
+    public boolean getEnUso() {
+        return enUso;
+    }
+    public void setEnUso(boolean enUso) {
+        this.enUso = enUso;
+    }
 
     public Prenda(String nombre, Tipo tipo, Material material, Trama trama, Color colorPrimario, Color colorSecundario) {
 		this.nombre = nombre;
@@ -22,7 +102,11 @@ public class Prenda {
 		this.enUso = false;
 	}
 
-    public String nombre() {
+	public Prenda() {
+
+	}
+
+	public String nombre() {
     	return nombre;
     }
     

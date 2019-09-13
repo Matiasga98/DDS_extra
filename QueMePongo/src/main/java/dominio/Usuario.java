@@ -1,40 +1,83 @@
 package dominio;
 
+import javax.persistence.*;
+
 import dominio.clima.ProveedorClima;
 import dominio.enumerados.Categoria;
 import dominio.enumerados.EstadoAtuendo;
+import dominio.enumerados.ModoDeRepeticion;
 import dominio.enumerados.SuceptibilidadATemperatura;
 import dominio.excepciones.AtuendoNoPerteneceAGuardarropa;
 import dominio.excepciones.SuperoLaCantidadDePrendas;
+
 import org.uqbar.commons.model.Entity;
 import org.uqbar.commons.model.annotations.Observable;
+
 import dominio.Notificadores.Notificador;
+
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@javax.persistence.Entity
 @Observable
 public class Usuario extends Entity {
 
+    @Id
+    @GeneratedValue
+    @Column(name="id")
+    private long id;
+
+    @ElementCollection
+    @CollectionTable(name = "medios_notificacion_usuario", joinColumns = @JoinColumn(name = "usuario_id"))
 	private Set<Notificador> mediosDeNotificacion;
-    private String nombre;
-    private Set<Guardarropa> guardarropas;
-    private Set<Evento> eventos;
-    private boolean esPremium = false;
-    private int prendasMaximas = 20;
-    private Set<Categoria> friolentoEn = new HashSet<>();
+
+    @Column(name="nombre")
+	private String nombre;
+
+    @OneToMany
+    @JoinColumn(name="usuario_id")
+	private Set<Guardarropa> guardarropas;
+
+    @OneToMany
+    @JoinColumn(name="usuario_id")
+	private Set<Evento> eventos;
+
+    @Column(name="es_premium")
+	private boolean esPremium = false;
+
+    @ElementCollection
+    @CollectionTable(name = "usuario_friolento_en", joinColumns = @JoinColumn(name = "usuario_id"))
+    @Column(name = "categoria_id")
+	private Set<Categoria> friolentoEn = new HashSet<>();
+
+    @ElementCollection
+    @CollectionTable(name = "usuario_caluroso_en", joinColumns = @JoinColumn(name = "usuario_id"))
+    @Column(name = "categoria_id")
     private Set<Categoria> calurosoEn = new HashSet<>();
-    private SuceptibilidadATemperatura suceptibilidad;
-    private boolean esFriolento;
-    private boolean esCaluroso;
 
+    @Enumerated
+	private SuceptibilidadATemperatura suceptibilidad;
 
+	//Constantes
+    @Transient
+    private int prendasMaximas = 20;
+    @Transient
     private int coeficienteSuperior = 25;
+
+    @Transient
     private int coeficienteInferior = 20;
+    @Transient
+
     private int coeficienteCalzado = 15;
+    @Transient
     private int coeficienteCabeza = 15;
+    @Transient
     private int coeficienteCuello = 10;
+    @Transient
     private int coeficienteCara = 5;
+    @Transient
     private int coeficienteManos = 10;
 
     public int coeficienteEn(Categoria categoria){
@@ -65,9 +108,6 @@ public class Usuario extends Entity {
         }
     }
 
-
-
-
     public  Usuario(String nombre, Set<Evento> eventos){
         this.nombre = nombre;
         this.eventos = eventos;
@@ -79,9 +119,11 @@ public class Usuario extends Entity {
         this.esPremium = esPago;
         this.prendasMaximas = 20;
     }
+    
     public Set<Categoria> FriolentoEn(){
         return friolentoEn;
     }
+    
     public boolean EsFriolento(){
         return suceptibilidad.equals(SuceptibilidadATemperatura.FRIOLENTO);
     }
@@ -111,6 +153,14 @@ public class Usuario extends Entity {
         }
     }
 
+    public void removerPrenda(Prenda prenda, Guardarropa guardarropa) {
+    	guardarropa.removerPrenda(prenda);
+    }
+    
+    public Set<Atuendo> sugerenciasDe(Guardarropa guardarropa) {
+    	return guardarropa.generarAtuendos();
+    }
+    
     public Set<Atuendo> sugerenciasDeAtuendosDeTodosLosGuardarropas() {
         return guardarropas.stream().flatMap(guardarropa -> guardarropa.generarAtuendos().stream()).collect(Collectors.toSet());
     }
@@ -167,8 +217,8 @@ public class Usuario extends Entity {
     	this.guardarropas().add(guardarropa);
     }
     
-    public Set<Atuendo> pedirSugerenciaParaEventoDeTodosLosGuadaropas(Evento evento, ProveedorClima proveedor, boolean flexible) {
-    	Set<Atuendo> atuendos = new HashSet<Atuendo>();
+    public HashSet<Atuendo> pedirSugerenciaParaEventoDeTodosLosGuadaropas(Evento evento, ProveedorClima proveedor, boolean flexible) {
+    	HashSet<Atuendo> atuendos = new HashSet<Atuendo>();
     	this.guardarropas().forEach(guardarropa -> atuendos.addAll(guardarropa.sugerirParaEvento(evento, proveedor, flexible, this)));
     	return atuendos;
     }
@@ -198,18 +248,25 @@ public class Usuario extends Entity {
     }
     
     public Set<Atuendo> notificarme(Evento evento, ProveedorClima proveedor, boolean flexible) {
-    	Set<Atuendo> sugerencias = this.pedirSugerenciaParaEventoDeTodosLosGuadaropas(evento, proveedor, flexible);
-    	this.getMediosDeNotificacion().forEach(medio -> medio.notificar(sugerencias));
+    	HashSet<Atuendo> sugerencias = this.pedirSugerenciaParaEventoDeTodosLosGuadaropas(evento, proveedor, flexible);
+    	this.getMediosDeNotificacion().forEach(medio -> medio.notificar(evento, sugerencias));
     	return sugerencias;
     }
     
-    public Set<Atuendo> alertarme(Evento evento, ProveedorClima proveedor, boolean flexible) {
-    	Set<Atuendo> sugerencias = this.pedirSugerenciaParaEventoDeTodosLosGuadaropas(evento, proveedor, flexible);
-    	this.getMediosDeNotificacion().forEach(medio -> medio.alertar(sugerencias));
-    	return sugerencias;
+    public void crearEvento(String nombre, ProveedorClima proveedor, LocalDateTime unaFecha, ModoDeRepeticion modo, boolean flexible) {
+    	Evento evento = new Evento(nombre, proveedor, unaFecha, false, modo, this, flexible);
+    	this.agregarEvento(evento);
     }
 
-
+    public void removerEvento(Evento evento) {
+    	this.getEventos().remove(evento);
+    }
+    
+    public void destruirEvento(Evento evento) {
+    	evento.destruirEvento();
+    	this.removerEvento(evento);
+    }
+    
     public void modificarCoeficiente(Categoria categoria, int valor){
         switch (categoria){
             case PARTE_SUPERIOR:

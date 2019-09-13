@@ -43,6 +43,7 @@ public class UsuarioTest {
     }
 
 
+
     @Test
     public void usuarioSinGuardarropaPidenSugerencias() {
         //assertTrue(usuario.guardarropas().isEmpty());
@@ -97,6 +98,7 @@ public class UsuarioTest {
         
 
     }
+
 
 
    /* @Test
@@ -177,9 +179,9 @@ public class UsuarioTest {
        Usuario elio = new Usuario(true);
        elio.agregarGuardarropa(testito);
 
-       Evento cumpleDeHernan = new Evento("cumple Hernan AAAAA", LocalDateTime.parse("2019-05-31T13:00:00"),false);
+
        ProveedorClima mock = new AccuWeather();
-       cumpleDeHernan = new Evento("cumple Hernan AAAAA", mock, LocalDateTime.parse("2019-09-13T13:00:00"), ModoDeRepeticion.ANUAL, elio, false);
+       cumpleDeHernan = new Evento("cumple Hernan AAAAA", mock, LocalDateTime.parse("2019-09-13T13:00:00"),false, ModoDeRepeticion.ANUAL, elio, false);
 
        sugerencias = elio.pedirSugerenciaParaEventoDeTodosLosGuadaropas(cumpleDeHernan,mock,false);
        //sugerencias.stream().forEach(atuendo -> atuendo.mostrarPrendas());
@@ -216,8 +218,8 @@ public class UsuarioTest {
     @Test
     public void testPlanificador() {
     	ProveedorClima mock = new AccuWeather();
-    	Evento evento = new Evento("Nuevo evento.", mock, LocalDateTime.parse("2019-06-30T23:15:00"), ModoDeRepeticion.ANUAL, usuario, false);
-    	assertTrue(evento.getAlertador().planificador.isStarted());
+    	Evento evento = new Evento("Nuevo evento.", mock, LocalDateTime.parse("2019-06-30T23:15:00"), false, ModoDeRepeticion.ANUAL, usuario, false);
+    	assertTrue(Alertador.planificador.isStarted());
     }
     
     public boolean estaAtuendoEnSet (Atuendo atuendo, Set<Atuendo> atuendos){

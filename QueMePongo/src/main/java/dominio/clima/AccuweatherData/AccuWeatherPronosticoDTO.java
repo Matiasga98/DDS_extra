@@ -284,7 +284,7 @@ public class AccuWeatherPronosticoDTO {
     }
 
     public Pronostico normalizar() {
-        return new Pronostico(LocalDateTime.parse(DateTime,formato),Temperature.getValue());
+        return new Pronostico(LocalDateTime.parse(DateTime, formato), Temperature.getValue(), false);
     }
 }
 

@@ -6,13 +6,35 @@ import dominio.enumerados.Trama;
 import dominio.excepciones.*;
 
 import static java.util.Objects.requireNonNull;
+import javax.persistence.*;
 
+@Entity
 public class Borrador {
-	String nombre;
-	Tipo tipo;
-	Color colorPrimario;
-	Color colorSecundario;
-	Trama trama = Trama.LISA;
+	
+	@Id
+	@GeneratedValue
+	@Column(name = "id")
+	private long id;
+	
+	@Column(name = "nombre")
+	private String nombre;
+	
+	@Enumerated
+	@Column(name = "tipo")
+	private Tipo tipo;
+	
+	@OneToOne
+	private Color colorPrimario;
+	
+	@OneToOne
+	private Color colorSecundario;
+	
+	@Enumerated
+	@Column(name = "trama")
+	private Trama trama = Trama.LISA;
+	
+	@Enumerated
+	@Column(name = "material")
 	Material material;
 
 	public void definirNombre(String nombre) {
@@ -60,5 +82,4 @@ public class Borrador {
 		if (!tipo.permiteMaterial(material))
 			throw new MaterialInconsistente("El material elegido no es compatible con el tipo de prenda");
 	}
-
 }

@@ -58,4 +58,8 @@ public class WeatherBit implements ProveedorClima {
         return CachePronosticos.temperatura(fechaYHora);
     }
 
+    public boolean tieneAlertasMeteorologicas(LocalDateTime fechaYHora) {
+    	return CachePronosticos.tieneAlertasMeteorologicas(fechaYHora);
+    }
+    
 }

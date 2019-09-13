@@ -21,7 +21,7 @@ public class AccuWeather implements ProveedorClima {
     private String CODIGO_PAIS = "7894";
     private String KEY = "Cq6ZRPqswizBYVfSEulxqimVsrAGKZT9";
     private String LENGUAJE = "es-ar";
-
+    
     private AccuWeatherAPI getAccuWeatherAPI(){
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(URL)
@@ -49,6 +49,13 @@ public class AccuWeather implements ProveedorClima {
                 .collect(toList());
     }
 
+    public AccuWeather() {
+        URL = "http://dataservice.accuweather.com";
+        CODIGO_PAIS = "7894";
+        KEY = "Cq6ZRPqswizBYVfSEulxqimVsrAGKZT9";
+        LENGUAJE = "es-ar";
+    }
+    
     // La consulta tiene que estar en el rango de 12 por delante.
     public  double temperatura(LocalDateTime fechaYHora){
         if(!CachePronosticos.datoDisponible(fechaYHora)){
@@ -57,4 +64,8 @@ public class AccuWeather implements ProveedorClima {
         return CachePronosticos.temperatura(fechaYHora);
     }
 
+    public boolean tieneAlertasMeteorologicas(LocalDateTime fechaYHora) {
+    	return CachePronosticos.tieneAlertasMeteorologicas(fechaYHora);
+    }
+    
 }
