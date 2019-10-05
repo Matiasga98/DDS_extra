@@ -4,6 +4,20 @@
 	<artifactId>QueMePongo</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 
+	<repositories>
+    	<repository>
+      		<id>maven.uqbar.org-releases</id>
+      		<name>maven.uqbar.org-releases</name>
+      		<url>http://maven.uqbar.org/releases</url>
+    	</repository>
+    	<repository>
+      		<snapshots />
+      		<id>maven.uqbar.org-snapshots</id>
+      		<name>maven.uqbar.org-snapshots</name>
+      		<url>http://maven.uqbar.org/snapshots</url>
+    	</repository>
+  	</repositories>
+
 	<dependencies>
 
 		<dependency>
@@ -29,11 +43,13 @@
 			<artifactId>junit</artifactId>
 			<version>4.12</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
 			<version>27.1-jre</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
@@ -59,11 +75,13 @@
     		<artifactId>cron4j</artifactId>
     		<version>2.2.5</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>com.twilio.sdk</groupId>
 			<artifactId>twilio</artifactId>
 			<version>7.40.0</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>javax.mail</groupId>
 			<artifactId>mail</artifactId>
@@ -82,8 +100,43 @@
 			<version>3.5.2.v3557f</version>
 		</dependency>
 
-	</dependencies>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<version>1.7.21</version>
+		</dependency>
 
+		<dependency>
+			<groupId>com.sparkjava</groupId>
+			<artifactId>spark-core</artifactId>
+			<version>2.5</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.sparkjava</groupId>
+			<artifactId>spark-template-handlebars</artifactId>
+			<version>2.3</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.sparkjava</groupId>
+			<artifactId>spark-debug-tools</artifactId>
+			<version>0.5</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.github.jknack</groupId>
+			<artifactId>handlebars-helpers</artifactId>
+			<version>4.0.6</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.github.jknack</groupId>
+			<artifactId>handlebars-humanize</artifactId>
+			<version>4.0.6</version>
+		</dependency>
+
+	</dependencies>
 
     <build>
 		<plugins>

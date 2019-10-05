@@ -29,6 +29,12 @@ public class Guardarropa {
 	@Column(name = "atuendoId")
 	private Set<Atuendo> atuendosRechazados;
 
+	private String nombre;
+	
+	public String getNombre() {
+		return nombre;
+	}
+	
     public long getGuardarropaId() {
         return guardarropaId;
     }
@@ -58,7 +64,8 @@ public class Guardarropa {
         this.atuendosRechazados = atuendosRechazados;
     }
 
-    public Guardarropa() {
+    public Guardarropa(String nombre) {
+    	this.nombre = nombre;
 		prendas = new HashSet<>();
 		atuendosAceptados = new HashSet<>();
 		atuendosRechazados = new HashSet<>();

@@ -17,7 +17,8 @@ public class Alertador {
 			case MENSUAL: id = planificador.schedule(unaFecha.getMinute() + " " + (unaFecha.getHour() - 1) + " " + unaFecha.getDayOfMonth() + " * *", new Runnable() {public void run() {Set<Atuendo> sugerencias = usuario.notificarme(evento, proveedor, flexible);}}); break;
 			case ANUAL: id = planificador.schedule(unaFecha.getMinute() + " " + (unaFecha.getHour() - 1) + " " + unaFecha.getDayOfMonth() + " " + unaFecha.getMonthValue() + " *", new Runnable() {public void run() {Set<Atuendo> sugerencias = usuario.notificarme(evento, proveedor, flexible);}}); break;
 		}
-        planificador.start();
+		if (!planificador.isStarted())
+			planificador.start();
         return id;
 	}
 	
