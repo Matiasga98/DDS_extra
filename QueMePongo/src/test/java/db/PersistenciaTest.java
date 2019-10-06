@@ -16,6 +16,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 
 import static org.junit.Assert.assertTrue;
 
@@ -74,7 +75,9 @@ public class PersistenciaTest extends AbstractPersistenceTest implements WithGlo
         testito.agregarPrendas(camisita);
         testito.agregarPrendas(inviernito);
         testito.agregarPrendas(gorrito);
-
+        Atuendo atuendo = new Atuendo(Arrays.asList(remerita,pantaloncito,zapatito,lentitos));
+        testito.agregarAAceptados(atuendo);
+        testito.agregarARechazados(atuendo);
     }
 
     @Test
@@ -83,7 +86,7 @@ public class PersistenciaTest extends AbstractPersistenceTest implements WithGlo
 
         //entityManager().getTransaction().begin();
 
-        entityManager().persist(negro);
+
         entityManager().persist(remerita);
 
         entityManager().getTransaction().commit();
@@ -98,8 +101,7 @@ public class PersistenciaTest extends AbstractPersistenceTest implements WithGlo
         testito.agregarPrendas(pantaloncito);
 
         //entityManager().getTransaction().begin();
-        entityManager().persist(remerita.colorPrimario());
-        entityManager().persist(pantaloncito.colorPrimario());
+
         
         entityManager().persist(remerita);
         entityManager().persist(pantaloncito);
@@ -113,7 +115,7 @@ public class PersistenciaTest extends AbstractPersistenceTest implements WithGlo
 
     @Test
     public void cargarEvento() throws Exception{
-        presentarEsteTP = new Evento("Prensentar TP",new AccuWeather(), LocalDateTime.parse("2019-05-31T13:00:00"),false, ModoDeRepeticion.MENSUAL,elio,false);
+        presentarEsteTP = new Evento("Prensentar TP",new AccuWeather(), LocalDateTime.parse("2019-10-06T18:00:00"),false, ModoDeRepeticion.MENSUAL,elio,false);
         //entityManager().getTransaction().begin();
         entityManager().persist(presentarEsteTP);
         entityManager().getTransaction().commit();
@@ -132,16 +134,11 @@ public class PersistenciaTest extends AbstractPersistenceTest implements WithGlo
 
     @Test
     public void persistirSugerencia(){
-        Evento respirar = new Evento("Respirar",new AccuWeather(), LocalDateTime.parse("2019-09-13T23:00:00"),false, ModoDeRepeticion.MENSUAL,elio,false);
+        Evento respirar = new Evento("Respirar",new AccuWeather(), LocalDateTime.parse("2019-10-06T18:00:00"),false, ModoDeRepeticion.MENSUAL,elio,false);
         ProveedorClima mock = new AccuWeather();
         elio.pedirSugerenciaParaEventoDeTodosLosGuadaropas(respirar,mock,false);
 
-        entityManager().persist(negro);
-        entityManager().persist(azul);
-        entityManager().persist(rojo);
-        entityManager().persist(amarillo);
-        entityManager().persist(blanco);
-        entityManager().persist(verde);
+
 
         entityManager().persist(remerita);
         entityManager().persist(pantaloncito);

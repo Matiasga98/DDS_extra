@@ -8,11 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Entity
+@Embeddable
 public class Atuendo {
-    @Id
-    @GeneratedValue
-    private long id;
 
     @ManyToMany
     private List<Prenda> prendas = new ArrayList<Prenda>();
@@ -20,9 +17,6 @@ public class Atuendo {
     @Enumerated
     private EstadoAtuendo estado;
 
-    public Atuendo() {
-
-    }
 
     public void setPrendas(List<Prenda> prendas) {
         this.prendas = prendas;

@@ -58,9 +58,8 @@ public class Usuario extends Entity {
     private Set<Categoria> calurosoEn = new HashSet<>();
 
 
-    @ElementCollection
-    @CollectionTable(name = "sugerencia", joinColumns = @JoinColumn(name = "usuario_id"))
-    @Column(name = "prenda_id")
+
+    @Transient
     private Set<Atuendo> loQueMeSugirieron = new HashSet<>();
 
     public Set<Atuendo> getLoQueMeSugirieron() {

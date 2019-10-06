@@ -4,10 +4,6 @@ import javax.persistence.*;
 
 @Embeddable
 public class Color {
-	@Id
-	@GeneratedValue
-    @Column(name="id")
-	private long id;
 
 	@Column(name="rojo")
 	int rojo;
@@ -19,12 +15,7 @@ public class Color {
 	int azul;
 
 	//Getters y Setters
-	public long getId(){
-	    return id;
-    }
-    public void setId(long id){
-	    this.id = id;
-    }
+
 
     public int getRojo() {
         return rojo;

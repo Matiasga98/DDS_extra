@@ -21,12 +21,14 @@ public class Guardarropa {
 
 	@ElementCollection
 	@CollectionTable(name = "atuendos_aceptados", joinColumns = @JoinColumn(name = "guardarropaId"))
-	@Column(name = "atuendoId")
+	//@Column(name = "atuendoId")
 	private Set<Atuendo> atuendosAceptados;
 
-	@ElementCollection
+	/*@ElementCollection
 	@CollectionTable(name = "atuendos_rechazados", joinColumns = @JoinColumn(name = "guardarropaId"))
 	@Column(name = "atuendoId")
+	*/
+	@Transient
 	private Set<Atuendo> atuendosRechazados;
 
 	private String nombre;
