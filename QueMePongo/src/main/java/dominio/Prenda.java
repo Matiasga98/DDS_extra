@@ -26,9 +26,19 @@ public class Prenda {
     @Column(name="trama")
     Trama trama;
 
+    @AttributeOverrides({
+            @AttributeOverride(name="rojo",column=@Column(name="RojoPrimario")),
+            @AttributeOverride(name="verde",column=@Column(name="VerdePrimario")),
+            @AttributeOverride(name="azul",column=@Column(name="AzulPrimario"))
+    })
 	@Embedded
     Color colorPrimario;
 
+    @AttributeOverrides({
+            @AttributeOverride(name="rojo",column=@Column(name="RojoSecundario")),
+            @AttributeOverride(name="verde",column=@Column(name="VerdeSecundario")),
+            @AttributeOverride(name="azul",column=@Column(name="AzulSecundario"))
+    })
 	@Embedded
     Color colorSecundario;
 

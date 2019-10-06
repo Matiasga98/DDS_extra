@@ -22,11 +22,21 @@ public class Borrador {
 	@Enumerated
 	@Column(name = "tipo")
 	private Tipo tipo;
-	
-	@OneToOne
+
+	@AttributeOverrides({
+			@AttributeOverride(name="rojo",column=@Column(name="RojoPrimario")),
+			@AttributeOverride(name="verde",column=@Column(name="VerdePrimario")),
+			@AttributeOverride(name="azul",column=@Column(name="AzulPrimario"))
+	})
+	@Embedded
 	private Color colorPrimario;
-	
-	@OneToOne
+
+	@AttributeOverrides({
+			@AttributeOverride(name="rojo",column=@Column(name="RojoSecundario")),
+			@AttributeOverride(name="verde",column=@Column(name="VerdeSecundario")),
+			@AttributeOverride(name="azul",column=@Column(name="AzulSecundario"))
+	})
+	@Embedded
 	private Color colorSecundario;
 	
 	@Enumerated

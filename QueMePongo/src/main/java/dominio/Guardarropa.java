@@ -118,12 +118,17 @@ public class Guardarropa {
 		Set<Prenda> inferiores = prendasSegunCategoria(Categoria.PARTE_INFERIOR);
 		Set<Prenda> calzados = prendasSegunCategoria(Categoria.CALZADO);
 		Set<Prenda> accesorios = conseguirAccesorios();
+		Set<List<Prenda>> combinacionesSuperiores = new HashSet<List<Prenda>>();
 		Set<List<Prenda>> combinacionesSuperioresValidas = new HashSet<List<Prenda>>();
+		Set<List<Prenda>> combinacionesAccesorios = new HashSet<List<Prenda>>();
 		Set<List<Prenda>> combinacionesAccesoriosValidas = new HashSet<List<Prenda>>();
 
 		//Method Mati
-		combinacionesSuperioresValidas = Categoria.PARTE_SUPERIOR.obtenerCombinacionSuperiores(superiores);
-		combinacionesAccesoriosValidas = Categoria.obtenerCombinacionAccesorios(accesorios);
+		combinacionesSuperiores = Combinador.generarTodasLasCombinacionesPosibles(superiores.stream().toArray(Prenda[] :: new),7);
+		combinacionesSuperioresValidas = Categoria.PARTE_SUPERIOR.eliminarCombinacionesInvalidasDeSuperior(combinacionesSuperiores);
+
+		combinacionesAccesorios = Combinador.generarTodasLasCombinacionesPosibles(accesorios.stream().toArray(Prenda[] :: new),5);
+		combinacionesAccesoriosValidas = Categoria.eliminarCombinacionesInvalidasDeAccesorios(combinacionesAccesorios);
 
 		Set<List<Prenda>> atuendosSinSuperior = Sets.cartesianProduct(
 				inferiores,

@@ -83,13 +83,14 @@ public class GuardarropaTest {
         Guardarropa testito = new Guardarropa("testito");
         //testito.agregarPrendas(guantitos);
         testito.agregarPrendas(bufandita);
+        testito.agregarPrendas(anillito);
         testito.agregarPrendas(remerita);
         testito.agregarPrendas(zapatito);
         testito.agregarPrendas(lentitos);
         testito.agregarPrendas(buzito);
         testito.agregarPrendas(pantaloncito);
         //testito.agregarPrendas(anillito);
-        //testito.agregarPrendas(camperita);
+        testito.agregarPrendas(camperita);
         //testito.agregarPrendas(camisita);
         //testito.agregarPrendas(inviernito);
         Set<Atuendo>  atuendos = new HashSet<>();

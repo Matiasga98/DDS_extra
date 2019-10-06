@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Embeddable
+@Entity
 public class Atuendo {
     @Id
     @GeneratedValue
