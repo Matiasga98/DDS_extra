@@ -2,7 +2,7 @@ package dominio;
 
 import javax.persistence.*;
 
-@Entity
+@Embeddable
 public class Color {
 	@Id
 	@GeneratedValue

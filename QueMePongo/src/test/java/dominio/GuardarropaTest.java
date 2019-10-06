@@ -33,7 +33,7 @@ public class GuardarropaTest {
     @Before       //FIXME
     public void setUp() {
         borrador = new Borrador();
-        guardarropa = new Guardarropa();
+        guardarropa = new Guardarropa("hola");
         colores = colores();
 
 
@@ -80,7 +80,7 @@ public class GuardarropaTest {
         Prenda camperita = new Prenda("camperita", Tipo.CAMPERA,Material.ALGODON,Trama.LISA,rojo,null);
         Prenda camisita = new Prenda ("camisita", Tipo.CAMISA,Material.ALGODON,Trama.LISA,azul,null);
         Prenda lentitos = new Prenda ("lentitos", Tipo.LENTES,Material.VIDRIO,Trama.LISA,negro,null);
-        Guardarropa testito = new Guardarropa();
+        Guardarropa testito = new Guardarropa("testito");
         //testito.agregarPrendas(guantitos);
         testito.agregarPrendas(bufandita);
         testito.agregarPrendas(remerita);

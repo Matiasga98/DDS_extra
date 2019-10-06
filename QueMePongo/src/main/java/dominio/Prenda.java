@@ -26,10 +26,10 @@ public class Prenda {
     @Column(name="trama")
     Trama trama;
 
-	@OneToOne
+	@Embedded
     Color colorPrimario;
 
-	@OneToOne
+	@Embedded
     Color colorSecundario;
 
     @Column(name="enUso")

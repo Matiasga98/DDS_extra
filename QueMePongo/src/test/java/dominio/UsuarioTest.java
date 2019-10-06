@@ -37,7 +37,7 @@ public class UsuarioTest {
     public void setUp() throws IOException {
         borrador = new Borrador();
         usuario = new Usuario(true);
-        guardarropa = new Guardarropa();
+        guardarropa = new Guardarropa("holis");
         usuario.agregarGuardarropa(guardarropa);
         colores = colores();
     }
@@ -60,7 +60,7 @@ public class UsuarioTest {
 
 
 
-        Guardarropa testito = new Guardarropa();
+        Guardarropa testito = new Guardarropa("testito");
 
         Prenda remerita = new Prenda("remerita", Tipo.REMERA, Material.ALGODON, Trama.LISA, negro, null);
         Prenda pantaloncito =new Prenda("pantaloncito", Tipo.PANTALON, Material.JEAN, Trama.LISA, rojo, null);
@@ -163,7 +163,7 @@ public class UsuarioTest {
        Prenda camperita = new Prenda("camperita", Tipo.CAMPERA,Material.ALGODON,Trama.LISA,rojo,null);
        Prenda camisita = new Prenda ("camisita", Tipo.CAMISA,Material.ALGODON,Trama.LISA,azul,null);
        Prenda lentitos = new Prenda ("lentitos", Tipo.LENTES,Material.VIDRIO,Trama.LISA,negro,null);
-       Guardarropa testito = new Guardarropa();
+       Guardarropa testito = new Guardarropa("testito");
        //testito.agregarPrendas(guantitos);
        testito.agregarPrendas(bufandita);
        testito.agregarPrendas(remerita);
@@ -232,7 +232,7 @@ public class UsuarioTest {
 
     public void agregoUnGuardarropa() {
         //REMERAS LISAS DE DISTINTOS COLORES
-        Guardarropa guardarropa = new Guardarropa();
+        Guardarropa guardarropa = new Guardarropa("testito");
 
         borrador.definirTipo(Tipo.REMERA);
         borrador.definirMaterial(Material.ALGODON);

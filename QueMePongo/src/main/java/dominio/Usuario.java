@@ -29,7 +29,7 @@ public class Usuario extends Entity {
     @Column(name="id")
     private long id;
 
-    @ElementCollection
+    @OneToMany
     @CollectionTable(name = "medios_notificacion_usuario", joinColumns = @JoinColumn(name = "usuario_id"))
 	private Set<Notificador> mediosDeNotificacion;
 

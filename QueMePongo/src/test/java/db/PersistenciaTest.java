@@ -58,7 +58,7 @@ public class PersistenciaTest extends AbstractPersistenceTest implements WithGlo
         lentitos = new Prenda ("lentitos", Tipo.LENTES,Material.VIDRIO,Trama.LISA,negro,null);
         gorrito = new Prenda ( "gorrito", Tipo.GORRO,Material.LANA,Trama.LISA,blanco,azul);
 
-        testito = new Guardarropa();
+        testito = new Guardarropa("holis");
 
         elio = new Usuario(true);
         elio.agregarGuardarropa(testito);
@@ -92,7 +92,7 @@ public class PersistenciaTest extends AbstractPersistenceTest implements WithGlo
 
     @Test
     public void persistirGuardarropa() throws Exception {
-        Guardarropa testito = new Guardarropa();
+        Guardarropa testito = new Guardarropa("testito");
 
         testito.agregarPrendas(remerita);
         testito.agregarPrendas(pantaloncito);
