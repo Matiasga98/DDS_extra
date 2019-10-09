@@ -256,9 +256,13 @@ public class Usuario extends Entity {
     }
     
     public Set<Atuendo> notificarme(Evento evento, ProveedorClima proveedor, boolean flexible) {
-    	HashSet<Atuendo> sugerencias = this.pedirSugerenciaParaEventoDeTodosLosGuadaropas(evento, proveedor, flexible);
-    	this.getMediosDeNotificacion().forEach(medio -> medio.notificar(evento, sugerencias));
-    	return sugerencias;
+    	LocalDateTime hoy = LocalDateTime.now();
+    	if (evento.getFechaYHora().getYear() - hoy.getYear() == 0 && evento.getFechaYHora().getDayOfYear() - hoy.getDayOfYear() == 0 && evento.getFechaYHora().getHour() - hoy.getHour() < 1) {
+    		HashSet<Atuendo> sugerencias = this.pedirSugerenciaParaEventoDeTodosLosGuadaropas(evento, proveedor, flexible);
+        	this.getMediosDeNotificacion().forEach(medio -> medio.notificar(evento, sugerencias));
+        	return sugerencias;
+    	}
+    	return null;
     }
     
     public void crearEvento(String nombre, ProveedorClima proveedor, LocalDateTime unaFecha, ModoDeRepeticion modo, boolean flexible) {
@@ -271,8 +275,11 @@ public class Usuario extends Entity {
     }
     
     public void destruirEvento(Evento evento) {
-    	evento.destruirEvento();
     	this.removerEvento(evento);
+    }
+    
+    public void serAvisado () {
+    	this.eventos.forEach(evento -> this.notificarme(evento, evento.getProveedor(), evento.getFlexible()));
     }
     
     public void modificarCoeficiente(Categoria categoria, int valor){
@@ -311,4 +318,5 @@ public class Usuario extends Entity {
     public void calentarEn(Categoria categoria){
         modificarCoeficiente(categoria,5);
     }
+    
 }

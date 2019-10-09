@@ -2,7 +2,6 @@ package dominio;
 
 import java.util.Collection;
 import java.util.HashSet;
-
 import javax.persistence.*;
 
 public class Repositorio {
@@ -31,4 +30,8 @@ public class Repositorio {
         usuarios.remove(usuario);
     }
 
+    public void avisarUsuarios () {
+    	this.usuarios.forEach(usuario -> usuario.serAvisado());
+    }
+    
 }

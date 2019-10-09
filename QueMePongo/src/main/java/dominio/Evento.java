@@ -24,26 +24,26 @@ public class Evento {
     @Column(name="tiene_sugerencias")
     private boolean tieneSugerencias;
     
-    @Column(name="id_del_job")
-    private String idDelJob;
-    
     @Column(name = "hay_alertas_meteorologicas")
     public boolean tieneAlertasMeteorologicas;
+
+    @Column(name = "proveedor")
+	private ProveedorClima proveedor;
+
+    @Column(name = "flexible")
+	private boolean flexible;
     
     public Evento (String elEvento, ProveedorClima proveedor, LocalDateTime unaFecha, boolean tieneSugerencias, ModoDeRepeticion modo, Usuario usuario, boolean flexible) {
         this.nombre = elEvento;
         this.fechaYHora = unaFecha;
         this.tieneSugerencias = tieneSugerencias;
+        this.proveedor = proveedor;
+        this.flexible = flexible;
         this.tieneAlertasMeteorologicas = false;
-        this.idDelJob = Alertador.planificame_porfi(this, proveedor, unaFecha, modo, usuario, flexible);
     }
 
     public Evento(){
 
-    }
-
-    public void destruirEvento () {
-    	Alertador.destruirJob(this.getIdDelJob());
     }
     
     public String getNombre() {
@@ -65,8 +65,13 @@ public class Evento {
     public boolean isTieneSugerencias() {
         return tieneSugerencias;
     }
-    
-    public String getIdDelJob() {
-    	return idDelJob;
-    }
+
+	public ProveedorClima getProveedor() {
+		return proveedor;
+	}
+	
+	public boolean getFlexible() {
+		return flexible;
+	}
+	
 }

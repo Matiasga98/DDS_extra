@@ -217,8 +217,7 @@ public class UsuarioTest {
     
     @Test
     public void testPlanificador() {
-    	ProveedorClima mock = new AccuWeather();
-    	Evento evento = new Evento("Nuevo evento.", mock, LocalDateTime.parse("2019-06-30T23:15:00"), false, ModoDeRepeticion.ANUAL, usuario, false);
+    	Alertador.planificame_porfi();
     	assertTrue(Alertador.planificador.isStarted());
     }
     

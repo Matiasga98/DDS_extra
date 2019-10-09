@@ -125,7 +125,6 @@ public class PersistenciaTest extends AbstractPersistenceTest implements WithGlo
     public void borrarEvento() throws Exception{
 
         Evento presentarEsteTP2 = entityManager().createQuery("from Evento where id_evento = 1", Evento.class).getResultList().get(0);
-        presentarEsteTP2.destruirEvento();
 
         entityManager().remove(presentarEsteTP2);
         entityManager().getTransaction().commit();

@@ -3,6 +3,7 @@ package server;
 import dominio.Color;
 import dominio.Guardarropa;
 import dominio.Prenda;
+import repositorios.RepositorioGuardarropas;
 //import dominio.RepositorioGuardarropas;
 import dominio.Usuario;
 import dominio.enumerados.Material;
@@ -22,6 +23,12 @@ public class ControllerGuardarropas {
 				//.findByUsuario(new Usuario());
 		
 		return new ModelAndView(guardarropas, "guardarropas.hbs");
+	}
+	
+	public ModelAndView guardarropa(Request req, Response res){
+		Long id = Long.parseLong(req.params("id"));
+		Guardarropa guardarropa = RepositorioGuardarropas.instance().findById(id);
+		return new ModelAndView(guardarropa,"guardarropaPorId.hbs");
 	}
 
 }
