@@ -15,7 +15,7 @@ public class Server {
 		Spark.port(9000);
 		Spark.staticFiles.location("/public");
 		Spark.init();
-		ControllerGuardarropas controller =
+		ControllerGuardarropas controllerGuardarropas =
 				new ControllerGuardarropas();
 		ControllerLogin controllerLogin = new ControllerLogin();
 		/*
@@ -26,11 +26,14 @@ public class Server {
 		 */
 		TemplateEngine engine = new HandlebarsTemplateEngine();
 		Spark.get("/guardarropa/prendas",
-				controller::prendas, 
+				controllerGuardarropas::prendas,
 				new HandlebarsTemplateEngine());
 		Spark.get("/login",controllerLogin::login,engine);
 		Spark.post("/login",controllerLogin::postLogin,engine);
 		Spark.get("/perfil",controllerLogin::perfil,engine);
+
+		Spark.get("/contraseniaMala",controllerLogin::contraseniaMalaGet,engine);
+		Spark.post("/contraseniaMala",controllerLogin::postLogin,engine);
 		DebugScreen.enableDebugScreen();
 	}
 

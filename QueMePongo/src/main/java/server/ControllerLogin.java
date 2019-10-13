@@ -19,11 +19,28 @@ public class ControllerLogin {
 	public ModelAndView login(Request req, Response res) {
 		return new ModelAndView(null, "login.hbs");
 	}
+
+	public ModelAndView contraseniaMalaGet(Request req, Response res) {
+		return new ModelAndView(null, "contraseniaMala.hbs");
+	}
 	
 	public ModelAndView postLogin(Request req, Response res){
-		res.redirect("/perfil");
-		return null;
+		String nombre = req.queryParams("user");
+		String contrasenia = req.queryParams("pass");
+		if(contrasenia.equals("Hola")) {
+			res.redirect("/perfil");
+			return null;
+		}
+		else{
+			res.redirect("/contraseniaMala");
+			return null;
+		}
 	}
+
+	/*public boolean verificarContrasenia(String contrasenia, Usuario){
+		return
+	}*/
+
 	public ModelAndView perfil(Request req, Response res){
 		Color negro;
 		Color rojo;

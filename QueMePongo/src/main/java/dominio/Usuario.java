@@ -24,6 +24,11 @@ import java.util.stream.Collectors;
 @Observable
 public class Usuario extends Entity {
 
+    @Transient
+    String nombreUsuario;
+    @Transient
+    String contrasenia;
+
     @Id
     @GeneratedValue
     @Column(name="id")
