@@ -52,7 +52,7 @@ public class ControllerLogin {
 		Prenda lentitos = new Prenda ("lentitos", Tipo.LENTES,Material.VIDRIO,Trama.LISA,negro,null);
 		Guardarropa testito = new Guardarropa("testito");
 		usuario.agregarGuardarropa(testito);
-		
+
 		//testito.agregarPrendas(guantitos);
 		testito.agregarPrendas(bufandita);
 		testito.agregarPrendas(anillito);
