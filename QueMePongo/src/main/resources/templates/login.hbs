@@ -5,19 +5,15 @@
 </head>
 <body>
     <h1>
-        Nombre: {{ nombre }}
+        holaRoli
     </h1>
+    <form action="/login" method ="POST">
+        <label>Usuario</label>
+        <input type="text" name= "user"><br>
+        <label>contrasenia</label>
+        <input type ="text" name="pass"><br><br>
+        <input type ="submit" value="Submit">
+    </form>
 
-    {{#each prendas}}
-        {{#each prendas}}
-        <div class="prenda">
-            <img src="/remera.png" alt="remera" />
-            <div class="detalles">
-                <h2>{{nombre}}</h2>
-                {{ color }}
-            </div>
-	    </div>
-        {{/each}}
-    {{/each}}
 </body>
 </html>

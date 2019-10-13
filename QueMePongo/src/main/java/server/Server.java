@@ -5,6 +5,7 @@ import dominio.Guardarropa;
 import dominio.Usuario;
 import spark.ModelAndView;
 import spark.Spark;
+import spark.TemplateEngine;
 import spark.debug.DebugScreen;
 import spark.template.handlebars.HandlebarsTemplateEngine;
 
@@ -16,18 +17,20 @@ public class Server {
 		Spark.init();
 		ControllerGuardarropas controller =
 				new ControllerGuardarropas();
-		
+		ControllerLogin controllerLogin = new ControllerLogin();
 		/*
 		 * Tipo de parametros:
 		 * - path param (para,etrp de ruta) se escribe como :nombre
 		 * - query param va con el simbolo ?nombreParam=valor
 		 * - body param va en el POST/PUT/...
 		 */
-
+		TemplateEngine engine = new HandlebarsTemplateEngine();
 		Spark.get("/guardarropa/prendas",
 				controller::prendas, 
 				new HandlebarsTemplateEngine());
-		
+		Spark.get("/login",controllerLogin::login,engine);
+		Spark.post("/login",controllerLogin::postLogin,engine);
+		Spark.get("/perfil",controllerLogin::perfil,engine);
 		DebugScreen.enableDebugScreen();
 	}
 

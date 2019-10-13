@@ -1,0 +1,34 @@
+<html>
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../main.css">
+</head>
+<body>
+<h1>
+    Nombre: {{ nombre }}
+</h1>
+
+{{#each guardarropas}}
+    <div class="guardarropa">
+        <div class="detalles">
+            <h2>{{nombre}}</h2>
+        </div>
+            {{#each prendas}}
+                {{#each prendas}}
+                    <div class="prenda">
+                        <img src="/remera.png" alt="remera"/>
+                        <div class="detalles">
+                            <h3>{{nombre}}</h3>
+                            {{ color }}
+                        </div>
+                    </div>
+                {{/each}}
+            {{/each}}
+
+    </div>
+
+
+{{/each}}
+</body>
+</html>

@@ -58,6 +58,9 @@ public class Usuario extends Entity {
     private Set<Categoria> calurosoEn = new HashSet<>();
 
 
+    public Set<Guardarropa> getGuardarropas() {
+        return guardarropas;
+    }
 
     @Transient
     private Set<Atuendo> loQueMeSugirieron = new HashSet<>();
@@ -129,7 +132,9 @@ public class Usuario extends Entity {
         this.esPremium = esPago;
         this.prendasMaximas = 20;
     }
-    
+    public void setNombre(String unNombre){
+        nombre=unNombre;
+    }
     public Set<Categoria> FriolentoEn(){
         return friolentoEn;
     }

@@ -4,6 +4,12 @@
     max-width: 400px;
     padding: 20px;
 }
+.guardarropas {
+    border: 1px solid gray;
+    margin: 20px;
+    max-width: 400px;
+    padding: 20px;
+}
 
 .detalles {
     display: inline-block;
