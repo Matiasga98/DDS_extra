@@ -30,10 +30,10 @@ public class Server {
 				new HandlebarsTemplateEngine());
 		Spark.get("/login",controllerLogin::login,engine);
 		Spark.post("/login",controllerLogin::postLogin,engine);
-		Spark.get("/perfil",controllerLogin::perfil,engine);
+		Spark.get("/perfil/:nombre",controllerLogin::perfil,engine);
 
-		Spark.get("/contraseniaMala",controllerLogin::contraseniaMalaGet,engine);
-		Spark.post("/contraseniaMala",controllerLogin::postLogin,engine);
+		Spark.get("/errorDeLogeo",controllerLogin::errorDeLogeo,engine);
+		Spark.post("/errorDeLogeo",controllerLogin::postLogin,engine);
 		DebugScreen.enableDebugScreen();
 	}
 

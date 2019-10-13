@@ -25,9 +25,23 @@ import java.util.stream.Collectors;
 public class Usuario extends Entity {
 
     @Transient
-    String nombreUsuario;
+    String username;
+
+    public String getUsername() {
+        return username;
+    }
+
     @Transient
     String contrasenia;
+    //Esto estaria hasheado
+    public String getContrasenia() {
+        return contrasenia;
+    }
+
+    public Usuario(String nombreUsuario, String contrasenia) {
+        this.username = nombreUsuario;
+        this.contrasenia = Encriptador.hashear(contrasenia);
+    }
 
     @Id
     @GeneratedValue
