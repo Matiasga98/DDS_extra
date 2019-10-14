@@ -117,4 +117,5 @@ public class Borrador {
 		if (!tipo.permiteMaterial(material))
 			throw new MaterialInconsistente("El material elegido no es compatible con el tipo de prenda");
 	}
+	
 }

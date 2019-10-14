@@ -10,6 +10,7 @@
 </h1>
 
 <label>Nombre de tu prenda</label>
+<form action="/perfil/dgag/CrearPrenda" method="POST">
 <input type="text" name="nombrePrenda"><br>
 <label>Tipo de Prenda</label>
 <select name="tipoPrenda">
@@ -19,14 +20,14 @@
     {{/each}}
 </select><br>
 <label>Material de Prenda</label>
-<select name="MaterialPrenda">
+<select name="materialPrenda">
     <option>Material De Prenda</option>
     {{#each Materiales }}
         <option>{{this}}</option>
     {{/each}}
 </select><br>
 <label>Trama de Prenda</label>
-<select name="TramaPrenda">
+<select name="tramaPrenda">
     <option>Trama De Prenda</option>
     {{#each Tramas }}
         <option>{{this}}</option>
@@ -34,7 +35,7 @@
 </select><br>
 
 <!-- arreglar esto -->
-<form action="/perfil/dgag/CrearPrenda" method="POST">
+
     <input type="submit" value="Siguiente paso">
 </form>
 

@@ -11,9 +11,9 @@
 
 <h2>Color primario:</h2>
 <div class="picker1">
-    Red <input type="range" min="0" max="255" step="1" id="redColorPrimario" value="115">
-    Green <input type="range" min="0" max="255" step="1" id="greenColorPrimario" value="10">
-    Blue <input type="range" min="0" max="255" step="1" id="blueColorPrimario" value="162">
+    Red <input type="range" min="0" max="255" step="1" id="redColorPrimario" value="115" name="rojo1">
+    Green <input type="range" min="0" max="255" step="1" id="greenColorPrimario" value="10" name="azul1">
+    Blue <input type="range" min="0" max="255" step="1" id="blueColorPrimario" value="162" name="verde1">
     <div id="display1"></div>
 </div>
 <script type="text/javascript">
@@ -32,11 +32,11 @@
 <br><br><br><br>
 <h2>Color secundario:</h2>
 <div class="picker2">
-    Red <input type="range" min="0" max="255" step="1" id="redColorSecundario" value="115">
-    Green <input type="range" min="0" max="255" step="1" id="greenColorSecundario" value="10">
-    Blue <input type="range" min="0" max="255" step="1" id="blueColorSecundario" value="162">
+    Red <input type="range" min="0" max="255" step="1" id="redColorSecundario" value="115" name="rojo2">
+    Green <input type="range" min="0" max="255" step="1" id="greenColorSecundario" value="10" name="azul2">
+    Blue <input type="range" min="0" max="255" step="1" id="blueColorSecundario" value="162" name="verde2">
     <div id="display2"></div>
-</div>
+</div><br><br><br><br>
 <script type="text/javascript">
 	var input = document.querySelectorAll("input");
 		for(var i = 0; i < input.length; i++){
@@ -49,6 +49,12 @@
 		});
 	}
 </script>
+</div><br><br><br><br>
+<form action="/perfil/dgag/CrearPrenda/2" method="POST">
+    <label>Agregar Color Secundario</label>
+    <input type  ="checkbox" name="tieneColorSecundario">
+    <input type="submit" value="Finalizar Prenda">
+</form>
 
 </body>
 </html>
