@@ -30,7 +30,7 @@ body{
 }
 #display{
 	width: 100%;
-	height: 100px;
+	height: 100%;
 	background: #730aa2;
 	transition: background 100ms;
 	margin-top: 30px;
