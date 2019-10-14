@@ -32,6 +32,7 @@ public class ControllerLogin {
 			return null;
 		}
 		else{
+			res.cookie("name",nombre);
 			res.redirect("/perfil/"+nombre);
 			return null;
 		}

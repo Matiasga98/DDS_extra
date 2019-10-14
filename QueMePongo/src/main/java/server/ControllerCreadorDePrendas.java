@@ -23,11 +23,14 @@ public class ControllerCreadorDePrendas {
 	public ModelAndView CrearPrenda(Request req, Response res){
 		String nombre = req.params("nombre");
 		Borrador borrador = new Borrador();
+		System.out.println(nombre);
 
 		return new ModelAndView(borrador,"CreadorDePrendas.hbs");
 	}
 	public ModelAndView PostCrearPrenda(Request req, Response res){
 		String nombre = req.params("nombre");
+		System.out.println(nombre);
+
 		res.redirect("/perfil/"+nombre+"/CrearPrenda/2");
 
 		return null;
