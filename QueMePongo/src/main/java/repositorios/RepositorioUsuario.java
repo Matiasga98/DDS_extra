@@ -50,13 +50,13 @@ public class RepositorioUsuario extends CollectionBasedRepo<Usuario> {
         super.create(usuario);
     }
 
-    public Usuario get(String nombre){
+    /*public Usuario get(String nombre){
         return getObjects()
                 .stream()
                 .filter(usuario -> usuario.getNombre().equals(nombre))
                 .findAny()
                 .orElse(new Usuario("NoEncontro",null));
-    }
+    }*/
 
     @Override
     protected Predicate<Usuario> getCriterio(Usuario example) {

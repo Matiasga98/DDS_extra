@@ -1,7 +1,9 @@
 package server;
 
 import dominio.*;
+import dominio.enumerados.Material;
 import dominio.enumerados.Tipo;
+import dominio.enumerados.Trama;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
@@ -50,17 +52,15 @@ public class ControllerCreadorDePrendas {
 	}
 
 	public ModelAndView PostPrendaColor(Request req, Response res){
-		Borrador borrador = new Borrador();
-		String nombre = req.cookie("name");
-		String tipoPrenda = req.cookie("tipoPrenda");
-		String tramaPrenda = req.cookie("tramaPrenda");
-		String materialPrenda = req.cookie("materialPrenda");
-		String nombrePrenda = req.cookie("nombrePrenda");
-		Color colorPrimario = new Color(Integer.parseInt(req.queryParams("rojo1")),Integer.parseInt(req.queryParams("verde1")),Integer.parseInt(req.queryParams("azul1")));
-		//if(req.queryParams("tieneOolorSecundario"))
-		Color colorSecundario =  new Color(Integer.parseInt(req.queryParams("rojo2")),Integer.parseInt(req.queryParams("verde2")),Integer.parseInt(req.queryParams("azul2")));
+		res.cookie("rojo1",req.queryParams("rojo1"));
+		res.cookie("azul1",req.queryParams("azul1"));
+		res.cookie("verde1",req.queryParams("verde1"));
+		res.cookie("rojo2",req.queryParams("rojo2"));
+		res.cookie("azul2",req.queryParams("azuk2"));
+		res.cookie("verde2",req.queryParams("verde2"));
+		res.cookie("tieneColorSecundario",req.queryParams("tieneOolorSecundario"));
 
-		System.out.println(tipoPrenda+tramaPrenda+materialPrenda+nombrePrenda);
+		String nombre = req.cookie("name");
 
 
 
@@ -69,8 +69,38 @@ public class ControllerCreadorDePrendas {
 	}
 
 	public ModelAndView PrendaFinal(Request req, Response res){
+		String nombre = req.cookie("name");
+		Usuario usuario = Repositorio.getInstancia().buscarUsuario(nombre).get();
+		return new ModelAndView(usuario,"CreadorDePrendasGuardarropa.hbs");
+	}
+
+	public ModelAndView PostPrendaFinal(Request req, Response res){
 		Borrador borrador = new Borrador();
-		return new ModelAndView(borrador,"CreadorDePrendasColor.hbs");
+		String nombre = req.cookie("name");
+		String tipoPrenda = req.cookie("tipoPrenda");
+		String tramaPrenda = req.cookie("tramaPrenda");
+		String materialPrenda = req.cookie("materialPrenda");
+		String nombrePrenda = req.cookie("nombrePrenda");
+		Color colorPrimario = new Color(Integer.parseInt(req.cookie("rojo1")),Integer.parseInt(req.cookie("verde1")),Integer.parseInt(req.cookie("azul1")));
+		if(!(req.cookie("tieneOolorSecundario")== null)){
+			Color colorSecundario =  new Color(Integer.parseInt(req.cookie("rojo2")),Integer.parseInt(req.cookie("verde2")),Integer.parseInt(req.cookie("azul2")));
+			borrador.definirColorSecundario(colorSecundario);
+		}
+
+		borrador.definirNombre(nombrePrenda);
+		borrador.definirTipo(Tipo.valueOf(tipoPrenda));
+		borrador.definirMaterial(Material.valueOf(materialPrenda));
+		borrador.definirTrama(Trama.valueOf(tramaPrenda));
+		borrador.definirColorPrimario(colorPrimario);
+
+
+
+		Usuario usuario = Repositorio.getInstancia().buscarUsuario(nombre).get();
+
+		Guardarropa guardarropa = usuario.getGuardarropas().stream().filter(armario -> armario.getNombre().equals(req.queryParams("guardarropas"))).findFirst().get();
+		guardarropa.agregarPrendas(borrador.crearPrenda());
+		res.redirect("/perfil/"+nombre);
+		return null;
 	}
 
 }
