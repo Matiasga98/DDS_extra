@@ -44,7 +44,6 @@ public class ControllerLogin {
 	public ModelAndView perfil(Request req, Response res){
 		String nombre = req.params("nombre");
 		Optional<Usuario> usuario = Repositorio.getInstancia().buscarUsuario(nombre);
-		System.out.println(usuario.get().getUsername());
 		return new ModelAndView(usuario.get(), "perfil.hbs");
 	}
 

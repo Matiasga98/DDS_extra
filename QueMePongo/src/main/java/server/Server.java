@@ -1,9 +1,6 @@
 package server;
 
-import dominio.Guardarropa;
 //import dominio.RepositorioGuardarropas;
-import dominio.Usuario;
-import spark.ModelAndView;
 import spark.Spark;
 import spark.TemplateEngine;
 import spark.debug.DebugScreen;
@@ -18,6 +15,8 @@ public class Server {
 		ControllerGuardarropas controllerGuardarropas =
 				new ControllerGuardarropas();
 		ControllerLogin controllerLogin = new ControllerLogin();
+
+		ControllerCreadorDePrendas controllerCreadorDePrendas= new ControllerCreadorDePrendas();
 		/*
 		 * Tipo de parametros:
 		 * - path param (para,etrp de ruta) se escribe como :nombre
@@ -34,7 +33,14 @@ public class Server {
 
 		Spark.get("/errorDeLogeo",controllerLogin::errorDeLogeo,engine);
 		Spark.post("/errorDeLogeo",controllerLogin::postLogin,engine);
+
+		Spark.post("/perfil/:nombre",controllerCreadorDePrendas::IrACrearPrenda,engine);
+		Spark.get("/perfil/:nombre/CrearPrenda",controllerCreadorDePrendas::CrearPrenda,engine);
+		Spark.post("/perfil/:nombre/CrearPrenda",controllerCreadorDePrendas::PostCrearPrenda,engine);
+		Spark.get("/perfil/:nombre/CrearPrenda/2",controllerCreadorDePrendas::CrearPrendaColor,engine);
 		DebugScreen.enableDebugScreen();
+
+
 	}
 
 }

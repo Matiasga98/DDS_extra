@@ -88,9 +88,10 @@ public class Repositorio {
         testito2.agregarPrendas(inviernito);
 
         Usuario fran = new Usuario("Fran", "Pongo ruido de fondo");
-        Usuario cris = new Usuario("Cris", "Soy cris y soy muy importante para ayudar en el tp");
+        Usuario cris = new Usuario("Cris", "h");
         fran.agregarGuardarropa(testito);
         cris.agregarGuardarropa(testito2);
+        cris.agregarGuardarropa(testito);
         this.usuarios.add(fran);
         this.usuarios.add(cris);
     }

@@ -57,7 +57,7 @@ public class Usuario extends Entity {
 
     @OneToMany
     @JoinColumn(name="usuario_id")
-	private Set<Guardarropa> guardarropas;
+	private Set<Guardarropa> guardarropas = new HashSet<>();
 
     @OneToMany
     @JoinColumn(name="usuario_id")

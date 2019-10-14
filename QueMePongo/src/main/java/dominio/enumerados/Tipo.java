@@ -9,31 +9,37 @@ public enum Tipo {
     //Dejamos esto asi porque consideramos la posibilidad que los demas tipos tambien
     // Tengan distintas capas de prendas como es el caso de Superiores en esta segunda
     // Entrega
-    ZAPATO(Categoria.CALZADO, Capa.INFERIOR, 4,Material.CUERO, Material.GOMA),
-    REMERA(Categoria.PARTE_SUPERIOR, Capa.INFERIOR, 5,Material.ALGODON, Material.LANA),
-    PULOVER(Categoria.PARTE_SUPERIOR, Capa.MEDIA, 9,Material.ALGODON, Material.LANA),
-    BUZO(Categoria.PARTE_SUPERIOR, Capa.ALTA, 10,Material.ALGODON),
-    CAMISA(Categoria.PARTE_SUPERIOR, Capa.INFERIOR, 3,Material.POLIESTER),
-    CAMPERA(Categoria.PARTE_SUPERIOR, Capa.FINAL, 13, Material.CUERO),
-    CAMPERALANA(Categoria.PARTE_SUPERIOR,Capa.FINAL, 16, Material.LANA),
-    PANTALON(Categoria.PARTE_INFERIOR, Capa.INFERIOR, 8, Material.JEAN),
-    PANTALONINVIERNO(Categoria.PARTE_INFERIOR,Capa.INFERIOR,15,Material.ALGODON),
-    SHORT(Categoria.PARTE_INFERIOR, Capa.INFERIOR, 4, Material.ALGODON),
-    POLLERA(Categoria.PARTE_INFERIOR, Capa.INFERIOR, 2, Material.ALGODON, Material.LANA),
-    ANILLO(Categoria.MANOS, Capa.INFERIOR, 0,Material.ORO, Material.DIAMANTE),
-    GUANTES(Categoria.MANOS,Capa.INFERIOR,5,Material.LANA),
-    LENTES(Categoria.CARA,Capa.INFERIOR,0,Material.VIDRIO),
-    BALACLAVA(Categoria.CARA,Capa.INFERIOR,7,Material.LANA),
-    GORRO(Categoria.CABEZA,Capa.INFERIOR,5,Material.LANA),
-    BUFANDA(Categoria.CUELLO, Capa.INFERIOR, 7, Material.LANA);
+    ZAPATO("zapato",Categoria.CALZADO, Capa.INFERIOR, 4,Material.CUERO, Material.GOMA),
+    REMERA("remera",Categoria.PARTE_SUPERIOR, Capa.INFERIOR, 5,Material.ALGODON, Material.LANA),
+    PULOVER("pulover",Categoria.PARTE_SUPERIOR, Capa.MEDIA, 9,Material.ALGODON, Material.LANA),
+    BUZO("buzo",Categoria.PARTE_SUPERIOR, Capa.ALTA, 10,Material.ALGODON),
+    CAMISA("camisa",Categoria.PARTE_SUPERIOR, Capa.INFERIOR, 3,Material.POLIESTER),
+    CAMPERA("campera",Categoria.PARTE_SUPERIOR, Capa.FINAL, 13, Material.CUERO),
+    CAMPERALANA("camperaDeLana",Categoria.PARTE_SUPERIOR,Capa.FINAL, 16, Material.LANA),
+    PANTALON("pantalon",Categoria.PARTE_INFERIOR, Capa.INFERIOR, 8, Material.JEAN),
+    PANTALONINVIERNO("pantalon Grueso",Categoria.PARTE_INFERIOR,Capa.INFERIOR,15,Material.ALGODON),
+    SHORT("short",Categoria.PARTE_INFERIOR, Capa.INFERIOR, 4, Material.ALGODON),
+    POLLERA("pollera",Categoria.PARTE_INFERIOR, Capa.INFERIOR, 2, Material.ALGODON, Material.LANA),
+    ANILLO("anillo",Categoria.MANOS, Capa.INFERIOR, 0,Material.ORO, Material.DIAMANTE),
+    GUANTES("guantes",Categoria.MANOS,Capa.INFERIOR,5,Material.LANA),
+    LENTES("lentes",Categoria.CARA,Capa.INFERIOR,0,Material.VIDRIO),
+    BALACLAVA("balaclava",Categoria.CARA,Capa.INFERIOR,7,Material.LANA),
+    GORRO("gorro",Categoria.CABEZA,Capa.INFERIOR,5,Material.LANA),
+    BUFANDA("bufanda",Categoria.CUELLO, Capa.INFERIOR, 7, Material.LANA);
 
 
     List<Material> materiales = new ArrayList<>();
     Categoria categoria;
     Capa capa;
     int puntajeAbrigo;
+    String nombre;
 
-    Tipo(Categoria categoria, Capa unaCapa, int puntajeAbrigo, Material... materiales) {
+    public String getNombre() {
+        return nombre;
+    }
+
+    Tipo(String nombre, Categoria categoria, Capa unaCapa, int puntajeAbrigo, Material... materiales) {
+        this.nombre= nombre;
         this.categoria = categoria;
         this.materiales.addAll(asList(materiales));
 
@@ -54,4 +60,5 @@ public enum Tipo {
     public Capa Capa() {
         return this.capa;
     }
+
 }

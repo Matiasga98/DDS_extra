@@ -7,6 +7,11 @@ import dominio.excepciones.*;
 
 import static java.util.Objects.requireNonNull;
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 public class Borrador {
@@ -47,6 +52,24 @@ public class Borrador {
 	@Column(name = "material")
 	Material material;
 
+	List<Tipo> Tipos = new ArrayList<Tipo>(EnumSet.allOf(Tipo.class));
+
+	public List<Tipo> getTipos() {
+		return Tipos;
+	}
+
+	public List<Material> getMateriales() {
+		return Materiales;
+	}
+
+	public List<Trama> getTramas() {
+		return Tramas;
+	}
+
+	List<Material> Materiales = new ArrayList<Material>(EnumSet.allOf(Material.class));
+	List<Trama> Tramas = new ArrayList<Trama>(EnumSet.allOf(Trama.class));
+
+
 	public void definirNombre(String nombre) {
 		this.nombre = nombre;
 	}
@@ -70,6 +93,8 @@ public class Borrador {
 	public void definirMaterial(Material material) {
 		this.material = material;
 	}
+
+
 
 	public Prenda crearPrenda() {
 		requireNonNull(nombre, "Se requiere un nombre");
