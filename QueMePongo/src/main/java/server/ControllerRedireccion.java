@@ -8,16 +8,25 @@ import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 
-import java.util.Optional;
-
 //import dominio.RepositorioGuardarropas;
 
-public class ControllerCreadorDePrendas {
+public class ControllerRedireccion {
 
 
 
 
-
+	public ModelAndView PostPerfil(Request req, Response res){
+		String nombre = req.params("nombre");
+		switch(req.queryParams("botoncito")){
+			case("Crear una prenda"):{
+				res.redirect("/perfil/"+nombre+"/CrearPrenda");
+			}
+			case("Pedir sugerencia"):{
+				res.redirect("/perfil/"+nombre+"/PedirSugerencia");
+			}
+		}
+		return null;
+	}
 	public ModelAndView CrearPrenda(Request req, Response res){
 		String nombre = req.params("nombre");
 		Borrador borrador = new Borrador();

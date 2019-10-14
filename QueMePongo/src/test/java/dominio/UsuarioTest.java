@@ -181,8 +181,8 @@ public class UsuarioTest {
 
 
        ProveedorClima mock = new AccuWeather();
-       cumpleDeHernan = new Evento("cumple Hernan AAAAA", mock, LocalDateTime.parse("2019-09-13T13:00:00"),false, ModoDeRepeticion.ANUAL, elio, false);
-
+       cumpleDeHernan = new Evento("cumple Hernan AAAAA", mock, LocalDateTime.parse("2019-10-15T02:00:00"),false, ModoDeRepeticion.ANUAL, elio, false);
+        elio.agregarEvento(cumpleDeHernan);
        sugerencias = elio.pedirSugerenciaParaEventoDeTodosLosGuadaropas(cumpleDeHernan,mock,false);
        //sugerencias.stream().forEach(atuendo -> atuendo.mostrarPrendas());
        //System.out.println(mock.temperatura(LocalDateTime.parse("2019-09-13T13:00:00")));

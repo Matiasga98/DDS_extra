@@ -1,0 +1,25 @@
+<html>
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../main.css">
+</head>
+<body>
+<h1>
+    Elegi que ponerte con el sugeridor de prendas QueMePongo©
+</h1>
+
+
+<form action="/perfil/dgag/PedirSugerencia" method="POST">
+    <label>Elegi el evento para el que queres tu sugerencia</label>
+    <select name="Evento">
+        <option>Evento</option>
+        {{#each eventos }}
+            <option>{{nombre}}</option>
+        {{/each}}
+    </select><br>
+    <input type="submit" value="Pedir Sugerencias">
+</form>
+
+</body>
+</html>

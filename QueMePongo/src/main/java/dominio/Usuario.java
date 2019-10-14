@@ -61,7 +61,7 @@ public class Usuario extends Entity {
 
     @OneToMany
     @JoinColumn(name="usuario_id")
-	private Set<Evento> eventos;
+	private Set<Evento> eventos= new HashSet<>();;
 
     @Column(name="es_premium")
 	private boolean esPremium = false;

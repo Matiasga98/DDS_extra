@@ -1,9 +1,13 @@
 package dominio;
 
+import dominio.clima.AccuweatherData.AccuWeather;
+import dominio.clima.ProveedorClima;
 import dominio.enumerados.Material;
+import dominio.enumerados.ModoDeRepeticion;
 import dominio.enumerados.Tipo;
 import dominio.enumerados.Trama;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Optional;
@@ -92,6 +96,13 @@ public class Repositorio {
         fran.agregarGuardarropa(testito);
         cris.agregarGuardarropa(testito2);
         cris.agregarGuardarropa(testito);
+        ProveedorClima mock = new AccuWeather();
+        Evento cumpleDeHernan = new Evento("cumple Hernan AAAAA", mock, LocalDateTime.parse("2019-10-15T02:00:00"),false, ModoDeRepeticion.ANUAL, cris, false);
+        Evento tiagoTerminaLaCarrera = new Evento("Tiago se recibio O M G", mock, LocalDateTime.parse("2019-10-15T03:00:00"),false, ModoDeRepeticion.ANUAL, cris, false);
+
+        cris.agregarEvento(cumpleDeHernan);
+        cris.agregarEvento(tiagoTerminaLaCarrera);
+        fran.agregarEvento(tiagoTerminaLaCarrera);
         this.usuarios.add(fran);
         this.usuarios.add(cris);
     }

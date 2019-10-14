@@ -1,6 +1,8 @@
 package server;
 
 import dominio.*;
+import dominio.clima.AccuweatherData.AccuWeather;
+import dominio.clima.ProveedorClima;
 import dominio.enumerados.Material;
 import dominio.enumerados.Tipo;
 import dominio.enumerados.Trama;
@@ -8,39 +10,40 @@ import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 
-import java.util.Optional;
+import java.util.Set;
 
 //import dominio.RepositorioGuardarropas;
 
-public class ControllerCreadorDePrendas {
+public class ControllerSugerencia {
 
 
 
 
-
-	public ModelAndView CrearPrenda(Request req, Response res){
-		String nombre = req.params("nombre");
-		Borrador borrador = new Borrador();
-		System.out.println(nombre);
-
-		return new ModelAndView(borrador,"CreadorDePrendas.hbs");
-	}
-	public ModelAndView PostCrearPrenda(Request req, Response res){
+	public ModelAndView EleccionEvento(Request req, Response res){
 		String nombre = req.cookie("name");
-		String nombrePrenda = req.queryParams("nombrePrenda");
-		String tipo = req.queryParams("tipoPrenda");
-		String material = req.queryParams("materialPrenda");
-		String trama = req.queryParams("tramaPrenda");
-		res.cookie("nombrePrenda",nombrePrenda);
-		res.cookie("tipoPrenda",tipo);
-		res.cookie("materialPrenda",material);
-		res.cookie("tramaPrenda",trama);
-		System.out.println(nombre);
+		Usuario usuario = Repositorio.getInstancia().buscarUsuario(nombre).get();
 
+		return new ModelAndView(usuario,"SugerirAtuendoEvento.hbs");
+	}
+	public ModelAndView PostEleccionEvento(Request req, Response res){
+		String nombre = req.cookie("name");
+		res.cookie("evento", req.queryParams("Evento"));
 
-		res.redirect("/perfil/"+nombre+"/CrearPrenda/2");
+		res.redirect("/perfil/"+nombre+"/PedirSugerencia/2");
 
 		return null;
+	}
+
+	public ModelAndView SugerenciasAlEvento(Request req, Response res){
+		String nombre = req.cookie("name");
+		String nombreEvento = req.queryParams("evento");
+		Usuario usuario = Repositorio.getInstancia().buscarUsuario(nombre).get();
+		Evento evento = usuario.getEventos().stream().filter(unEvento -> unEvento.getNombre().equals(nombreEvento)).findFirst().get();
+		ProveedorClima mock = new AccuWeather();
+		Set<Atuendo> sugerencias = usuario.pedirSugerenciaParaEventoDeTodosLosGuadaropas(evento,mock,false);
+
+		return new ModelAndView(sugerencias,"CreadorDePrendasColor.hbs");
+
 	}
 	public ModelAndView CrearPrendaColor(Request req, Response res){
 		Borrador borrador = new Borrador();

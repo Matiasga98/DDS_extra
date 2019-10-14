@@ -15,8 +15,9 @@ public class Server {
 		ControllerGuardarropas controllerGuardarropas =
 				new ControllerGuardarropas();
 		ControllerLogin controllerLogin = new ControllerLogin();
-
+		ControllerRedireccion controllerRedireccion = new ControllerRedireccion();
 		ControllerCreadorDePrendas controllerCreadorDePrendas= new ControllerCreadorDePrendas();
+		ControllerSugerencia controllerSugerencia = new ControllerSugerencia();
 		/*
 		 * Tipo de parametros:
 		 * - path param (para,etrp de ruta) se escribe como :nombre
@@ -34,7 +35,7 @@ public class Server {
 		Spark.get("/errorDeLogeo",controllerLogin::errorDeLogeo,engine);
 		Spark.post("/errorDeLogeo",controllerLogin::postLogin,engine);
 
-		Spark.post("/perfil/:nombre",controllerCreadorDePrendas::IrACrearPrenda,engine);
+		Spark.post("/perfil/:nombre",controllerRedireccion::PostPerfil,engine);
 		Spark.get("/perfil/:nombre/CrearPrenda",controllerCreadorDePrendas::CrearPrenda,engine);
 
 		Spark.post("/perfil/:nombre/CrearPrenda",controllerCreadorDePrendas::PostCrearPrenda,engine);
@@ -43,7 +44,13 @@ public class Server {
 		Spark.post("/perfil/:nombre/CrearPrenda/2",controllerCreadorDePrendas::PostPrendaColor,engine);
 		Spark.get("/perfil/:nombre/CrearPrenda/final",controllerCreadorDePrendas::PrendaFinal,engine);
 
-		Spark.post("/perfil/:nombre/CrearPrenda/final",controllerCreadorDePrendas::PostPrendaFinal);
+		Spark.post("/perfil/:nombre/CrearPrenda/final",controllerCreadorDePrendas::PostPrendaFinal,engine);
+
+		Spark.get("/perfil/:nombre/PedirSugerencia",controllerSugerencia::EleccionEvento,engine);
+		Spark.post("/perfil/:nombre/PedirSugerencia",controllerSugerencia::PostEleccionEvento,engine);
+
+		Spark.get("/perfil/:nombre/PedirSugerencia/2",controllerSugerencia::SugerenciasAlEvento,engine);
+
 		DebugScreen.enableDebugScreen();
 
 
