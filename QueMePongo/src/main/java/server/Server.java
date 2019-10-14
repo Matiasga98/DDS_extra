@@ -36,6 +36,7 @@ public class Server {
 
 		Spark.post("/perfil/:nombre",controllerCreadorDePrendas::IrACrearPrenda,engine);
 		Spark.get("/perfil/:nombre/CrearPrenda",controllerCreadorDePrendas::CrearPrenda,engine);
+
 		Spark.post("/perfil/:nombre/CrearPrenda",controllerCreadorDePrendas::PostCrearPrenda,engine);
 		Spark.get("/perfil/:nombre/CrearPrenda/2",controllerCreadorDePrendas::CrearPrendaColor,engine);
 		DebugScreen.enableDebugScreen();
