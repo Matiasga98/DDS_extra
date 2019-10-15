@@ -2,23 +2,34 @@
 <head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="../../main.css">
+    <link rel="stylesheet" href="../../../main.css">
+    <link href="https://fonts.googleapis.com/css?family=Sarala|Stardos+Stencil:700|Comfortaa:400,700" rel="stylesheet">
+
+    <script src="https://kit.fontawesome.com/8d3ba4a6ac.js" crossorigin="anonymous"></script>
 </head>
 <body>
-<h1>
-    Elegi que ponerte con el sugeridor de prendas QueMePongo©
-</h1>
 
+<div class="jumbotron text-center">
+    <div id="titulo">
+        <h1 class="text-center" style="font-family: 'Stardos Stencil">Elegi que ponerte <i class="fas fa-user-tie"></i>
+        </h1>
+    </div>
+</div>
 
 <form action="/perfil/dgag/PedirSugerencia" method="POST">
-    <label>Elegi el evento para el que queres tu sugerencia</label>
-    <select name="Evento">
-        <option>Evento</option>
-        {{#each eventos }}
-            <option>{{nombre}}</option>
-        {{/each}}
-    </select><br>
-    <input type="submit" value="Pedir Sugerencias">
+    <div class="container-fluid">
+        <label>Elegi el evento para el que queres tu sugerencia</label>
+        <select name="Evento">
+            <option>Evento</option>
+            {{#each eventos }}
+                <option>{{nombre}}</option>
+            {{/each}}
+        </select>
+    </div>
+    <br>
+    <button type="submit" value="Pedir Sugerencias" class="btn btn-primary btn-lg btn-block">Siguiente
+        paso
+    </button>
 </form>
 
 </body>

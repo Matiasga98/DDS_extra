@@ -1,0 +1,64 @@
+<html>
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../../main.css">
+    <link href="https://fonts.googleapis.com/css?family=Sarala|Stardos+Stencil:700|Comfortaa:400,700" rel="stylesheet">
+
+    <script src="https://kit.fontawesome.com/8d3ba4a6ac.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<div class="jumbotron text-center">
+    <div id="titulo">
+        <h1 class="text-center" style="font-family: 'Stardos Stencil">Crea tu evento <i class="fas fa-user-graduate"></i>
+        </h1>
+    </div>
+</div>
+
+<form action="/perfil/:nombre/CrearEvento" method="POST">
+
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" style="font-family: 'Sarala">Nombre del Evento:</span>
+        </div>
+        <input type="text" name="nombreEvento" class="form-control">
+    </div>
+
+    <br>
+
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" style="font-family: 'Sarala">Fecha y Hora:</span>
+        </div>
+        <input type="datetime-local" name="fechaYHora" class="form-control">
+    </div>
+
+    <br>
+
+    <div class="custom-control custom-checkbox" align="center">
+        <input type="checkbox" name="flexible" value="true" class="custom-control-input" id="defaultUnchecked">
+        <label class="custom-control-label" for="defaultUnchecked">¿Sos Flexible con las sugerencias?</label>
+    </div>
+
+    <br>
+
+    <div class="container-fluid">
+    <label>Elegí el Proveedor de Clima:</label>
+    <select name="proveedor">
+        {{#each Proveedores }}
+            <option>{{this}}</option>
+        {{/each}}
+    </select>
+        <br>
+    </div>
+
+    <button type="submit" value="Crear" name="botoncito" class="btn btn-primary btn-lg btn-block">Crear
+        paso
+    </button>
+
+</form>
+
+
+</body>
+</html>

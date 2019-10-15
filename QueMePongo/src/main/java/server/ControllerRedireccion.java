@@ -24,6 +24,9 @@ public class ControllerRedireccion {
 			case("Pedir sugerencia"):{
 				res.redirect("/perfil/"+nombre+"/PedirSugerencia");
 			}
+			case("Crear Evento"):{
+				res.redirect("/perfil/"+nombre+"/CrearEvento");
+			}
 		}
 		return null;
 	}

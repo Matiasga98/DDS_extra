@@ -9,7 +9,7 @@ import spark.template.handlebars.HandlebarsTemplateEngine;
 public class Server {
 	public static void main(String[] args) {
 		//RepositorioGuardarropas.instance().findByUsuario(new Usuario());
-		Spark.port(9000);
+		Spark.port(9001);
 		Spark.staticFiles.location("/public");
 		Spark.init();
 		ControllerGuardarropas controllerGuardarropas =
@@ -18,6 +18,8 @@ public class Server {
 		ControllerRedireccion controllerRedireccion = new ControllerRedireccion();
 		ControllerCreadorDePrendas controllerCreadorDePrendas= new ControllerCreadorDePrendas();
 		ControllerSugerencia controllerSugerencia = new ControllerSugerencia();
+		ControllerCreadorDeEventos controllerCreadorDeEventos = new ControllerCreadorDeEventos();
+
 		/*
 		 * Tipo de parametros:
 		 * - path param (para,etrp de ruta) se escribe como :nombre
@@ -50,6 +52,11 @@ public class Server {
 		Spark.post("/perfil/:nombre/PedirSugerencia",controllerSugerencia::PostEleccionEvento,engine);
 
 		Spark.get("/perfil/:nombre/PedirSugerencia/2",controllerSugerencia::SugerenciasAlEvento,engine);
+
+
+		Spark.get("/perfil/:nombre/CrearEvento",controllerCreadorDeEventos::CrearEvento,engine);
+		Spark.post("/perfil/:nombre/CrearEvento",controllerCreadorDeEventos::PostCrearEvento,engine);
+
 
 		DebugScreen.enableDebugScreen();
 
