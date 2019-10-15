@@ -1,19 +1,36 @@
 <html>
 <head>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>QueMePongo</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="../../main.css">
+    <script src="https://kit.fontawesome.com/8d3ba4a6ac.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css?family=Sarala|Stardos+Stencil:700|Comfortaa:400,700" rel="stylesheet">
+
 </head>
 <body>
-    <h1>
-        holaRoli
-    </h1>
-    <form action="/login" method ="POST">
-        <label>Usuario</label>
-        <input type="text" name= "user"><br>
-        <label>contrasenia</label>
-        <input type ="text" name="pass"><br><br>
-        <input type ="submit" value="Submit">
-    </form>
 
+<div class="jumbotron text-center">
+    <div id="titulo">
+        <h1 class="text-center" style="font-family: 'Stardos Stencil">QueMePongo<i style="color:darkred" class="fas fa-tshirt"></i></h1>
+    </div>
+</div>
+<div class="container">
+    <form action="/login" method="POST">
+        <div class="form-group">
+            <label for="exampleInputEmail1" style="font-family: 'Sarala">Usuario</label>
+            <input type="text" name="user" class="form-control" placeholder="Username">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1" style="font-family: 'Sarala">Contraseña</label>
+            <input type="password" name="pass" class="form-control" id="exampleInputPassword1" placeholder="Password">
+            <small id="emailHelp" class="form-text text-muted">Nunca la compartas con nadie.</small>
+        </div>
+        <button type="submit" value="Submit" class="btn btn-primary">Submit</button>
+        <!--<input type ="submit" value="Submit">-->
+    </form>
+</div>
 </body>
 </html>

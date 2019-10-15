@@ -3,38 +3,66 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="../../main.css">
+    <link href="https://fonts.googleapis.com/css?family=Sarala|Stardos+Stencil:700|Comfortaa:400,700" rel="stylesheet">
+
+    <script src="https://kit.fontawesome.com/8d3ba4a6ac.js" crossorigin="anonymous"></script>
 </head>
 <body>
-<h1>
-    Nombre: {{ username }}
-</h1>
 
+<div class="jumbotron text-center">
+    <div id="titulo">
+        <h1 class="text-center" style="font-family: 'Stardos Stencil">Guardarropas: <i class="fas fa-mitten" style="color: green"></i></h1>
+    </div>
+</div>
+
+<div class="container-fluid text-left" style="font-family: 'Sarala">
+    <h1>
+        Usuario: {{ username }}
+    </h1>
+</div>
+<br>
 {{#each guardarropas}}
+    <br>
     <div class="guardarropa">
-        <div class="detalles">
+        <div class="container-fluid text-center" style="font-family: 'Sarala">
             <h2>{{nombre}}</h2>
         </div>
-            {{#each prendas}}
+        <br>
+        <div class="container-fluid">
+            <div class="row">
                 {{#each prendas}}
-                    <div class="prenda">
-                        <img src="/remera.png" alt="remera"/>
-                        <div class="detalles">
-                            <h3>{{nombre}}</h3>
-                            {{ color }}
+                    {{#each prendas}}
+                        <div class="col-md-4">
+                            <div class="card" style="width: 15rem;">
+                                <img class="card-img-top" src="/remera.png" alt="remera"/>
+                                <div class="card-body">
+                                    <div class="card-tex" style="font-family: 'Sarala">
+                                        <h3>{{nombre}}</h3>
+                                        {{ color }}
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                    {{/each}}
                 {{/each}}
-            {{/each}}
-
+            </div>
+        </div>
     </div>
-
+    <br>
 
 {{/each}}
-<form action="/perfil/{{ username }}" method ="POST">
-    <input type ="submit" value="Crear una prenda" name="botoncito">
-    <input type ="submit" value="Pedir sugerencia" name="botoncito">
-</form>
-
+<div class="container-fluid">
+    <form action="/perfil/{{ username }}" method="POST">
+        <button type="submit" value="Crear una prenda" name="botoncito" class="btn btn-primary btn-lg btn-block">Crear
+            una prenda
+        </button>
+        <button type="submit" value="Pedir sugerencia" name="botoncito" class="btn btn-primary btn-lg btn-block">Pedir
+            sugerencia
+        </button>
+        <!--<input type="submit" value="Crear una prenda" name="botoncito">
+        <input type="submit" value="Pedir sugerencia" name="botoncito">-->
+    </form>
+</div>
 
 </body>
 </html>

@@ -3,40 +3,58 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="../../main.css">
+    <link href="https://fonts.googleapis.com/css?family=Sarala|Stardos+Stencil:700|Comfortaa:400,700" rel="stylesheet">
+
+    <script src="https://kit.fontawesome.com/8d3ba4a6ac.js" crossorigin="anonymous"></script>
 </head>
 <body>
-<h1>
-    Crea tu propia prenda con este creador de Prendas QueMePongo©
-</h1>
 
-<label>Nombre de tu prenda</label>
+<div class="jumbotron text-center">
+    <div id="titulo">
+        <h1 class="text-center" style="font-family: 'Stardos Stencil">Crea tu propia prenda <br><br> QueMePongo<i
+                class="far fa-copyright"></i></h1>
+    </div>
+</div>
+
+
 <form action="/perfil/dgag/CrearPrenda" method="POST">
-<input type="text" name="nombrePrenda"><br>
-<label>Tipo de Prenda</label>
-<select name="tipoPrenda">
-    <option>Tipo De Prenda</option>
-    {{#each Tipos }}
-        <option>{{this}}</option>
-    {{/each}}
-</select><br>
-<label>Material de Prenda</label>
-<select name="materialPrenda">
-    <option>Material De Prenda</option>
-    {{#each Materiales }}
-        <option>{{this}}</option>
-    {{/each}}
-</select><br>
-<label>Trama de Prenda</label>
-<select name="tramaPrenda">
-    <option>Trama De Prenda</option>
-    {{#each Tramas }}
-        <option>{{this}}</option>
-    {{/each}}
-</select><br>
 
-<!-- arreglar esto -->
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" style="font-family: 'Sarala">Nombre de tu prenda</span>
+        </div>
+        <input type="text" name="nombrePrenda" class="form-control">
+    </div>
 
-    <input type="submit" value="Siguiente paso">
+    <div class="container-fluid">
+
+    <label>Tipo de Prenda</label>
+    <select name="tipoPrenda">
+        <option>Tipo De Prenda</option>
+        {{#each Tipos }}
+            <option>{{this}}</option>
+        {{/each}}
+    </select><br>
+    <label>Material de Prenda</label>
+    <select name="materialPrenda">
+        <option>Material De Prenda</option>
+        {{#each Materiales }}
+            <option>{{this}}</option>
+        {{/each}}
+    </select><br>
+    <label>Trama de Prenda</label>
+    <select name="tramaPrenda">
+        <option>Trama De Prenda</option>
+        {{#each Tramas }}
+            <option>{{this}}</option>
+        {{/each}}
+    </select><br>
+    </div>
+
+    <button type="submit" value="Siguiente paso" name="botoncito" class="btn btn-primary btn-lg btn-block">Siguiente
+        paso
+    </button>
+    <!--<input type="submit" value="Siguiente paso">-->
 </form>
 
 </body>
