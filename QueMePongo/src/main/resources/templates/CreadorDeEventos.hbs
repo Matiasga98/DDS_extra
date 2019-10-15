@@ -1,0 +1,41 @@
+<html>
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../main.css">
+</head>
+<body>
+<h1>
+    Creá tu nuevo evento en QueMePongo©
+</h1>
+
+<form action="/perfil/:nombre/CrearEvento" method="POST">
+    <p align="left">
+
+    <label>Nombre del Evento:</label>
+    <input type="text" name="nombreEvento">
+    <br>
+
+    <label>Fecha y Hora:</label>
+    <input type="datetime-local" name="fechaYHora">
+    <br>
+
+    <label>¿Sos Flexible con las sugerencias?</label>
+    <input type="checkbox" name="flexible" value="true"><br>
+    <br>
+
+    <label>Elegí el Proveedor de Clima:</label>
+    <select name="proveedor">
+        {{#each Proveedores }}
+            <option>{{this}}</option>
+        {{/each}}
+    </select>
+        <br>
+
+    <input type="submit" value="Crear">
+    </p>
+</form>
+
+
+</body>
+</html>
