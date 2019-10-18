@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 public class Repositorio {
 
@@ -73,12 +74,14 @@ public class Repositorio {
         Prenda camperita = new Prenda("camperita", Tipo.CAMPERA,Material.ALGODON,Trama.LISA,rojo,null);
         Prenda camisita = new Prenda ("camisita", Tipo.CAMISA,Material.ALGODON,Trama.LISA,azul,null);
         Prenda lentitos = new Prenda ("lentitos", Tipo.LENTES,Material.VIDRIO,Trama.LISA,negro,null);
+        Prenda gorrito = new Prenda ( "gorrito", Tipo.GORRO,Material.LANA,Trama.LISA,blanco,azul);
+
 
         Guardarropa testito = new Guardarropa("testito");
         Guardarropa testito2 = new Guardarropa("testito2");
 
-
-        //testito.agregarPrendas(guantitos);
+        testito.agregarPrendas(gorrito);
+        testito.agregarPrendas(guantitos);
         testito.agregarPrendas(bufandita);
         testito.agregarPrendas(anillito);
         testito.agregarPrendas(remerita);
@@ -86,23 +89,33 @@ public class Repositorio {
         testito.agregarPrendas(lentitos);
         testito.agregarPrendas(buzito);
         testito.agregarPrendas(pantaloncito);
-        testito2.agregarPrendas(anillito);
         testito.agregarPrendas(camperita);
+        testito.agregarPrendas(inviernito);
+
+
+
+        testito2.agregarPrendas(zapatito);
+        testito2.agregarPrendas(pantaloncito);
+        testito2.agregarPrendas(anillito);
         testito2.agregarPrendas(camisita);
         testito2.agregarPrendas(inviernito);
+        testito2.agregarPrendas(remerita);
 
         Usuario fran = new Usuario("Fran", "Pongo ruido de fondo");
         Usuario cris = new Usuario("Cris", "h");
         fran.agregarGuardarropa(testito);
-        cris.agregarGuardarropa(testito2);
+        //cris.agregarGuardarropa(testito2);
         cris.agregarGuardarropa(testito);
         ProveedorClima mock = new AccuWeather();
-        Evento cumpleDeHernan = new Evento("cumple Hernan AAAAA", mock, LocalDateTime.parse("2019-10-15T02:00:00"),false, ModoDeRepeticion.ANUAL, cris, false);
+        Evento cumpleDeHernan = new Evento("cumple", mock, LocalDateTime.parse("2019-10-15T02:00:00"),false, ModoDeRepeticion.ANUAL, cris, false);
         Evento tiagoTerminaLaCarrera = new Evento("Tiago se recibio O M G", mock, LocalDateTime.parse("2019-10-15T03:00:00"),false, ModoDeRepeticion.ANUAL, cris, false);
 
         cris.agregarEvento(cumpleDeHernan);
         cris.agregarEvento(tiagoTerminaLaCarrera);
         fran.agregarEvento(tiagoTerminaLaCarrera);
+
+        //Set<Atuendo> atuendos = cris.pedirSugerenciaParaEventoDeTodosLosGuadaropas(cumpleDeHernan,mock,false);
+       // atuendos.stream().forEach(atuendo -> atuendo.mostrarPrendas());
         this.usuarios.add(fran);
         this.usuarios.add(cris);
     }

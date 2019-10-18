@@ -10,6 +10,7 @@ public enum Tipo {
     // Tengan distintas capas de prendas como es el caso de Superiores en esta segunda
     // Entrega
     ZAPATO("zapato",Categoria.CALZADO, Capa.INFERIOR, 4,Material.CUERO, Material.GOMA),
+    ZAPATOGRUESO("zapatoGrueso",Categoria.CALZADO,Capa.INFERIOR,8,Material.CUERO,Material.GOMA),
     REMERA("remera",Categoria.PARTE_SUPERIOR, Capa.INFERIOR, 5,Material.ALGODON, Material.LANA),
     PULOVER("pulover",Categoria.PARTE_SUPERIOR, Capa.MEDIA, 9,Material.ALGODON, Material.LANA),
     BUZO("buzo",Categoria.PARTE_SUPERIOR, Capa.ALTA, 10,Material.ALGODON),
@@ -24,7 +25,7 @@ public enum Tipo {
     GUANTES("guantes",Categoria.MANOS,Capa.INFERIOR,5,Material.LANA),
     LENTES("lentes",Categoria.CARA,Capa.INFERIOR,0,Material.VIDRIO),
     BALACLAVA("balaclava",Categoria.CARA,Capa.INFERIOR,7,Material.LANA),
-    GORRO("gorro",Categoria.CABEZA,Capa.INFERIOR,5,Material.LANA),
+    GORRO("gorro",Categoria.CABEZA,Capa.INFERIOR,7,Material.LANA),
     BUFANDA("bufanda",Categoria.CUELLO, Capa.INFERIOR, 7, Material.LANA);
 
 

@@ -8,15 +8,16 @@
         <label Estas son nuestras sugerencias para tu evento></label>
     </h1>
 
-    {{#each prendas}}
+    {{#each loQueMeSugirieron}}
+        <label>-------</label>
         {{#each prendas}}
-        <div class="prenda">
-            <img src="/remera.png" alt="remera" />
-            <div class="detalles">
-                <h2>{{nombre}}</h2>
-                {{ color }}
+            <div class="prenda">
+                <img src="/remera.png" alt="remera" />
+                <div class="detalles">
+                    <h2>{{nombre}}</h2>
+                    {{ color }}
+                </div>
             </div>
-	    </div>
         {{/each}}
     {{/each}}
 </body>

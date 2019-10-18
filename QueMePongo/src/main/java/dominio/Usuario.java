@@ -104,7 +104,7 @@ public class Usuario extends Entity {
 
     private int coeficienteCalzado = 15;
     //@Transient
-    private int coeficienteCabeza = 15;
+    private int coeficienteCabeza = 10;
     //@Transient
     private int coeficienteCuello = 10;
     //@Transient
