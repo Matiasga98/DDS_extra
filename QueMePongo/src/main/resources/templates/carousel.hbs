@@ -1,0 +1,26 @@
+<div id="guadarropa-{{id}}" class="carousel slide mx-auto" data-ride="carousel">
+    <!--<div class="carousel-inner row w-100 mx-auto">-->
+    <div class="carousel-inner row w-100 mx-auto">
+        {{#each prendas}}
+            {{#each prendas}}
+                <div class="carousel-item">
+                    <div class="card">
+                        <img class="card-img-top w-50 h-50 mx-auto" focusable="false" src="/remera.png" alt="remera"/>
+                        <div class="card-body">
+                            <p class="card-text">Nombre: {{nombre}}</p>
+                            <!-- <p class="card-text">Color: {{!color}}</p> -->
+                        </div>
+                    </div>
+                </div>
+            {{/each}}
+        {{/each}}
+    </div>
+    <a class="carousel-control-prev" href="#guadarropa-{{id}}" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#guadarropa-{{id}}" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+</div>

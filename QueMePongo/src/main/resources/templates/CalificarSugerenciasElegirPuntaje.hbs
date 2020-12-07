@@ -7,50 +7,52 @@
 
     <script src="https://kit.fontawesome.com/8d3ba4a6ac.js" crossorigin="anonymous"></script>
 </head>
+
 <body>
 
 {{> nav.hbs}}
 <div class="jumbotron text-center" style="margin-bottom:0;">
     <div id="titulo">
-        <h1 class="text-center" style="font-family: 'Stardos Stencil">Estas son nuestras sugerencias para tu evento<i class="fas fa-user-tie"></i>
+        <h1 class="text-center" style="font-family: 'Stardos Stencil">Contanos que te parecio la sugerencia<i
+                class="fas fa-user-tie"></i>
         </h1>
     </div>
 </div>
 
 
-{{#each usuario.loQueMeSugirieron}}
 
-    <div class="container-fluid">
-        <div class="row">
-            {{#each prendas}}
 
-                <div class="col-md-2">
-                    <div class="card" style="width: 10rem; margin: 70px;">
-                        <img class="card-img-top" src="/remera.png" alt="remera"/>
-                        <div class="card-body">
-                            <div class="card-tex" style="font-family: 'Sarala">
-                                <h3>{{nombre}}</h3>
-                                {{ color }}
-                            </div>
-                        </div>
-                    </div>
-                </div>
+<div class="container-fluid text-center">
 
-            {{/each}}
-            <div class="container-fluid">
-                <form action="/Sugerencias" method="POST">
-                    <div class="col-md-4 text-center" style="margin: auto;">
-                        <button type="submit" value={{ id }} name="botoncito"
-                                class="btn btn-primary btn-lg btn-block">Elegir Atuendo
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-        <hr class="new4">
-    </div>
+    <form action="/Calificacion" method="POST">
 
+        <br>
+
+        <div class="container-fluid">
+{{#each categoria }}
+            <label>{{this}}</label>
+            <select name="{{this}}">
+                <option>Bien</option>
+                <option>Frio</option>
+                <option>Calor</option>
+
+            </select>
+            <br>
 {{/each}}
+        </div>
+
+            <div class="card-body d-flex">
+                <a href="/AtuendoPorCalificar"  class="btn btn-primary">Volver
+                    Atras
+                </a>
+
+                <button  type="submit" value="perfil" name="botoncito"  class="btn btn-primary ml-auto">Enviar calificacion
+                </button>
+            </div>
+
+    </form>
+
+</div>
 
 {{> footer.hbs}}
 

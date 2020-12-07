@@ -8,25 +8,50 @@ import dominio.enumerados.Tipo;
 import dominio.enumerados.Trama;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
 
 public class Repositorio {
 
-    private Collection<Usuario> usuarios;
+    private Collection<Usuario> usuarios = new HashSet<Usuario>();
 
-    private static Repositorio instancia = new Repositorio();
+    private static Repositorio instancia;
 
     private Repositorio(){
-        usuarios = new HashSet<>();
-        tester();
+
+        EntityManager entityManager = JPAUtility.getEntityManager();
+
+        entityManager.getTransaction().begin();
+
+        // Carga todos los usuarios de la tabla usuarios en el repositorio al inicializarse
+        /*instancia.usuarios.addAll(entityManager.createQuery("SELECT u from Usuario u")
+                 .getResultList());*/
+
+/*
+        entityManager.close();
+        JPAUtility.close();
+*/
+        //usuarios = new HashSet<>();
+        //tester();
     }
 
     public static Repositorio getInstancia(){
+        /*This logic will ensure that no more than
+         * one object can be created at a time */
+        if(instancia==null){
+            instancia= new Repositorio();
+        }
         return instancia;
     }
+
+    /*public static Repositorio getInstancia(){
+
+        return instancia;
+    }*/
 
     public Collection<Usuario> usuarios(){
         return usuarios;
@@ -48,6 +73,22 @@ public class Repositorio {
         return this.usuarios.stream().filter(usuario -> usuario.getUsername().equals(nombreUsuario)).findFirst();
     }
 
+    public Optional<Usuario> buscarUsuarioPorId(String id){
+        return this.usuarios.stream().filter(usuario -> usuario.getId().toString().equals(id)).findFirst();
+    }
+
+    public Usuario buscarUsuarioPorId(Integer id){
+        return this.usuarios.stream().filter(usuario -> usuario.getId().equals(id)).findFirst().get();
+    }
+
+    public void setUsuarios(HashSet<Usuario> usuarios) {
+    	instancia.usuarios = usuarios;
+    }
+
+    public void setUsuarios(List<Usuario> usuarios) {
+        instancia.usuarios = usuarios;
+    }
+    
     private void tester(){
         //Esto es para testear, no me pegues roli
 
@@ -91,8 +132,6 @@ public class Repositorio {
         testito.agregarPrendas(pantaloncito);
         testito.agregarPrendas(camperita);
         testito.agregarPrendas(inviernito);
-
-
 
         testito2.agregarPrendas(zapatito);
         testito2.agregarPrendas(pantaloncito);

@@ -1,8 +1,6 @@
 package dominio;
 
-import dominio.enumerados.Material;
-import dominio.enumerados.Tipo;
-import dominio.enumerados.Trama;
+import dominio.enumerados.*;
 import dominio.excepciones.*;
 
 import static java.util.Objects.requireNonNull;
@@ -52,7 +50,23 @@ public class Borrador {
 	@Column(name = "material")
 	Material material;
 
+	@Transient
 	List<Tipo> Tipos = new ArrayList<Tipo>(EnumSet.allOf(Tipo.class));
+
+	@Transient
+	List<Material> Materiales = new ArrayList<Material>(EnumSet.allOf(Material.class));
+
+	@Transient
+	List<Trama> Tramas = new ArrayList<Trama>(EnumSet.allOf(Trama.class));
+
+	@Transient
+	public List<Categoria> categoria = new ArrayList<dominio.enumerados.Categoria>(EnumSet.allOf(Categoria.class));
+
+	@Transient
+	List<SuceptibilidadATemperatura> suceptibilidades = new ArrayList<dominio.enumerados.SuceptibilidadATemperatura>(EnumSet.allOf(SuceptibilidadATemperatura.class));
+
+	@Transient
+	Boolean materialInconsistente = false;
 
 	public List<Tipo> getTipos() {
 		return Tipos;
@@ -66,9 +80,16 @@ public class Borrador {
 		return Tramas;
 	}
 
-	List<Material> Materiales = new ArrayList<Material>(EnumSet.allOf(Material.class));
-	List<Trama> Tramas = new ArrayList<Trama>(EnumSet.allOf(Trama.class));
+	public List<Categoria> getCategoria() {
+		return categoria;
+	}
 
+	public List<SuceptibilidadATemperatura> getSuceptibilidades() {
+		return suceptibilidades;
+	}
+
+	public Boolean getMaterialInconsistente(){ return materialInconsistente;}
+	public void setMaterialInconsistente(Boolean bool){ this.materialInconsistente = bool;}
 
 	public void definirNombre(String nombre) {
 		this.nombre = nombre;
@@ -108,14 +129,23 @@ public class Borrador {
 		return new Prenda(nombre, tipo, material, trama, colorPrimario, colorSecundario);
 	}
 
-	private void chequearColorDistinto() {
+	public void chequearColorDistinto() {
 		if (colorPrimario.esIgualA(colorSecundario))
 			throw new RequiereColorDistinto("El color secundario debe ser distinto del primario");
 	}
 
-	private void chequearMaterialSegunTipoDePrenda() {
-		if (!tipo.permiteMaterial(material))
+	public void chequearMaterialSegunTipoDePrenda() {
+		if (!tipo.permiteMaterial(material)) {
+			this.materialInconsistente = true;
 			throw new MaterialInconsistente("El material elegido no es compatible con el tipo de prenda");
+		}
 	}
 
+
+
+
+
+
 }
+
+

@@ -8,30 +8,40 @@
     <script src="https://kit.fontawesome.com/8d3ba4a6ac.js" crossorigin="anonymous"></script>
 </head>
 <body>
-
-<div class="jumbotron text-center">
+{{> nav.hbs}}
+<br>
+<div class="jumbotron text-center" style="margin-bottom:0;">
     <div id="titulo">
-        <h1 class="text-center" style="font-family: 'Stardos Stencil">Crea tu evento <i class="fas fa-user-graduate"></i>
+        <h1 class="text-center" style="font-family: 'Stardos Stencil">Crea tu evento <i
+                class="fas fa-user-graduate"></i>
         </h1>
     </div>
 </div>
-
-<form action="/perfil/:nombre/CrearEvento" method="POST">
-
-    <div class="input-group mb-3">
-        <div class="input-group-prepend">
-            <span class="input-group-text" style="font-family: 'Sarala">Nombre del Evento:</span>
+<br><br>
+<form action="/evento" method="POST">
+    {{#if errorFormato}}
+        <div class="form-group alert alert-danger" role="alert">
+            Formato de fecha incompatible.
         </div>
-        <input type="text" name="nombreEvento" class="form-control">
-    </div>
+    {{/if}}
 
+    <div class="form-row">
+        <div class="input-group input-group-lg col-md-6 mx-auto">
+            <div class="input-group-prepend">
+                <span class="input-group-text" style="font-family: 'Sarala">Nombre del Evento:</span>
+            </div>
+            <input type="text" name="nombreEvento" class="form-control">
+        </div>
+    </div>
     <br>
 
-    <div class="input-group mb-3">
-        <div class="input-group-prepend">
-            <span class="input-group-text" style="font-family: 'Sarala">Fecha y Hora:</span>
+    <div class="form-row">
+        <div class="input-group input-group-lg col-md-6 mx-auto">
+            <div class="input-group-prepend">
+                <span class="input-group-text" style="font-family: 'Sarala">Fecha y Hora:</span>
+            </div>
+            <input type="datetime-local" name="fechaYHora" class="form-control">
         </div>
-        <input type="datetime-local" name="fechaYHora" class="form-control">
     </div>
 
     <br>
@@ -43,21 +53,25 @@
 
     <br>
 
-    <div class="container-fluid">
-    <label>Elegí el Proveedor de Clima:</label>
-    <select name="proveedor">
-        {{#each Proveedores }}
-            <option>{{this}}</option>
-        {{/each}}
-    </select>
-        <br>
+    <div class="col-md-12 text-center">
+        <button type="submit" value="Crear" class="btn btn-primary">Crear
+            Evento
+        </button>
     </div>
 
-    <button type="submit" value="Crear" name="botoncito" class="btn btn-primary btn-lg btn-block">Crear
-        paso
-    </button>
-
 </form>
+
+{{> footer.hbs}}
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
 
 
 </body>

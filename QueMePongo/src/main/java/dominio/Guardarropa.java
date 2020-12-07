@@ -15,21 +15,11 @@ public class Guardarropa {
     @GeneratedValue
     private long guardarropaId;
 
-   	@OneToMany(cascade = {CascadeType.ALL})
+   	@OneToMany(cascade = {CascadeType.MERGE}, fetch = FetchType.EAGER)
 	@JoinColumn(name = "guardarropaId")
 	private Set<PrendasPorCategoria> prendas;
 
-	@ElementCollection
-	@CollectionTable(name = "atuendos_aceptados", joinColumns = @JoinColumn(name = "guardarropaId"))
-	//@Column(name = "atuendoId")
-	private Set<Atuendo> atuendosAceptados;
 
-	/*@ElementCollection
-	@CollectionTable(name = "atuendos_rechazados", joinColumns = @JoinColumn(name = "guardarropaId"))
-	@Column(name = "atuendoId")
-	*/
-	@Transient
-	private Set<Atuendo> atuendosRechazados;
 
 	private String nombre;
 	
@@ -51,26 +41,12 @@ public class Guardarropa {
         this.prendas = prendas;
     }
 
-    public Set<Atuendo> getAtuendosAceptados() {
-        return atuendosAceptados;
-    }
-    
-    public void setAtuendosAceptados(Set<Atuendo> atuendosAceptados) {
-        this.atuendosAceptados = atuendosAceptados;
-    }
 
-    public Set<Atuendo> getAtuendosRechazados() {
-        return atuendosRechazados;
-    }
-    public void setAtuendosRechazados(Set<Atuendo> atuendosRechazados) {
-        this.atuendosRechazados = atuendosRechazados;
-    }
 
     public Guardarropa(String nombre) {
     	this.nombre = nombre;
 		prendas = new HashSet<>();
-		atuendosAceptados = new HashSet<>();
-		atuendosRechazados = new HashSet<>();
+
 		prendas.add(new PrendasPorCategoria(Categoria.PARTE_SUPERIOR));
 		prendas.add(new PrendasPorCategoria(Categoria.PARTE_INFERIOR));
 		prendas.add(new PrendasPorCategoria(Categoria.CALZADO));
@@ -79,6 +55,10 @@ public class Guardarropa {
 		prendas.add(new PrendasPorCategoria(Categoria.CARA));
 		prendas.add(new PrendasPorCategoria(Categoria.CUELLO));
 		prendas.add(new PrendasPorCategoria(Categoria.MANOS));
+	}
+
+	public Guardarropa(){
+
 	}
 
 	public boolean incluye(Prenda prenda){
@@ -203,7 +183,7 @@ public class Guardarropa {
 	public boolean estaDistribuidoElAbrigoFlexible (Atuendo atuendo, Double temperatura){
 		return atuendo.abrigoSuperior()>= (26-temperatura)*0.6 && atuendo.abrigoInferior()>= (26-temperatura)*0.3 && atuendo.abrigoCalzado() >= (26-temperatura)*0.1;
 	}
-
+/*
 	public void agregarAAceptados(Atuendo atuendo){
 		this.atuendosAceptados.add(atuendo);
 	}
@@ -219,14 +199,11 @@ public class Guardarropa {
 	public void quitarDeRechazados(Atuendo atuendo){
 		this.atuendosRechazados.remove(atuendo);
 	}
-
+*/
 	public boolean incluye(Atuendo atuendo){
 		return atuendo.prendas().stream().allMatch(prenda -> incluye(prenda));
 	}
 
-	public void procesarCalificacion (Calificacion calificacion, Usuario usuario){
-    	calificacion.friolentoEn.stream().forEach(categoria -> usuario.calentarEn(categoria));
-    	calificacion.calurosoEn.stream().forEach(categoria -> usuario.friolentarEn(categoria));
-	}
+
 
 }

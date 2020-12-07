@@ -2,6 +2,7 @@ package dominio;
 
 import dominio.clima.AccuweatherData.AccuWeather;
 import dominio.clima.ProveedorClima;
+import dominio.clima.ProveedorMock;
 import dominio.enumerados.Categoria;
 import dominio.enumerados.Material;
 import dominio.enumerados.ModoDeRepeticion;
@@ -169,30 +170,30 @@ public class UsuarioTest {
 
        Guardarropa testito = new Guardarropa("testito");
        testito.agregarPrendas(guantitos);
-       testito.agregarPrendas(bufandita);
+      // testito.agregarPrendas(bufandita);
        testito.agregarPrendas(remerita);
        testito.agregarPrendas(zapatito);
-       testito.agregarPrendas(lentitos);
+       //testito.agregarPrendas(lentitos);
        testito.agregarPrendas(buzito);
        testito.agregarPrendas(pantaloncito);
        testito.agregarPrendas(anillito);
-       testito.agregarPrendas(camperita);
+       //testito.agregarPrendas(camperita);
        testito.agregarPrendas(camisita);
-       testito.agregarPrendas(inviernito);
-       testito.agregarPrendas(mascarita);
-       testito.agregarPrendas(superZapatito);
+       //testito.agregarPrendas(inviernito);
+       //testito.agregarPrendas(mascarita);
+       //testito.agregarPrendas(superZapatito);
        Set<Atuendo>  sugerencias = new HashSet<>();
        Usuario elio = new Usuario(true);
        elio.agregarGuardarropa(testito);
 
 
-       ProveedorClima mock = new AccuWeather();
-       cumpleDeHernan = new Evento("cumple Hernan AAAAA", mock, LocalDateTime.parse("2019-10-15T02:00:00"),false, ModoDeRepeticion.ANUAL, elio, false);
+       ProveedorClima mock = new ProveedorMock();
+       cumpleDeHernan = new Evento("cumple Hernan AAAAA", mock, LocalDateTime.parse("2019-11-29T10:00:00"),false, ModoDeRepeticion.ANUAL, elio, false);
         elio.agregarEvento(cumpleDeHernan);
        sugerencias = elio.pedirSugerenciaParaEventoDeTodosLosGuadaropas(cumpleDeHernan,mock,false);
        sugerencias.stream().forEach(atuendo -> atuendo.mostrarPrendas());
        //System.out.println(mock.temperatura(LocalDateTime.parse("2019-09-13T13:00:00")));
-       //assertEquals(sugerencias.size(),3);
+       assertEquals(sugerencias.size(),3);
 
    }
 

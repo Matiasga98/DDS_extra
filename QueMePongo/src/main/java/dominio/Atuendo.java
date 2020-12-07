@@ -8,8 +8,24 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Embeddable
+@Entity
 public class Atuendo {
+
+    @Id
+    @GeneratedValue
+    @Column(name="id")
+    private long id;
+
+    public long getId() {
+        return id;
+    }
+
+    public Atuendo(long id, List<Prenda> prendas) {
+        this.id = id;
+        this.prendas = prendas;
+        this.estado = EstadoAtuendo.NUEVO;
+    }
+    public Atuendo(){}
 
     @ManyToMany
     private List<Prenda> prendas = new ArrayList<Prenda>();

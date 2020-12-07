@@ -5,6 +5,9 @@ import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 import spark.Spark;
+
+import javax.persistence.EntityManager;
+
 import static spark.Spark.*;
 import java.time.*;
 import java.time.format.*;
@@ -14,26 +17,33 @@ import java.time.LocalDateTime;
 
 public class ControllerCreadorDeEventos {
 
+    BorradorEvento borrador;
+
     public ModelAndView IrACrearEvento(Request req, Response res){
-        String nombre = req.params("nombre");
-        res.redirect("/perfil/"+nombre+"/CrearEvento");
+
+        res.redirect("/CrearEvento");
         return null;
     }
 
     public ModelAndView CrearEvento(Request req, Response res){
-        String nombre = req.params("nombre");
-        BorradorEvento borrador = new BorradorEvento();
+        Map<String, Object> model = new HashMap<>();
 
-        return new ModelAndView(borrador,"CreadorDeEventos.hbs");
+        borrador = new BorradorEvento();
+        model.put("borrador",borrador);
+
+        Boolean error = req.session().attribute("errorFormato");
+        error = error==null? false:error;
+        model.put("errorFormato",error);
+
+        return new ModelAndView(model,"CreadorDeEventos.hbs");
     }
 
-    public ModelAndView PostCrearEvento(Request req, Response res){
-
-        BorradorEvento borrador = new BorradorEvento();
+    public Void PostCrearEvento(Request req, Response res){
 
         // Obtiene el usuario loggeado
-        String username = req.cookie("name");
-        Usuario usuario = Repositorio.getInstancia().buscarUsuario(username).get();
+        Integer id = req.session().attribute("id");
+        if (id == null) res.redirect("/login");
+        Usuario usuario = Repositorio.getInstancia().buscarUsuarioPorId(id);
 
         // Carga los atributos del Evento:
         borrador.definirNombre(req.queryParams("nombreEvento"));
@@ -43,11 +53,16 @@ public class ControllerCreadorDeEventos {
             LocalDateTime fechaYHora = LocalDateTime.parse(req.queryParams("fechaYHora"));
             borrador.definirFechaYHora(fechaYHora);
         } catch (DateTimeParseException e) {
-            halt(400, "Roli, cargá bien la fecha");
+
+            req.session().attribute("errorFormato",true);
+            res.redirect("/evento");
+            return null;
         }
 
         borrador.definirFlexible(Boolean.parseBoolean(req.queryParams("flexible")));
-        borrador.definirProveedor(borrador.ProveedoresDic.get(req.queryParams("proveedor")));
+        // Uso por default Accuweather
+        borrador.definirProveedor(borrador.ProveedoresDic.get("Accuweather"));
+        //borrador.definirProveedor(borrador.ProveedoresDic.get(req.queryParams("proveedor")));
 
         // Crea el evento
         Evento nuevoEvento = borrador.crearEvento();
@@ -55,7 +70,15 @@ public class ControllerCreadorDeEventos {
         // Asigna el evento al usuario logeado
         usuario.agregarEvento(nuevoEvento);
 
-        res.redirect("/perfil/"+username);
+        // Persistencia de los datos modificados y creados
+        EntityManager entityManager = JPAUtility.getEntityManager();
+        entityManager.getTransaction().begin();
+
+        entityManager.persist(nuevoEvento);
+        entityManager.merge(usuario);
+        entityManager.getTransaction().commit();
+
+        res.redirect("/perfil");
         return null;
     }
 

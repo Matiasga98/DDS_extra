@@ -11,6 +11,15 @@
     padding: 20px;
 }
 
+.evento {
+	background-color: darkseagreen;
+	width: 80%;
+}
+
+carousel {
+  background-image: url("guardarropa.png");
+}
+
 .detalles {
     display: inline-block;
     margin-left: 40px;
@@ -66,4 +75,14 @@ body{
 input{
     display: block;
 	width: 100%;
+}
+
+.form-signin {
+	width: 100%;
+	max-width: 330px;
+	padding: 15px;
+	margin: auto;
+}
+hr.new4 {
+  border: 1px solid blue;
 }

@@ -9,6 +9,8 @@ import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 //import dominio.RepositorioGuardarropas;
@@ -16,36 +18,45 @@ import java.util.Optional;
 public class ControllerLogin {
 
 	public ModelAndView login(Request req, Response res) {
-		return new ModelAndView(null, "login.hbs");
+		Map<String, Object> model = new HashMap<>();
+		Boolean login_error = req.session().attribute("login_error");
+		login_error = login_error==null? false:login_error;
+		model.put("login_error",login_error);
+		return new ModelAndView(model, "login.hbs");
+
 	}
 
-	public ModelAndView errorDeLogeo(Request req, Response res) {
-		return new ModelAndView(null, "errorDeLogeo.hbs");
+	public ModelAndView registrarse(Request req, Response res) {
+		return new ModelAndView(null, "registrarse.hbs");
 	}
 	
-	public ModelAndView postLogin(Request req, Response res){
+	public Void postLogin(Request req, Response res){
+
 		String nombre = req.queryParams("user");
 		String contraseniaHasheada = Encriptador.hashear(req.queryParams("pass"));
+
 		Optional<Usuario> usuario = Repositorio.getInstancia().buscarUsuario(nombre);
 		if(!usuario.isPresent() || !contraseniaHasheada.equals(usuario.get().getContrasenia())) {
-			res.redirect("/errorDeLogeo");
+			req.session().attribute("login_error", true);
+			res.redirect("/login");
 			return null;
-		}
-		else{
+		}else{
+			req.session().attribute("login_error", false);
+			Integer id = usuario.get().getId();
+			String string_id = id.toString();
 			res.cookie("name",nombre);
-			res.redirect("/perfil/"+nombre);
+			res.cookie("id",string_id);
+			req.session().attribute("id",id);
+			res.redirect("/perfil");
 			return null;
 		}
 	}
 
-	/*public boolean verificarContrasenia(String contrasenia, Usuario){
-		return
-	}*/
 
 	public ModelAndView perfil(Request req, Response res){
-		String nombre = req.params("nombre");
-		Optional<Usuario> usuario = Repositorio.getInstancia().buscarUsuario(nombre);
-		return new ModelAndView(usuario.get(), "perfil.hbs");
+		Integer id = Integer.parseInt(req.cookie("id"));
+		Usuario usuario = Repositorio.getInstancia().buscarUsuarioPorId(id);
+		return new ModelAndView(usuario, "perfil.hbs");
 	}
 
 }

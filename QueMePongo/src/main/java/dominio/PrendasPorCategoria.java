@@ -19,10 +19,13 @@ public class PrendasPorCategoria {
 	@Column(name = "categoria")
 	private Categoria categoria;
 	
-	@OneToMany
+	@OneToMany(cascade = {CascadeType.MERGE}, fetch = FetchType.EAGER)
 	@JoinColumn(name = "prendas_por_categoria_id")
 	private Set<Prenda> prendas = new HashSet<>();
-	
+
+	public PrendasPorCategoria(){
+	}
+
 	public PrendasPorCategoria(Categoria categoria) {
 		this.categoria = categoria;
 	}

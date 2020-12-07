@@ -10,9 +10,6 @@ import dominio.enumerados.SuceptibilidadATemperatura;
 import dominio.excepciones.AtuendoNoPerteneceAGuardarropa;
 import dominio.excepciones.SuperoLaCantidadDePrendas;
 
-import org.uqbar.commons.model.Entity;
-import org.uqbar.commons.model.annotations.Observable;
-
 import dominio.Notificadores.Notificador;
 
 import java.time.LocalDateTime;
@@ -20,56 +17,53 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@javax.persistence.Entity
-@Observable
-public class Usuario extends Entity {
 
-    @Transient
+
+@Entity
+@Table(name="Usuarios")
+public class Usuario {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id", insertable = false, nullable = false, unique = true, updatable = false)
+    private int id;
+
+    @Column(name="username")
     String username;
 
     public String getUsername() {
         return username;
     }
 
-    @Transient
+    @Column(name="password")
     String contrasenia;
-    //Esto estaria hasheado
+    //Esto está hasheado
     public String getContrasenia() {
         return contrasenia;
     }
 
-    public Usuario(String nombreUsuario, String contrasenia) {
-        this.username = nombreUsuario;
-        this.contrasenia = Encriptador.hashear(contrasenia);
-    }
-
-    @Id
-    @GeneratedValue
-    @Column(name="id")
-    private long id;
-
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     @CollectionTable(name = "medios_notificacion_usuario", joinColumns = @JoinColumn(name = "usuario_id"))
-	private Set<Notificador> mediosDeNotificacion;
+    private Set<Notificador> mediosDeNotificacion;
 
     @Column(name="nombre")
-	private String nombre;
+    private String nombre;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name="usuario_id")
-	private Set<Guardarropa> guardarropas = new HashSet<>();
+    private Set<Guardarropa> guardarropas = new HashSet<>();
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name="usuario_id")
-	private Set<Evento> eventos= new HashSet<>();;
+    private Set<Evento> eventos= new HashSet<>();;
 
     @Column(name="es_premium")
-	private boolean esPremium = false;
+    private boolean esPremium = false;
 
     @ElementCollection
     @CollectionTable(name = "usuario_friolento_en", joinColumns = @JoinColumn(name = "usuario_id"))
     @Column(name = "categoria_id")
-	private Set<Categoria> friolentoEn = new HashSet<>();
+    private Set<Categoria> friolentoEn = new HashSet<>();
 
     @ElementCollection
     @CollectionTable(name = "usuario_caluroso_en", joinColumns = @JoinColumn(name = "usuario_id"))
@@ -81,18 +75,25 @@ public class Usuario extends Entity {
         return guardarropas;
     }
 
-    @Transient
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name="usuario_id")
     private Set<Atuendo> loQueMeSugirieron = new HashSet<>();
-
+    @OneToOne
+    public Atuendo ultimoAceptado;
     public Set<Atuendo> getLoQueMeSugirieron() {
         return loQueMeSugirieron;
     }
-
+    public void setUltimoAceptado(Atuendo atuendo){
+        ultimoAceptado = atuendo;
+    }
+    public Atuendo getUltimoAceptado (){
+        return ultimoAceptado;
+    }
     public void setLoQueMeSugirieron(Set<Atuendo> loQueMeSugirieron) {
         this.loQueMeSugirieron = loQueMeSugirieron;
     }
 
-	//Constantes
+    //Constantes
     //@Transient
     private int prendasMaximas = 20;
     //@Transient
@@ -102,15 +103,46 @@ public class Usuario extends Entity {
     private int coeficienteInferior = 20;
     //@Transient
 
-    private int coeficienteCalzado = 15;
+    private int coeficienteCalzado = 18;
     //@Transient
     private int coeficienteCabeza = 10;
     //@Transient
     private int coeficienteCuello = 10;
     //@Transient
-    private int coeficienteCara = 5;
+    private int coeficienteCara = 10;
     //@Transient
     private int coeficienteManos = 10;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name="usuario_id")
+    //@Column(name = "atuendoId")
+    private Set<Atuendo> atuendosAceptados;
+
+    /*@ElementCollection
+    @CollectionTable(name = "atuendos_rechazados", joinColumns = @JoinColumn(name = "guardarropaId"))
+    @Column(name = "atuendoId")
+    */
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name="usuario_id")
+    private Set<Atuendo> atuendosRechazados;
+
+    public Set<Atuendo> getAtuendosAceptados() {
+        return atuendosAceptados;
+    }
+
+    public void setAtuendosAceptados(Set<Atuendo> atuendosAceptados) {
+        this.atuendosAceptados = atuendosAceptados;
+    }
+
+    public Set<Atuendo> getAtuendosRechazados() {
+        return atuendosRechazados;
+    }
+    public void setAtuendosRechazados(Set<Atuendo> atuendosRechazados) {
+        this.atuendosRechazados = atuendosRechazados;
+    }
+
+
+
 
     public int coeficienteEn(Categoria categoria){
         switch (categoria){
@@ -145,19 +177,28 @@ public class Usuario extends Entity {
         this.eventos = eventos;
     }
 
+    public Usuario(String nombreUsuario, String contrasenia) {
+        this.username = nombreUsuario;
+        this.contrasenia = Encriptador.hashear(contrasenia);
+    }
+
     public Usuario(boolean esPago) {
         this.guardarropas = new HashSet<>();
         this.eventos = new HashSet<>();
         this.esPremium = esPago;
         this.prendasMaximas = 20;
     }
+
+    public Usuario(){
+    }
+
     public void setNombre(String unNombre){
         nombre=unNombre;
     }
     public Set<Categoria> FriolentoEn(){
         return friolentoEn;
     }
-    
+
 
     public Set<Categoria> CalurosoEn(){
         return calurosoEn;
@@ -183,13 +224,13 @@ public class Usuario extends Entity {
     }
 
     public void removerPrenda(Prenda prenda, Guardarropa guardarropa) {
-    	guardarropa.removerPrenda(prenda);
+        guardarropa.removerPrenda(prenda);
     }
-    
+
     public Set<Atuendo> sugerenciasDe(Guardarropa guardarropa) {
-    	return guardarropa.generarAtuendos();
+        return guardarropa.generarAtuendos();
     }
-    
+
     public Set<Atuendo> sugerenciasDeAtuendosDeTodosLosGuardarropas() {
         return guardarropas.stream().flatMap(guardarropa -> guardarropa.generarAtuendos().stream()).collect(Collectors.toSet());
     }
@@ -202,15 +243,13 @@ public class Usuario extends Entity {
         loQueMeSugirieron.addAll(guardarropa.sugerirParaEvento(evento, unProveedor, flexible, this ));
         return guardarropa.sugerirParaEvento(evento, unProveedor, flexible, this );
     }
-    public void aceptarSugerencia (Atuendo atuendo, Guardarropa guardarropa){
-        guardarropaIncluyeAtuendo(guardarropa,atuendo);
-        guardarropa.agregarAAceptados(atuendo);
+    public void aceptarSugerencia (Atuendo atuendo){
+        this.atuendosAceptados.add(atuendo);
         atuendo.cambiarEstado(EstadoAtuendo.ACEPTADO);
         atuendo.enUso();
     }
-    public void rechazarSugerencia (Atuendo atuendo, Guardarropa guardarropa){
-        guardarropaIncluyeAtuendo(guardarropa,atuendo);
-        guardarropa.agregarARechazados(atuendo);
+    public void rechazarSugerencia (Atuendo atuendo){
+        this.atuendosRechazados.add(atuendo);
         atuendo.cambiarEstado(EstadoAtuendo.RECHAZADO);
         loQueMeSugirieron.remove(atuendo);
     }
@@ -219,11 +258,11 @@ public class Usuario extends Entity {
         guardarropaIncluyeAtuendo(guardarropa,atuendo);
 
         if (atuendo.rechazado()){
-            guardarropa.quitarDeRechazados(atuendo);
+            this.atuendosRechazados.remove(atuendo);
         }
 
         if(atuendo.aceptado()){
-            guardarropa.quitarDeAceptados(atuendo);
+            this.atuendosAceptados.remove(atuendo);
         }
 
         atuendo.cambiarEstado(EstadoAtuendo.NUEVO);
@@ -241,18 +280,18 @@ public class Usuario extends Entity {
     }
 
     public void compartirGuardarropa(Guardarropa guardarropa, Usuario usuario){
-    	usuario.agragarGuardarropa(guardarropa);
+        usuario.agragarGuardarropa(guardarropa);
     }
-    
+
     public void agragarGuardarropa(Guardarropa guardarropa){
-    	this.guardarropas().add(guardarropa);
+        this.guardarropas().add(guardarropa);
     }
-    
+
     public HashSet<Atuendo> pedirSugerenciaParaEventoDeTodosLosGuadaropas(Evento evento, ProveedorClima proveedor, boolean flexible) {
-    	HashSet<Atuendo> atuendos = new HashSet<Atuendo>();
-    	this.guardarropas().forEach(guardarropa -> atuendos.addAll(guardarropa.sugerirParaEvento(evento, proveedor, flexible, this)));
-    	loQueMeSugirieron.addAll(atuendos);
-    	return atuendos;
+        HashSet<Atuendo> atuendos = new HashSet<Atuendo>();
+        this.guardarropas().forEach(guardarropa -> atuendos.addAll(guardarropa.sugerirParaEvento(evento, proveedor, flexible, this)));
+        loQueMeSugirieron.addAll(atuendos);
+        return atuendos;
     }
 
     public Set<Evento> getEventos() {
@@ -262,77 +301,81 @@ public class Usuario extends Entity {
     public String getNombre() {
         return nombre;
     }
-    
+
     public Set<Notificador> getMediosDeNotificacion() {
-    	return mediosDeNotificacion;
+        return mediosDeNotificacion;
     }
-    
+
     public void setMediosDeNotificacion(Set<Notificador> medios) {
-    	this.mediosDeNotificacion = medios;
+        this.mediosDeNotificacion = medios;
     }
-    
+
     public void agregarMedioDeNotificacion(Notificador medio) {
-    	this.getMediosDeNotificacion().add(medio);
+        this.getMediosDeNotificacion().add(medio);
     }
-    
+
     public void removerMedioDeNotificacion(Notificador medio) {
-    	this.getMediosDeNotificacion().remove(medio);
+        this.getMediosDeNotificacion().remove(medio);
     }
-    
+
     public Set<Atuendo> notificarme(Evento evento, ProveedorClima proveedor, boolean flexible) {
-    	LocalDateTime hoy = LocalDateTime.now();
-    	if (evento.getFechaYHora().getYear() - hoy.getYear() == 0 && evento.getFechaYHora().getDayOfYear() - hoy.getDayOfYear() == 0 && evento.getFechaYHora().getHour() - hoy.getHour() < 1) {
-    		HashSet<Atuendo> sugerencias = this.pedirSugerenciaParaEventoDeTodosLosGuadaropas(evento, proveedor, flexible);
-        	this.getMediosDeNotificacion().forEach(medio -> medio.notificar(evento, sugerencias));
-        	return sugerencias;
-    	}
-    	return null;
+        LocalDateTime hoy = LocalDateTime.now();
+        if (evento.getFechaYHora().getYear() - hoy.getYear() == 0 && evento.getFechaYHora().getDayOfYear() - hoy.getDayOfYear() == 0 && evento.getFechaYHora().getHour() - hoy.getHour() < 1) {
+            HashSet<Atuendo> sugerencias = this.pedirSugerenciaParaEventoDeTodosLosGuadaropas(evento, proveedor, flexible);
+            this.getMediosDeNotificacion().forEach(medio -> medio.notificar(evento, sugerencias));
+            return sugerencias;
+        }
+        return null;
     }
-    
+
     public void crearEvento(String nombre, ProveedorClima proveedor, LocalDateTime unaFecha, ModoDeRepeticion modo, boolean flexible) {
-    	Evento evento = new Evento(nombre, proveedor, unaFecha, false, modo, this, flexible);
-    	this.agregarEvento(evento);
+        Evento evento = new Evento(nombre, proveedor, unaFecha, false, modo, this, flexible);
+        this.agregarEvento(evento);
     }
 
     public void removerEvento(Evento evento) {
-    	this.getEventos().remove(evento);
+        this.getEventos().remove(evento);
     }
-    
+
     public void destruirEvento(Evento evento) {
-    	this.removerEvento(evento);
+        this.removerEvento(evento);
     }
-    
+
     public void serAvisado () {
-    	this.eventos.forEach(evento -> this.notificarme(evento, evento.getProveedor(), evento.getFlexible()));
+        this.eventos.forEach(evento -> this.notificarme(evento, evento.getProveedor(), evento.getFlexible()));
     }
-    
+
     public void modificarCoeficiente(Categoria categoria, int valor){
         switch (categoria){
             case PARTE_SUPERIOR:
-                 coeficienteSuperior += valor;
-                 break;
+                coeficienteSuperior += valor;
+                break;
             case PARTE_INFERIOR:
-                 coeficienteInferior+= valor;
+                coeficienteInferior+= valor;
                 break;
             case CALZADO:
-                 coeficienteCalzado+= valor;
+                coeficienteCalzado+= valor;
                 break;
             case CARA:
-                 coeficienteCara+= valor;
+                coeficienteCara+= valor;
                 break;
             case MANOS:
-                 coeficienteManos+= valor;
+                coeficienteManos+= valor;
                 break;
             case CABEZA:
-                 coeficienteCabeza+= valor;
+                coeficienteCabeza+= valor;
                 break;
             case CUELLO:
-                 coeficienteCuello+= valor;
+                coeficienteCuello+= valor;
                 break;
             default:
                 System.out.println("algo hiciste mal pipi");
                 break;
         }
+    }
+
+    public Integer getId() {
+        return id;
     }
 
     public void friolentarEn(Categoria categoria){
@@ -342,5 +385,11 @@ public class Usuario extends Entity {
     public void calentarEn(Categoria categoria){
         modificarCoeficiente(categoria,5);
     }
-    
+
+    public void procesarCalificacion (Calificacion calificacion){
+        calificacion.friolentoEn.stream().forEach(categoria -> calentarEn(categoria));
+        calificacion.calurosoEn.stream().forEach(categoria -> friolentarEn(categoria));
+    }
+
 }
+

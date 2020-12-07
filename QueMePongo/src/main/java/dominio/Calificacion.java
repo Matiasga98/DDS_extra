@@ -6,6 +6,6 @@ import java.util.List;
 
 public class Calificacion {
     int puntaje;
-    List<Categoria> friolentoEn;
-    List<Categoria> calurosoEn;
+    public List<Categoria> friolentoEn;
+    public List<Categoria> calurosoEn;
 }

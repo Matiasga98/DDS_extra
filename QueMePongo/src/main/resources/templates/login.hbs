@@ -18,7 +18,12 @@
     </div>
 </div>
 <div class="container">
-    <form action="/login" method="POST">
+    <form class="form-signin" action="/login" method="POST">
+        {{#if login_error}}
+            <div class="form-group alert alert-danger" role="alert">
+                Usuario o contraseña incorrecta.
+            </div>
+        {{/if}}
         <div class="form-group">
             <label for="exampleInputEmail1" style="font-family: 'Sarala">Usuario</label>
             <input type="text" name="user" class="form-control" placeholder="Username">
@@ -28,8 +33,8 @@
             <input type="password" name="pass" class="form-control" id="exampleInputPassword1" placeholder="Password">
             <small id="emailHelp" class="form-text text-muted">Nunca la compartas con nadie.</small>
         </div>
-        <button type="submit" value="Submit" class="btn btn-primary">Submit</button>
-        <!--<input type ="submit" value="Submit">-->
+        <button type="submit" value="Submit" class="btn btn-lg btn-primary btn-block">Login</button>
+        <a class="btn btn-lg btn-secondary btn-block" href="/registrarse">Registrarse</a>
     </form>
 </div>
 </body>

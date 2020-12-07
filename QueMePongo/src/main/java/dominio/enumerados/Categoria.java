@@ -75,7 +75,7 @@ public enum Categoria {
 
 
     public static boolean estaAbrigadoEn(Atuendo atuendo, Double temperatura, Usuario usuario, int coeficiente, Categoria categoria) {
-        return atuendo.abrigoEn(categoria) >= (coeficiente - temperatura) && atuendo.abrigoEn(categoria) <= (coeficiente - temperatura + 10);
+        return atuendo.abrigoEn(categoria) >= (coeficiente - temperatura) && atuendo.abrigoEn(categoria) <= (coeficiente - temperatura + 15);
 
     }
     public abstract  Set<List<Prenda>> eliminarCombinacionesInvalidasDeSuperior (Set<List<Prenda>> prendas );

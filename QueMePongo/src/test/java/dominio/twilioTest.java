@@ -6,8 +6,8 @@ import org.junit.Test;
 import java.util.HashSet;
 
 public class twilioTest {
-    @Test
+    /*@Test
     public void testTwilio(){
         twilio.MandarWpp(new Evento(), new HashSet<Atuendo>());
-    }
+    }*/
 }

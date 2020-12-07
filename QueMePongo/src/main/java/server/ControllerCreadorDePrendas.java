@@ -4,99 +4,175 @@ import dominio.*;
 import dominio.enumerados.Material;
 import dominio.enumerados.Tipo;
 import dominio.enumerados.Trama;
+import dominio.excepciones.MaterialInconsistente;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
+import java.util.HashMap;
+import java.util.Map;
 
-import java.util.Optional;
+import javax.persistence.EntityManager;
+
+import static spark.Spark.halt;
 
 //import dominio.RepositorioGuardarropas;
 
 public class ControllerCreadorDePrendas {
 
-
-
-
+	Borrador borrador = new Borrador();
 
 	public ModelAndView CrearPrenda(Request req, Response res){
-		String nombre = req.params("nombre");
-		Borrador borrador = new Borrador();
-		System.out.println(nombre);
 
 		return new ModelAndView(borrador,"CreadorDePrendas.hbs");
 	}
+
 	public ModelAndView PostCrearPrenda(Request req, Response res){
-		String nombre = req.cookie("name");
-		String nombrePrenda = req.queryParams("nombrePrenda");
-		String tipo = req.queryParams("tipoPrenda");
-		String material = req.queryParams("materialPrenda");
-		String trama = req.queryParams("tramaPrenda");
-		res.cookie("nombrePrenda",nombrePrenda);
-		res.cookie("tipoPrenda",tipo);
-		res.cookie("materialPrenda",material);
-		res.cookie("tramaPrenda",trama);
-		System.out.println(nombre);
 
+		borrador.definirNombre(req.queryParams("nombrePrenda"));
+		borrador.definirTipo(Tipo.valueOf(req.queryParams("tipoPrenda")));
+		borrador.definirMaterial(Material.valueOf(req.queryParams("materialPrenda")));
+		borrador.definirTrama(Trama.valueOf(req.queryParams("tramaPrenda")));
 
-		res.redirect("/perfil/"+nombre+"/CrearPrenda/2");
+		try {
+			borrador.chequearMaterialSegunTipoDePrenda();
+		}
+		catch (MaterialInconsistente ex){
+			res.redirect("CrearPrenda");
+			return null;
+		}
+
+		borrador.setMaterialInconsistente(false);
+		res.redirect("CrearPrenda/Color");
 
 		return null;
 	}
 	public ModelAndView CrearPrendaColor(Request req, Response res){
-		Borrador borrador = new Borrador();
-		return new ModelAndView(borrador,"CreadorDePrendasColor.hbs");
+		Map<String, Object> model = new HashMap<>();
+		model.clear();
+
+		Boolean color_secundario_error= req.session().attribute("color_secundario_error");
+		color_secundario_error = color_secundario_error==null? false:color_secundario_error;
+
+		model.put("color_secundario_error",color_secundario_error);
+
+		return new ModelAndView(model,"CreadorDePrendasColor.hbs");
 	}
 
 	public ModelAndView PostPrendaColor(Request req, Response res){
-		res.cookie("rojo1",req.queryParams("rojo1"));
-		res.cookie("azul1",req.queryParams("azul1"));
-		res.cookie("verde1",req.queryParams("verde1"));
-		res.cookie("rojo2",req.queryParams("rojo2"));
-		res.cookie("azul2",req.queryParams("azuk2"));
-		res.cookie("verde2",req.queryParams("verde2"));
-		res.cookie("tieneColorSecundario",req.queryParams("tieneOolorSecundario"));
 
-		String nombre = req.cookie("name");
+		String id = req.cookie("id");
+		Usuario usuario = Repositorio.getInstancia().buscarUsuarioPorId(id).get();
 
+		String hexaColorPrcpal = req.queryParams("group1");
+		Integer rojoPrcpal = Integer.valueOf( hexaColorPrcpal.substring( 1, 3 ), 16 );
+		Integer verdePrcpal = Integer.valueOf( hexaColorPrcpal.substring( 3, 5 ), 16 );
+		Integer azulPrcpal = Integer.valueOf( hexaColorPrcpal.substring( 5, 7 ), 16 );
 
+		String hexaColorSecundario =  req.queryParams("group2");
+		Integer rojoSecundario = Integer.valueOf( hexaColorSecundario.substring( 1, 3 ), 16 );
+		Integer verdeSecundario = Integer.valueOf( hexaColorSecundario.substring( 3, 5 ), 16 );
+		Integer azulSecundario = Integer.valueOf( hexaColorSecundario.substring( 5, 7 ), 16 );
 
-		res.redirect("/perfil/"+nombre+"/CrearPrenda/final");
-		return null;
-	}
+		String tieneColorSecundario = req.queryParams("tieneColorSecundario");
 
-	public ModelAndView PrendaFinal(Request req, Response res){
-		String nombre = req.cookie("name");
-		Usuario usuario = Repositorio.getInstancia().buscarUsuario(nombre).get();
-		return new ModelAndView(usuario,"CreadorDePrendasGuardarropa.hbs");
-	}
+		Color colorPrimario = new Color(rojoPrcpal, verdePrcpal, azulPrcpal);
+		borrador.definirColorPrimario(colorPrimario);
+		borrador.definirColorSecundario(null);
 
-	public ModelAndView PostPrendaFinal(Request req, Response res){
-		Borrador borrador = new Borrador();
-		String nombre = req.cookie("name");
-		String tipoPrenda = req.cookie("tipoPrenda");
-		String tramaPrenda = req.cookie("tramaPrenda");
-		String materialPrenda = req.cookie("materialPrenda");
-		String nombrePrenda = req.cookie("nombrePrenda");
-		Color colorPrimario = new Color(Integer.parseInt(req.cookie("rojo1")),Integer.parseInt(req.cookie("verde1")),Integer.parseInt(req.cookie("azul1")));
-		if(!(req.cookie("tieneOolorSecundario")== null)){
-			Color colorSecundario =  new Color(Integer.parseInt(req.cookie("rojo2")),Integer.parseInt(req.cookie("verde2")),Integer.parseInt(req.cookie("azul2")));
+		//System.out.println(req.session().attribute("nombreGuardarropa").toString());
+
+		if((req.queryParams("tieneColorSecundario") != null)){
+			Color colorSecundario =  new Color(rojoSecundario, verdeSecundario, azulSecundario);
 			borrador.definirColorSecundario(colorSecundario);
 		}
 
-		borrador.definirNombre(nombrePrenda);
-		borrador.definirTipo(Tipo.valueOf(tipoPrenda));
-		borrador.definirMaterial(Material.valueOf(materialPrenda));
-		borrador.definirTrama(Trama.valueOf(tramaPrenda));
-		borrador.definirColorPrimario(colorPrimario);
+		if (hexaColorPrcpal.equals(hexaColorSecundario) && (tieneColorSecundario != null) ){
+
+			req.session().attribute("color_secundario_error", true);
+			res.redirect("Color");
+			return null;
+		}
+		else {
+			req.session().attribute("color_secundario_error", false);
+			if (req.session().attribute("nombreGuardarropa") !=null){
+				Guardarropa guardarropa = usuario.getGuardarropas().stream().filter(armario -> armario.getNombre().equals(req.session().attribute("nombreGuardarropa").toString())).findFirst().get();
+				CrearPrendaFinal(guardarropa);
+				req.session().attribute("nombreGuardarropa", null);
+				res.redirect("/perfil");
+				return null;
+			}
+			else {
+
+				res.redirect("final");
+			}
+			return null;
+		}
+
+	}
+
+	public ModelAndView PrendaFinal(Request req, Response res){
+		Map<String, Object> model = new HashMap<>();
+
+		Boolean error= req.session().attribute("error");
+		error = error==null? false:error;
+
+		model.put("error",error);
+		if(error){
+			model.put("mensaje",req.session().attribute("mensaje"));
+			req.session().attribute("error",false);
+		}
 
 
+		String id = req.cookie("id");
+		Usuario usuario = Repositorio.getInstancia().buscarUsuarioPorId(id).get();
+		model.put("usuario",usuario);
 
-		Usuario usuario = Repositorio.getInstancia().buscarUsuario(nombre).get();
+		return new ModelAndView(model,"CreadorDePrendasGuardarropa.hbs");
+	}
 
-		Guardarropa guardarropa = usuario.getGuardarropas().stream().filter(armario -> armario.getNombre().equals(req.queryParams("guardarropas"))).findFirst().get();
-		guardarropa.agregarPrendas(borrador.crearPrenda());
-		res.redirect("/perfil/"+nombre);
+	public ModelAndView PostPrendaFinal(Request req, Response res) {
+
+		// Traigo los atributos cargados en las pantallas
+		String id = req.cookie("id");
+		// Busca al usuario logeado
+		Usuario usuario = Repositorio.getInstancia().buscarUsuarioPorId(id).get();
+
+		String nombreGuardarropas = req.queryParams("guardarropas");
+
+		if (nombreGuardarropas.equals("Guardarropas")){
+			req.session().attribute("error",true);
+			req.session().attribute("mensaje","Seleccione un Guardarropas");
+			res.redirect("/CrearPrenda/final");
+			return null;
+		}
+
+		req.session().attribute("error",false);
+
+		// Busca el guardarropas en el que esta creando la prenda
+		Guardarropa guardarropa = usuario.getGuardarropas().stream().filter(armario -> armario.getNombre().equals(nombreGuardarropas)).findFirst().get();
+		CrearPrendaFinal(guardarropa);
+		res.redirect("/perfil");
 		return null;
+
+	}
+	public void CrearPrendaFinal(Guardarropa guardarropa){
+		// Genera la instancia de prenda
+		Prenda nuevaPrenda = borrador.crearPrenda();
+		// Agrega la prenda al guardarropas
+		guardarropa.agregarPrendas(nuevaPrenda);
+
+		// Persistencia de los datos modificados y creados
+		EntityManager entityManager = JPAUtility.getEntityManager();
+		entityManager.getTransaction().begin();
+
+		entityManager.persist(nuevaPrenda);
+		entityManager.merge(guardarropa);	// Aca va merge para que actualice el guardarropas con la prenda agregada
+
+		entityManager.getTransaction().commit();
+
+
+
+
 	}
 
 }

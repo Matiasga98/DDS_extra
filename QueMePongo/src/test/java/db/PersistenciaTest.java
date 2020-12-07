@@ -3,6 +3,7 @@ package db;
 import dominio.*;
 import dominio.clima.AccuweatherData.AccuWeather;
 import dominio.clima.ProveedorClima;
+import dominio.clima.ProveedorMock;
 import dominio.enumerados.Material;
 import dominio.enumerados.ModoDeRepeticion;
 import dominio.enumerados.Tipo;
@@ -17,6 +18,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Set;
 
 import static org.junit.Assert.assertTrue;
 
@@ -76,8 +78,8 @@ public class PersistenciaTest extends AbstractPersistenceTest implements WithGlo
         testito.agregarPrendas(inviernito);
         testito.agregarPrendas(gorrito);
         Atuendo atuendo = new Atuendo(Arrays.asList(remerita,pantaloncito,zapatito,lentitos));
-        testito.agregarAAceptados(atuendo);
-        testito.agregarARechazados(atuendo);
+        //testito.agregarAAceptados(atuendo);
+        //testito.agregarARechazados(atuendo);
     }
 
     @Test
@@ -85,10 +87,7 @@ public class PersistenciaTest extends AbstractPersistenceTest implements WithGlo
     	Prenda remerita = new Prenda("remerita", Tipo.REMERA, Material.ALGODON, Trama.LISA, negro, null);
 
         //entityManager().getTransaction().begin();
-
-
         entityManager().persist(remerita);
-
         entityManager().getTransaction().commit();
 
     }
@@ -121,44 +120,49 @@ public class PersistenciaTest extends AbstractPersistenceTest implements WithGlo
         entityManager().getTransaction().commit();
     }
 
-    @Test
-    public void borrarEvento() throws Exception{
-
-        Evento presentarEsteTP2 = entityManager().createQuery("from Evento where id_evento = 1", Evento.class).getResultList().get(0);
-
-        entityManager().remove(presentarEsteTP2);
-        entityManager().getTransaction().commit();
-
-    }
 
     @Test
-    public void persistirSugerencia(){
-        Evento respirar = new Evento("Respirar",new AccuWeather(), LocalDateTime.parse("2019-10-06T18:00:00"),false, ModoDeRepeticion.MENSUAL,elio,false);
-        ProveedorClima mock = new AccuWeather();
-        elio.pedirSugerenciaParaEventoDeTodosLosGuadaropas(respirar,mock,false);
+    public void crearUsuarios() throws Exception{
 
+        Usuario cris = new Usuario("Cris","123456");
+
+        Guardarropa guardarropa = new Guardarropa("testito");
+        guardarropa.agregarPrendas(remerita);
+        guardarropa.agregarPrendas(pantaloncito);
+        guardarropa.agregarPrendas(buzito);
+        guardarropa.agregarPrendas(zapatito);
+        guardarropa.agregarPrendas(guantitos);
+        guardarropa.agregarPrendas(camisita);
+        guardarropa.agregarPrendas(anillito);
+        guardarropa.agregarPrendas(bufandita);
+
+        guardarropa.agregarPrendas(lentitos);
+        guardarropa.agregarPrendas(camperita);
+        guardarropa.agregarPrendas(inviernito);
+        guardarropa.agregarPrendas(gorrito);
 
 
         entityManager().persist(remerita);
         entityManager().persist(pantaloncito);
-        entityManager().persist(inviernito);
-        entityManager().persist(camisita);
-        entityManager().persist(camperita);
-        entityManager().persist(guantitos);
-        entityManager().persist(zapatito);
-        entityManager().persist(anillito);
-        entityManager().persist(bufandita);
         entityManager().persist(buzito);
+        entityManager().persist(zapatito);
+        entityManager().persist(guantitos);
+        entityManager().persist(camisita);
+        entityManager().persist(anillito);
         entityManager().persist(lentitos);
+        entityManager().persist(camperita);
+        entityManager().persist(inviernito);
         entityManager().persist(gorrito);
+        entityManager().persist(bufandita);
 
-        entityManager().persist(testito);
-        entityManager().persist(elio);
+        guardarropa.getPrendas().forEach(prendas -> entityManager().persist(prendas));
+
+        entityManager().persist(guardarropa);
+        cris.agragarGuardarropa(guardarropa);
+        entityManager().persist(cris);
+
         entityManager().getTransaction().commit();
 
-       /* System.out.println("--------------------");
-        elio.getLoQueMeSugirieron().stream().forEach(atuendo -> atuendo.mostrarPrendas());
-        System.out.println(mock.temperatura( LocalDateTime.parse("2019-09-13T23:00:00")));*/
     }
 
 }

@@ -9,28 +9,45 @@
 </head>
 <body>
 
-<div class="jumbotron text-center">
+{{> nav.hbs}}
+<div class="jumbotron text-center" style="margin-bottom:0;">
     <div id="titulo">
         <h1 class="text-center" style="font-family: 'Stardos Stencil">Elegi que ponerte <i class="fas fa-user-tie"></i>
         </h1>
     </div>
 </div>
 
-<form action="/perfil/dgag/PedirSugerencia" method="POST">
-    <div class="container-fluid">
+<br><br>
+<form action="/Sugerir" method="POST">
+
+    {{#if error}}
+        <div class="form-group alert alert-danger" role="alert">
+            {{mensaje}}
+        </div>
+    {{/if}}
+
+    <div class="container-fluid text-center">
         <label>Elegi el evento para el que queres tu sugerencia</label>
         <select name="evento">
             <option>Evento</option>
-            {{#each eventos }}
+            {{#each usuario.eventos }}
                 <option>{{nombre}}</option>
             {{/each}}
         </select>
     </div>
     <br>
-    <button type="submit" value="Pedir Sugerencias" class="btn btn-primary btn-lg btn-block">Siguiente
-        paso
-    </button>
+    <div class="col-md-12 text-center">
+        <button type="submit" value="Pedir Sugerencias" class="btn btn-primary ml-auto">Pedir Sugerencia
+        </button>
+    </div>
 </form>
+
+<br><br><br><br><br><br><br><br>
+{{> footer.hbs}}
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
 </body>
 </html>

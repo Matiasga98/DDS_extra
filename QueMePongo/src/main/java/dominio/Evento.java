@@ -27,10 +27,12 @@ public class Evento {
     @Column(name = "hay_alertas_meteorologicas")
     public boolean tieneAlertasMeteorologicas;
 
-    @Column(name = "proveedor")
-	private ProveedorClima proveedor;
+    //@Column(name = "proveedor")
+	@Transient
+    private ProveedorClima proveedor;
 
-    @Column(name = "flexible")
+    //@Column(name = "flexible")
+    @Transient
 	private boolean flexible;
     
     public Evento (String elEvento, ProveedorClima proveedor, LocalDateTime unaFecha, boolean tieneSugerencias, ModoDeRepeticion modo, Usuario usuario, boolean flexible) {
@@ -42,8 +44,12 @@ public class Evento {
         this.tieneAlertasMeteorologicas = false;
     }
 
-    public Evento(){
+    public Evento(String nombre,LocalDateTime fechaYHora){
+        this.nombre = nombre;
+        this.fechaYHora = fechaYHora;
+    }
 
+    public Evento(){
     }
     
     public String getNombre() {

@@ -26,7 +26,8 @@ public enum Tipo {
     LENTES("lentes",Categoria.CARA,Capa.INFERIOR,0,Material.VIDRIO),
     BALACLAVA("balaclava",Categoria.CARA,Capa.INFERIOR,7,Material.LANA),
     GORRO("gorro",Categoria.CABEZA,Capa.INFERIOR,7,Material.LANA),
-    BUFANDA("bufanda",Categoria.CUELLO, Capa.INFERIOR, 7, Material.LANA);
+    BUFANDA("bufanda",Categoria.CUELLO, Capa.INFERIOR, 7, Material.LANA),
+    SANDALIAS("sandalias",Categoria.CALZADO,Capa.INFERIOR,0,Material.GOMA);
 
 
     List<Material> materiales = new ArrayList<>();

@@ -8,77 +8,139 @@
     <script src="https://kit.fontawesome.com/8d3ba4a6ac.js" crossorigin="anonymous"></script>
 </head>
 <body>
-
-<div class="jumbotron text-center">
+{{> nav.hbs}}
+<div class="jumbotron text-center" style="margin-bottom:0;">
     <div id="titulo">
         <h1 class="text-center" style="font-family: 'Stardos Stencil">Crea tu propia prenda <br><br> QueMePongo<i
                 class="far fa-copyright"></i></h1>
     </div>
 </div>
 
+
+
+
 <br>
-<form action="/perfil/dgag/CrearPrenda/2" method="POST">
-    <div class="container-fluid">
-        <h2 style="font-family: 'Sarala">Color primario:</h2>
+
+
+<form action="/CrearPrenda/Color" method="POST">
+
+    <div class="container-fluid text-center">
+        <h2 style="font-family: 'Comfortaa'; font-size: 25px">Color primario:</h2>
     </div>
-    <div class="picker1">
-        Red <input type="range" min="0" max="255" step="1" id="redColorPrimario" value="115" name="rojo1">
-        Green <input type="range" min="0" max="255" step="1" id="greenColorPrimario" value="10" name="azul1">
-        Blue <input type="range" min="0" max="255" step="1" id="blueColorPrimario" value="162" name="verde1">
-        <div id="display1"></div>
+
+    <div class="btn-toolbar mb-3 container-fluid" role="toolbar" aria-label="Toolbar with button groups">
+        <div class="btn-group mr-2 container-fluid" role="group" aria-label="First group">
+            <label class="btn btn btn-primary col-lg-3">
+                <input type="radio" id="option1" value="#007bff" name="group1" autocomplete="off" checked>Azul
+            </label>
+            <label class="btn btn-danger col-lg-3">
+                <input type="radio" id="option2" value="#dc3545" name="group1" autocomplete="off">Rojo
+            </label>
+            <label class="btn btn-warning col-lg-3">
+                <input type="radio" id="option3" value="#ffc107" name="group1" autocomplete="off">Amarillo
+            </label>
+            <label class="btn btn-light col-lg-3">
+                <input type="radio" id="option4" value="#f8f9fa" name="group1" autocomplete="off">Blanco
+            </label>
+        </div>
     </div>
-    <script type="text/javascript">
-        var input = document.querySelectorAll("input");
-        for (var i = 0; i < input.length; i++) {
-            input[i].addEventListener("input", function () {
-                var red = document.getElementById("redColorPrimario").value,
-                        green = document.getElementById("greenColorPrimario").value,
-                        blue = document.getElementById("blueColorPrimario").value;
-                var display = document.getElementById("display1");
-                display.style.background = "rgb(" + red + ", " + green + ", " + blue + ")";
-            });
-        }
 
-    </script>
-
-    <br><br><br><br>
-    <div class="container-fluid">
-        <h2 style="font-family: 'Sarala">Color secundario:</h2>
+    <div class="btn-toolbar mb-3 container-fluid" role="toolbar" aria-label="Toolbar with button groups">
+        <div class="btn-group mr-2 container-fluid" role="group" aria-label="First group">
+            <label class="btn btn btn-dark col-lg-3">
+                <input type="radio" id="option5" value="#343a40" name="group1" autocomplete="off">Negro
+            </label>
+            <label class="btn btn-success col-lg-3">
+                <input type="radio" id="option6" value="#28a745" name="group1" autocomplete="off">Verde
+            </label>
+            <label class="btn btn-info col-lg-3">
+                <input type="radio" id="option7" value="#17a2b8" name="group1" autocomplete="off">Celeste
+            </label>
+            <label class="btn btn-secondary col-lg-3">
+                <input type="radio" id="option7" value="#6c757d" name="group1" autocomplete="off">Gris
+            </label>
+        </div>
     </div>
-    <div class="picker2">
-        Red <input type="range" min="0" max="255" step="1" id="redColorSecundario" value="115" name="rojo2">
-        Green <input type="range" min="0" max="255" step="1" id="greenColorSecundario" value="10" name="azul2">
-        Blue <input type="range" min="0" max="255" step="1" id="blueColorSecundario" value="162" name="verde2">
-        <div id="display2"></div>
-    </div>
-    <br><br><br><br>
-    <script type="text/javascript">
-        var input = document.querySelectorAll("input");
-        for (var i = 0; i < input.length; i++) {
-            input[i].addEventListener("input", function () {
-                var red = document.getElementById("redColorSecundario").value,
-                        green = document.getElementById("greenColorSecundario").value,
-                        blue = document.getElementById("blueColorSecundario").value;
-                var display = document.getElementById("display2");
-                display.style.background = "rgb(" + red + ", " + green + ", " + blue + ")";
-            });
-        }
-
-    </script>
-    </div><br><br><br><br>
-
-
+    <br><br>
+    {{#if color_secundario_error}}
+        <div class="form-group alert alert-danger" role="alert">
+            El color secundario debe ser distinto del primario
+        </div>
+    {{/if}}
+    <br>
     <div class="custom-control custom-checkbox" align="center">
-        <input type="checkbox" name="tieneColorSecundario" class="custom-control-input" id="defaultUnchecked">
-        <label class="custom-control-label" for="defaultUnchecked">Agregar color secundario</label>
+        <input type="checkbox" name="tieneColorSecundario" class="custom-control-input" checked="checked" id="defaultChecked">
+        <label class="custom-control-label" for="defaultChecked" style="font-family: 'Comfortaa'; font-size: 25px">
+            Agregar color secundario</label>
     </div>
+    <br>
+    <div class="container-fluid text-center">
+        <h2 style="font-family: 'Comfortaa'; font-size: 25px">Color secundario:</h2>
+    </div>
+
+
+    <div class="btn-toolbar mb-3 container-fluid" role="toolbar" aria-label="Toolbar with button groups">
+        <div class="btn-group mr-2 container-fluid" role="group" aria-label="First group">
+            <label class="btn btn btn-primary col-lg-3">
+                <input type="radio" id="option1" value="#007bff" name="group2" autocomplete="off" checked>Azul
+            </label>
+            <label class="btn btn-danger col-lg-3">
+                <input type="radio" id="option2" value="#dc3545" name="group2" autocomplete="off">Rojo
+            </label>
+            <label class="btn btn-warning col-lg-3">
+                <input type="radio" id="option3" value="#ffc107" name="group2" autocomplete="off">Amarillo
+            </label>
+            <label class="btn btn-light col-lg-3">
+                <input type="radio" id="option4" value="#f8f9fa" name="group2" autocomplete="off">Blanco
+            </label>
+        </div>
+    </div>
+
+    <div class="btn-toolbar mb-3 container-fluid" role="toolbar" aria-label="Toolbar with button groups">
+        <div class="btn-group mr-2 container-fluid" role="group" aria-label="First group">
+            <label class="btn btn btn-dark col-lg-3">
+                <input type="radio" id="option5" value="#343a40" name="group2" autocomplete="off">Negro
+            </label>
+            <label class="btn btn-success col-lg-3">
+                <input type="radio" id="option6" value="#28a745" name="group2" autocomplete="off">Verde
+            </label>
+            <label class="btn btn-info col-lg-3">
+                <input type="radio" id="option7" value="#17a2b8" name="group2" autocomplete="off">Celeste
+            </label>
+            <label class="btn btn-secondary col-lg-3">
+                <input type="radio" id="option7" value="#6c757d" name="group2" autocomplete="off">Gris
+            </label>
+        </div>
+    </div>
+
+
+
 
     <br>
 
-    <button type="submit" value="Finalizar Prenda" class="btn btn-primary btn-lg btn-block">Siguiente
+    <!--<button type="submit" value="Finalizar Prenda" class="btn btn-primary btn-lg btn-block">Siguiente
         paso
-    </button>
+    </button>-->
+
+    <div class="card-body d-flex">
+        <a href="/CrearPrenda"  class="btn btn-primary">Volver
+            Atras
+        </a>
+
+        <button  type="submit" value="perfil" name="botoncito"  class="btn btn-primary ml-auto">Siguiente
+            paso
+        </button>
+    </div>
+
 </form>
+
+{{> footer.hbs}}
+
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
 
 </body>
 </html>

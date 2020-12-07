@@ -35,10 +35,10 @@ public class ImagenTest {
 
     }
 
-    @Test
+    /*@Test
     public void cargarImagen() throws IOException {
         imagen.cargarImagen(direccionDeOrigenDeImagen,direccionDeDestinoDeImagen);
         File imagenGuardada = new File(direccionDeDestinoDeImagen);
         assertNotNull(imagenGuardada);
-    }
+    }*/
 }

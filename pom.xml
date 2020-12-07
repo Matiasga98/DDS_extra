@@ -191,11 +191,11 @@
 				<configuration>
 					<jdkVersion>1.8</jdkVersion>
 					<!-- Use your own application name -->
-					<appName>quemepongo-12c</appName>
+					<appName>quemepongo-12</appName>
 					<processTypes>
 						<!-- Tell Heroku how to launch your application -->
 						<!-- You might have to remove the ./ in front   -->
-						<web>java -jar target/quemepongo-12-jar-with-dependencies.jar</web>
+						<web>java -jar target/quemepongo-12-with-dependencies.jar</web>
 					</processTypes>
 				</configuration>
 			</plugin>

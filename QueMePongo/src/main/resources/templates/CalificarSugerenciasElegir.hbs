@@ -7,18 +7,17 @@
 
     <script src="https://kit.fontawesome.com/8d3ba4a6ac.js" crossorigin="anonymous"></script>
 </head>
+
 <body>
 
 {{> nav.hbs}}
 <div class="jumbotron text-center" style="margin-bottom:0;">
     <div id="titulo">
-        <h1 class="text-center" style="font-family: 'Stardos Stencil">Estas son nuestras sugerencias para tu evento<i class="fas fa-user-tie"></i>
+        <h1 class="text-center" style="font-family: 'Stardos Stencil">Este es tu ultimo atuendo elegido<i
+                class="fas fa-user-tie"></i>
         </h1>
     </div>
 </div>
-
-
-{{#each usuario.loQueMeSugirieron}}
 
     <div class="container-fluid">
         <div class="row">
@@ -38,19 +37,13 @@
 
             {{/each}}
             <div class="container-fluid">
-                <form action="/Sugerencias" method="POST">
-                    <div class="col-md-4 text-center" style="margin: auto;">
-                        <button type="submit" value={{ id }} name="botoncito"
-                                class="btn btn-primary btn-lg btn-block">Elegir Atuendo
-                        </button>
-                    </div>
-                </form>
+                <a  href="/Calificacion"  class="btn btn-primary ml-auto">Calificar Atuendo
+                </a>
             </div>
         </div>
-        <hr class="new4">
     </div>
+<br><br>
 
-{{/each}}
 
 {{> footer.hbs}}
 
@@ -63,6 +56,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
+
 
 </body>
 </html>
